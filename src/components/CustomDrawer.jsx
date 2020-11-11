@@ -9,8 +9,19 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { drawerWidth } from "../consts";
-import { HomeOutlined, ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { useState } from "react";
+import HomeIcon from "../assets/house.svg";
+import AgreementFormIcon from "../assets/agreement_form.svg";
+import AllClientsIcon from "../assets/all_clients.svg";
+import AllItemsIcon from "../assets/all_items.svg";
+import AppointmentsIcon from "../assets/appointments.svg";
+import ClientsIcon from "../assets/clients.svg";
+import DashboardIcon from "../assets/dashboard.svg";
+import InventoryIcon from "../assets/inventory.svg";
+import ItemTransactionIcon from "../assets/item_transactions.svg";
+import PetQueueIcon from "../assets/pet_queue.svg";
+import PaymentsIcon from "../assets/payments.svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,38 +35,91 @@ const useStyles = makeStyles((theme) => ({
   drawerPaper: {
     width: drawerWidth,
   },
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
 }));
 
 export const CustomDrawer = () => {
   const classes = useStyles();
   const [expandedItems, setExpandedItems] = useState({
-    homeItem: false,
-    clientsItem: false,
-    inventoryItem: false,
+    home: false,
+    clients: false,
+    inventory: false,
   });
 
-  const handleItemClick = (type) => {
-    switch (type) {
-      case "home":
+  const menuItems = [
+    {
+      label: "Home",
+      type: "home",
+      handleOnClick: () =>
+        setExpandedItems({ ...expandedItems, home: !expandedItems.home }),
+      icon: HomeIcon,
+      subItems: [
+        {
+          label: "Dashboard",
+          icon: DashboardIcon,
+          handleOnClick: () => {},
+        },
+        {
+          label: "Pet Queue",
+          icon: PetQueueIcon,
+          handleOnClick: () => {},
+        },
+      ],
+    },
+    {
+      label: "Clients",
+      type: "clients",
+      handleOnClick: () =>
+        setExpandedItems({ ...expandedItems, clients: !expandedItems.clients }),
+      icon: ClientsIcon,
+      subItems: [
+        {
+          label: "All Clients",
+          icon: AllClientsIcon,
+          handleOnClick: () => {},
+        },
+        {
+          label: "Payments",
+          icon: PaymentsIcon,
+          handleOnClick: () => {},
+        },
+        {
+          label: "Appointments",
+          icon: AppointmentsIcon,
+          handleOnClick: () => {},
+        },
+        {
+          label: "Agreement Form",
+          icon: AgreementFormIcon,
+          handleOnClick: () => {},
+        },
+      ],
+    },
+    {
+      label: "Inventory",
+      type: "inventory",
+      handleOnClick: () =>
         setExpandedItems({
           ...expandedItems,
-          homeItem: !expandedItems.homeItem,
-        });
-        break;
-      case "clients":
-        setExpandedItems({
-          ...expandedItems,
-          clientsItem: !expandedItems.clientsItem,
-        });
-        break;
-      case "inventory":
-        setExpandedItems({
-          ...expandedItems,
-          inventoryItem: !expandedItems.inventoryItem,
-        });
-        break;
-    }
-  };
+          inventory: !expandedItems.inventory,
+        }),
+      icon: InventoryIcon,
+      subItems: [
+        {
+          label: "All Items",
+          icon: AllItemsIcon,
+          handleOnClick: () => {},
+        },
+        {
+          label: "Item Transactions",
+          icon: ItemTransactionIcon,
+          handleOnClick: () => {},
+        },
+      ],
+    },
+  ];
 
   return (
     <Drawer
@@ -69,13 +133,41 @@ export const CustomDrawer = () => {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem button onClick={() => handleItemClick("home")}>
-          <ListItemIcon>
-            <HomeOutlined />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-          {expandedItems.homeItem ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
+        {menuItems.map((item) => {
+          return (
+            <>
+              <ListItem key={item.label} button onClick={item.handleOnClick}>
+                <ListItemIcon>
+                  <img src={item.icon} height="35px" />
+                </ListItemIcon>
+                <ListItemText primary={item.label}></ListItemText>
+                {expandedItems[item.type] ? <ExpandLess /> : <ExpandMore />}
+              </ListItem>
+              <Collapse
+                in={expandedItems[item.type]}
+                timeout="auto"
+                unmountOnExit
+              >
+                <List component="div" disablePadding>
+                  {item.subItems.map((subItem) => {
+                    return (
+                      <ListItem
+                        key={subItem.label}
+                        button
+                        className={classes.nested}
+                      >
+                        <ListItemIcon>
+                          <img src={subItem.icon} height="35px" />
+                        </ListItemIcon>
+                        <ListItemText primary={subItem.label}></ListItemText>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </Collapse>
+            </>
+          );
+        })}
       </List>
     </Drawer>
   );
