@@ -15,7 +15,7 @@ export const CustomAppBar = () => {
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar>
         <Typography variant="h6" noWrap>
-          Dashboard
+          Petshield Veterinary Clinic and Grooming Center System
         </Typography>
       </Toolbar>
     </AppBar>

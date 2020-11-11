@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { drawerWidth } from "../consts";
 import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import HomeIcon from "../assets/house.svg";
 import AgreementFormIcon from "../assets/agreement_form.svg";
 import AllClientsIcon from "../assets/all_clients.svg";
@@ -59,12 +60,12 @@ export const CustomDrawer = () => {
         {
           label: "Dashboard",
           icon: DashboardIcon,
-          handleOnClick: () => {},
+          path: " ",
         },
         {
           label: "Pet Queue",
           icon: PetQueueIcon,
-          handleOnClick: () => {},
+          path: " ",
         },
       ],
     },
@@ -78,22 +79,22 @@ export const CustomDrawer = () => {
         {
           label: "All Clients",
           icon: AllClientsIcon,
-          handleOnClick: () => {},
+          path: " ",
         },
         {
           label: "Payments",
           icon: PaymentsIcon,
-          handleOnClick: () => {},
+          path: " ",
         },
         {
           label: "Appointments",
           icon: AppointmentsIcon,
-          handleOnClick: () => {},
+          path: " ",
         },
         {
           label: "Agreement Form",
           icon: AgreementFormIcon,
-          handleOnClick: () => {},
+          path: " ",
         },
       ],
     },
@@ -110,12 +111,12 @@ export const CustomDrawer = () => {
         {
           label: "All Items",
           icon: AllItemsIcon,
-          handleOnClick: () => {},
+          path: "/inventory/all-items",
         },
         {
           label: "Item Transactions",
           icon: ItemTransactionIcon,
-          handleOnClick: () => {},
+          path: "/inventory/item-transactions",
         },
       ],
     },
@@ -154,6 +155,8 @@ export const CustomDrawer = () => {
                       <ListItem
                         key={subItem.label}
                         button
+                        component={Link}
+                        to={subItem.path}
                         className={classes.nested}
                       >
                         <ListItemIcon>

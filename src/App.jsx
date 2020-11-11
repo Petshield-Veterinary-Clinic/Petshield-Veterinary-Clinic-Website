@@ -2,8 +2,10 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { CustomAppBar } from "./components/CustomAppBar";
 import { CustomDrawer } from "./components/CustomDrawer";
 import { makeStyles } from "@material-ui/core/styles";
-import HomePage from "./home-page/HomePage";
+import HomePage from "./pages/home-page/HomePage";
 import { CssBaseline } from "@material-ui/core";
+import ItemTransactionsPage from "./pages/Inventory/ItemTransactionsPage";
+import AllItemsPage from "./pages/Inventory/AllItemsPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +30,13 @@ const App = () => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route path="/" component={HomePage} />
+            <Route exact path="/home/dashboard" component={HomePage} />
+            <Route
+              exact
+              path="/inventory/item-transactions"
+              component={ItemTransactionsPage}
+            />
+            <Route exact path="/inventory/all-items" component={AllItemsPage} />
           </Switch>
         </main>
       </Router>
