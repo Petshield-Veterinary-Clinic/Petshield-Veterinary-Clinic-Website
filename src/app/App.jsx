@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { CustomAppBar } from "./components/CustomAppBar";
-import { CustomDrawer } from "./components/CustomDrawer";
+import { CustomAppBar } from "../components/CustomAppBar";
+import { CustomDrawer } from "../components/CustomDrawer";
 import { makeStyles } from "@material-ui/core/styles";
-import HomePage from "./pages/home-page/HomePage";
 import { CssBaseline } from "@material-ui/core";
-import ItemTransactionsPage from "./pages/Inventory/ItemTransactionsPage";
-import AllItemsPage from "./pages/Inventory/AllItemsPage";
+
+import HomeDashboard from "../features/homeDashboard/HomeDashboard";
+import InventoryAllItems from "../features/inventoryAllItems/InventoryAllItems";
+import InventoryItemTransactions from "../features/inventoryItemTransactions/InventoryItemTransactions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,13 +31,17 @@ const App = () => {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route exact path="/home/dashboard" component={HomePage} />
+            <Route exact path="/home/dashboard" component={HomeDashboard} />
             <Route
               exact
               path="/inventory/item-transactions"
-              component={ItemTransactionsPage}
+              component={InventoryItemTransactions}
             />
-            <Route exact path="/inventory/all-items" component={AllItemsPage} />
+            <Route
+              exact
+              path="/inventory/all-items"
+              component={InventoryAllItems}
+            />
           </Switch>
         </main>
       </Router>

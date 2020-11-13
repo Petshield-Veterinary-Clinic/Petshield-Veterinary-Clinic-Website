@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Divider,
   Drawer,
@@ -136,10 +137,10 @@ export const CustomDrawer = () => {
       <List>
         {menuItems.map((item) => {
           return (
-            <>
+            <React.Fragment key={item.label}>
               <ListItem key={item.label} button onClick={item.handleOnClick}>
                 <ListItemIcon>
-                  <img src={item.icon} height="35px" />
+                  <img src={item.icon} height="35px" alt={item.label} />
                 </ListItemIcon>
                 <ListItemText primary={item.label}></ListItemText>
                 {expandedItems[item.type] ? <ExpandLess /> : <ExpandMore />}
@@ -160,7 +161,11 @@ export const CustomDrawer = () => {
                         className={classes.nested}
                       >
                         <ListItemIcon>
-                          <img src={subItem.icon} height="35px" />
+                          <img
+                            src={subItem.icon}
+                            height="35px"
+                            alt={subItem.label}
+                          />
                         </ListItemIcon>
                         <ListItemText primary={subItem.label}></ListItemText>
                       </ListItem>
@@ -168,7 +173,7 @@ export const CustomDrawer = () => {
                   })}
                 </List>
               </Collapse>
-            </>
+            </React.Fragment>
           );
         })}
       </List>
