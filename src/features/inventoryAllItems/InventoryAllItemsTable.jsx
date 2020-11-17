@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { useTable, usePagination } from "react-table";
 import {
   Button,
+  Paper,
   Table,
   TableBody,
   TableCell,
@@ -13,14 +14,18 @@ import EditIcon from "@material-ui/icons/Edit";
 
 import InventoryAllItemsTableButtons from "./InventoryAllItemsTableButtons";
 
-const useStyles = makeStyles((_) => {
+const useStyles = makeStyles((theme) => {
   return {
     root: {
       width: "100%",
       height: "100%",
+      border: `1px solid ${theme.palette.secondary.main}`,
+      borderRadius: "20px",
+      padding: "1.5em",
     },
     showItemCountButtons: {
       display: "flex",
+      justifyContent: "space-between",
       alignItems: "center",
     },
     showItemCountField: {
@@ -85,6 +90,7 @@ export const InventoryAllItemsTable = ({ items }) => {
     ],
     []
   );
+
   const {
     getTableProps,
     headerGroups,
@@ -104,7 +110,8 @@ export const InventoryAllItemsTable = ({ items }) => {
       data,
       columns,
       initialState: {
-        pageIndex: 1,
+        pageIndex: 0,
+        pageSize: 10,
       },
     },
     usePagination
@@ -126,22 +133,26 @@ export const InventoryAllItemsTable = ({ items }) => {
   };
 
   return (
-    <React.Fragment>
+    <Paper className={classes.root}>
       <div className={classes.showItemCountButtons}>
-        <span>Showing &nbsp;</span>
-        <input
-          className={classes.showItemCountField}
-          type="number"
-          value={pageSize}
-          onChange={({ target: { value } }) => {
-            if (value && value >= 1) {
-              setPageSize(Number(value));
-            }
-          }}
-        ></input>
-        <span>&nbsp; entries</span>
+        <div>
+          <span>Showing &nbsp;</span>
+          <select
+            value={pageSize}
+            onChange={(e) => {
+              setPageSize(Number(e.target.value));
+            }}
+          >
+            {[10, 20, 30, 40, 50].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
+          <span>&nbsp; entries</span>
+        </div>
       </div>
-      <Table {...getTableProps()} className={classes.root}>
+      <Table {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
             <TableRow>
@@ -193,8 +204,13 @@ export const InventoryAllItemsTable = ({ items }) => {
       implementation: */}
       <div className={classes.pagination}>
         <span>
-          Showing <strong>{pageSize * pageIndex + 1}</strong> out of{" "}
-          <strong>{items.length}</strong> items.
+          Showing{" "}
+          <strong>
+            {pageSize * (pageIndex + 1) >= items.length
+              ? items.length
+              : pageSize * (pageIndex + 1)}
+          </strong>{" "}
+          out of <strong>{items.length}</strong> items.
         </span>
         <div>
           <InventoryAllItemsTableButtons
@@ -207,6 +223,6 @@ export const InventoryAllItemsTable = ({ items }) => {
           />
         </div>
       </div>
-    </React.Fragment>
+    </Paper>
   );
 };

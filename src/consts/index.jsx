@@ -1,5 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
+import { ThemeConsumer } from "styled-components";
 
 export const drawerWidth = 240;
 export const LOCAL_API_BASE_URL = "http://localhost:8000";
@@ -30,6 +31,23 @@ export const darkTheme = createMuiTheme({
       contained: {
         backgroundColor: green[400],
         color: "#FFFFFF",
+      },
+    },
+
+    MuiOutlinedInput: {
+      root: {
+        borderColor: green[400],
+        "&.MuiFormLabel": {
+          color: "white",
+        },
+      },
+      notchedOutline: {
+        borderColor: `${green[400]} !important`,
+      },
+    },
+    MuiFormLabel: {
+      root: {
+        color: `${green[400]} !important`,
       },
     },
     MuiTableCell: {

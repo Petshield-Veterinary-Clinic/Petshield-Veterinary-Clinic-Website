@@ -11,12 +11,15 @@ import InventoryItemTransactions from "../features/inventoryItemTransactions/Inv
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    height: "100vh",
   }, // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   content: {
+    height: "100%",
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
+    paddingTop: 78,
   },
 }));
 
@@ -29,7 +32,6 @@ const App = () => {
         <CustomAppBar />
         <CustomDrawer />
         <main className={classes.content}>
-          <div className={classes.toolbar} />
           <Switch>
             <Route exact path="/home/dashboard" component={HomeDashboard} />
             <Route
