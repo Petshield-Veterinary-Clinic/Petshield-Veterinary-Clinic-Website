@@ -24,6 +24,8 @@ import InventoryIcon from "../assets/inventory.svg";
 import ItemTransactionIcon from "../assets/item_transactions.svg";
 import PetQueueIcon from "../assets/pet_queue.svg";
 import PaymentsIcon from "../assets/payments.svg";
+import { green } from "@material-ui/core/colors";
+import { ReactSVG } from "react-svg";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
   nested: {
     paddingLeft: theme.spacing(4),
+  },
+  drawerIcon: {
+    width: "40px",
+    height: "40px",
+    fill: `${theme.palette.secondary.main} !important`,
   },
 }));
 
@@ -140,7 +147,13 @@ export const CustomDrawer = () => {
             <React.Fragment key={item.label}>
               <ListItem key={item.label} button onClick={item.handleOnClick}>
                 <ListItemIcon>
-                  <img src={item.icon} height="35px" alt={item.label} />
+                  <ReactSVG
+                    key={item.label}
+                    src={item.icon}
+                    beforeInjection={(svg) => {
+                      svg.classList.add(classes.drawerIcon);
+                    }}
+                  />
                 </ListItemIcon>
                 <ListItemText primary={item.label}></ListItemText>
                 {expandedItems[item.type] ? <ExpandLess /> : <ExpandMore />}
@@ -161,10 +174,12 @@ export const CustomDrawer = () => {
                         className={classes.nested}
                       >
                         <ListItemIcon>
-                          <img
+                          <ReactSVG
                             src={subItem.icon}
-                            height="35px"
-                            alt={subItem.label}
+                            key={subItem.label}
+                            beforeInjection={(svg) => {
+                              svg.classList.add(classes.drawerIcon);
+                            }}
                           />
                         </ListItemIcon>
                         <ListItemText primary={subItem.label}></ListItemText>

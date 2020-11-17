@@ -1,2 +1,42 @@
+import { createMuiTheme } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+
 export const drawerWidth = 240;
 export const LOCAL_API_BASE_URL = "http://localhost:8000";
+
+// THEMES
+
+export const darkTheme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#424242",
+    },
+    secondary: {
+      main: green[400],
+    },
+    background: {
+      default: "#121212",
+      paper: "#121212",
+    },
+    text: {
+      primary: green[400],
+    },
+  },
+  overrides: {
+    MuiButton: {
+      outlined: {
+        borderColor: green[400],
+      },
+      contained: {
+        backgroundColor: green[400],
+        color: "#FFFFFF",
+      },
+    },
+    MuiTableCell: {
+      root: {
+        textAlign: "center",
+        padding: "1em",
+      },
+    },
+  },
+});

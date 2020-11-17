@@ -4,6 +4,7 @@ import { fetchAllItems } from "./inventoryAllItemsSlice";
 import { InventoryAllItemsTable } from "./InventoryAllItemsTable";
 const InventoryAllItems = () => {
   const dispatch = useDispatch();
+
   const { isLoading, items, error } = useSelector(
     (state) => state.inventoryAllItems
   );
