@@ -12,7 +12,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import EditIcon from "@material-ui/icons/Edit";
 
-import InventoryAllItemsTableButtons from "./InventoryAllItemsTableButtons";
+import InventoryAllItemsTableFooter from "./InventoryAllItemsTableFooter";
+import InventoryAllItemsTableHeader from "./InventoryAllItemsTableHeader";
+import { toast } from "react-toastify";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -134,24 +136,10 @@ export const InventoryAllItemsTable = ({ items }) => {
 
   return (
     <Paper className={classes.root}>
-      <div className={classes.showItemCountButtons}>
-        <div>
-          <span>Showing &nbsp;</span>
-          <select
-            value={pageSize}
-            onChange={(e) => {
-              setPageSize(Number(e.target.value));
-            }}
-          >
-            {[10, 20, 30, 40, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                {pageSize}
-              </option>
-            ))}
-          </select>
-          <span>&nbsp; entries</span>
-        </div>
-      </div>
+      <InventoryAllItemsTableHeader
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+      />
       <Table {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
@@ -190,6 +178,7 @@ export const InventoryAllItemsTable = ({ items }) => {
                       fullWidth
                       endIcon={<EditIcon></EditIcon>}
                       variant="contained"
+                      onClick={() => {}}
                     >
                       Manage Item
                     </Button>
@@ -200,29 +189,17 @@ export const InventoryAllItemsTable = ({ items }) => {
           })}
         </TableBody>
       </Table>
-      {/* Pagination can be built however you'd like. This is just a very basic UI
-      implementation: */}
-      <div className={classes.pagination}>
-        <span>
-          Showing{" "}
-          <strong>
-            {pageSize * (pageIndex + 1) >= items.length
-              ? items.length
-              : pageSize * (pageIndex + 1)}
-          </strong>{" "}
-          out of <strong>{items.length}</strong> items.
-        </span>
-        <div>
-          <InventoryAllItemsTableButtons
-            canPreviousPage={canPreviousPage}
-            canNextPage={canNextPage}
-            previousPage={previousPage}
-            nextPage={nextPage}
-            gotoPage={gotoPage}
-            pageCount={pageCount}
-          />
-        </div>
-      </div>
+      <InventoryAllItemsTableFooter
+        canPreviousPage={canPreviousPage}
+        canNextPage={canNextPage}
+        previousPage={previousPage}
+        nextPage={nextPage}
+        gotoPage={gotoPage}
+        pageCount={pageCount}
+        pageSize={pageSize}
+        pageIndex={pageIndex}
+        itemsCount={items.length}
+      />
     </Paper>
   );
 };

@@ -3,10 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  fetchAllItems,
-  fetchAllItemsWithSearch,
-} from "./inventoryAllItemsSlice";
+
+import { fetchItems, fetchItemsWithSearch } from "../inventorySlice";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -24,14 +22,14 @@ const InventoryAllItemsSearchField = () => {
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
       if (searchTerm) {
-        dispatch(fetchAllItemsWithSearch(searchTerm));
+        dispatch(fetchItemsWithSearch(searchTerm));
       } else {
-        dispatch(fetchAllItems());
+        dispatch(fetchItems());
       }
     }, 800);
 
     return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm, dispatch, fetchAllItems, fetchAllItemsWithSearch]);
+  }, [searchTerm, dispatch, fetchItems, fetchItemsWithSearch]);
 
   return (
     <TextField

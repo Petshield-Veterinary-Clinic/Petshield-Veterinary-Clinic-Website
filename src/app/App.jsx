@@ -5,8 +5,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline } from "@material-ui/core";
 
 import HomeDashboard from "../features/homeDashboard/HomeDashboard";
-import InventoryAllItems from "../features/inventoryAllItems/InventoryAllItems";
-import InventoryItemTransactions from "../features/inventoryItemTransactions/InventoryItemTransactions";
+import InventoryAllItems from "../features/inventory/inventoryAllItems/InventoryAllItems";
+import InventoryItemTransactions from "../features/inventory/inventoryItemTransactions/InventoryItemTransactions";
+import ModalManager from "../features/modals/ModalManager";
+import { ToastContainer } from "react-toastify";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
     paddingTop: 78,
+  },
+  toastContainer: {
+    zIndex: "1000000",
   },
 }));
 
@@ -47,6 +52,7 @@ const App = () => {
           </Switch>
         </main>
       </Router>
+      <ModalManager />
     </div>
   );
 };

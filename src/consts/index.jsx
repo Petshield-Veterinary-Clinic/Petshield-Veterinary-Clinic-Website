@@ -33,7 +33,22 @@ export const darkTheme = createMuiTheme({
         color: "#FFFFFF",
       },
     },
+    MuiSelect: {
+      icon: {
+        color: green[400],
+      },
+    },
 
+    MuiDialogContentText: {
+      root: {
+        color: green[400],
+      },
+    },
+    MuiDialogTitle: {
+      root: {
+        color: green[400],
+      },
+    },
     MuiOutlinedInput: {
       root: {
         borderColor: green[400],

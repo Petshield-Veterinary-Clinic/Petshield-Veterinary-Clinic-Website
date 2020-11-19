@@ -3,12 +3,14 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import InventoryAllItemsSearchField from "./InventoryAllItemsSearchField";
 import { makeStyles } from "@material-ui/core/styles";
-import { fetchAllItems } from "./inventoryAllItemsSlice";
-import { InventoryAllItemsTable } from "./InventoryAllItemsTable";
-const useStyles = makeStyles((theme) => {
+import { fetchItems } from "../inventorySlice";
+import { InventoryAllItemsTable } from "./InventoryAllItemsTable/InventoryAllItemsTable";
+
+const useStyles = makeStyles((_) => {
   return {
     root: {
       height: "100%",
+      width: "100%",
       display: "flex",
       flexDirection: "column",
     },
@@ -24,13 +26,11 @@ const useStyles = makeStyles((theme) => {
 const InventoryAllItems = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { isLoading, items, error } = useSelector(
-    (state) => state.inventoryAllItems
-  );
+  const { isLoading, items, error } = useSelector((state) => state.inventory);
 
   useEffect(() => {
-    if (!isLoading && items.length === 0) {
-      dispatch(fetchAllItems());
+    if (!isLoading && !items) {
+      dispatch(fetchItems());
     }
   }, [items, isLoading, dispatch]);
 
@@ -45,11 +45,7 @@ const InventoryAllItems = () => {
     if (error) {
       return <div>An Error has occured!</div>;
     }
-    return (
-      <div>
-        <InventoryAllItemsTable items={items} />
-      </div>
-    );
+    return <InventoryAllItemsTable items={items} />;
   };
   return (
     <div className={classes.root}>

@@ -1,9 +1,11 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import inventoryAllItemsReducer from "../features/inventoryAllItems/inventoryAllItemsSlice"
+import inventoryReducer from "../features/inventory/inventorySlice"
+import modalsReducer from "../features/modals/modalSlice";
 
 const rootReducer = combineReducers({
-    inventoryAllItems: inventoryAllItemsReducer,
+    inventory: inventoryReducer,
+    modals: modalsReducer,
 });
 
 export default rootReducer;
