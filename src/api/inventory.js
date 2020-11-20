@@ -31,3 +31,33 @@ export const addItem = async (item) => {
     throw Error(response.data.error);
   }
 };
+
+export const modifyItem = async (item) => {
+  const parsedItem = {
+    ...item,
+    price: Number(item.price),
+    incentive: Number(item.incentive),
+    discount: Number(item.discount),
+  };
+  const response = await axios.patch(`/items/${item.ID}`, parsedItem);
+  if (response.data.data) {
+    return response.data.data;
+  } else {
+    throw Error(response.data.error);
+  }
+};
+
+export const discountItem = async (item) => {
+  const parsedItem = {
+    ...item,
+    price: Number(item.price),
+    incentive: Number(item.incentive),
+    discount: Number(item.discount),
+  };
+  const response = await axios.patch(`/items/${item.ID}`, parsedItem);
+  if (response.data.data) {
+    return response.data.data;
+  } else {
+    throw Error(response.data.error);
+  }
+};

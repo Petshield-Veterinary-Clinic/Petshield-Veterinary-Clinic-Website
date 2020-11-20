@@ -5,10 +5,18 @@ import {
   ErrorModal,
   SuccessModal,
 } from "../../components/modals";
-import { InventoryAddItemModal } from "../inventory/inventoryModals";
+import {
+  InventoryAddItemModal,
+  InventoryDiscountItemModal,
+  InventoryManageItemModal,
+  InventoryModifyItemModal,
+} from "../inventory/inventoryModals";
 
 const modalComponents = {
   ADD_ITEM_MODAL: InventoryAddItemModal,
+  MANAGE_ITEM_MODAL: InventoryManageItemModal,
+  MODIFY_ITEM_MODAL: InventoryModifyItemModal,
+  DISCOUNT_ITEM_MODAL: InventoryDiscountItemModal,
   LOADING_MODAL: LoadingModal,
   ERROR_MODAL: ErrorModal,
   SUCCESS_MODAL: SuccessModal,

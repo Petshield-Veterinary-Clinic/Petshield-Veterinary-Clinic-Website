@@ -56,8 +56,14 @@ export const darkTheme = createMuiTheme({
           color: "white",
         },
       },
+
       notchedOutline: {
         borderColor: `${green[400]} !important`,
+      },
+    },
+    MuiFormHelperText: {
+      root: {
+        color: "white",
       },
     },
     MuiFormLabel: {

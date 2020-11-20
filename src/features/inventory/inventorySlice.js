@@ -4,6 +4,8 @@ import {
   getItemsWithSearchTerm,
   getItems,
   addItem as addItemToApi,
+  modifyItem as modifyItemFromApi,
+  discountItem as discountItemFromApi,
 } from "../../api/inventory";
 
 import { showModal } from "../modals/modalSlice";
@@ -47,6 +49,26 @@ const inventorySlice = createSlice({
       state.items = [...state.items, action.payload];
     },
     addItemFailure(_, __) {},
+    modifyItemStart() {},
+    modifyItemSuccess(state, action) {
+      state.items = state.items.map((item, index) => {
+        if (index === action.payload.itemIndex) {
+          return action.payload.newItem;
+        }
+        return item;
+      });
+    },
+    modifyItemFailure() {},
+    discountItemStart() {},
+    discountItemSuccess(state, action) {
+      state.items = state.items.map((item, index) => {
+        if (index === action.payload.itemIndex) {
+          return action.payload.newItem;
+        }
+        return item;
+      });
+    },
+    discountItemFailure() {},
   },
 });
 
@@ -60,6 +82,12 @@ export const {
   addItemStart,
   addItemSuccess,
   addItemFailure,
+  modifyItemStart,
+  modifyItemSuccess,
+  modifyItemFailure,
+  discountItemStart,
+  discountItemFailure,
+  discountItemSuccess,
 } = inventorySlice.actions;
 
 export default inventorySlice.reducer;
@@ -112,5 +140,63 @@ export const addItem = (itemDetails) => async (dispatch) => {
       })
     );
     dispatch(addItemFailure(error.message));
+  }
+};
+
+export const modifyItem = (itemDetails, itemIndex) => async (dispatch) => {
+  try {
+    dispatch(modifyItemStart());
+    dispatch(showModal({ modalType: "LOADING_MODAL", modalProps: {} }));
+    const newItem = await modifyItemFromApi(itemDetails);
+    dispatch(
+      showModal({
+        modalType: "SUCCESS_MODAL",
+        modalProps: {
+          message: "Item Successfully Modified!",
+          duration: 3000,
+        },
+      })
+    );
+    dispatch(modifyItemSuccess({ newItem, itemIndex }));
+  } catch (error) {
+    dispatch(
+      showModal({
+        modalType: "ERROR_MODAL",
+        modalProps: {
+          message: error.message,
+          duration: 3000,
+        },
+      })
+    );
+    dispatch(modifyItemFailure());
+  }
+};
+
+export const discountItem = (itemDetails, itemIndex) => async (dispatch) => {
+  try {
+    dispatch(discountItemStart());
+    dispatch(showModal({ modalType: "LOADING_MODAL", modalProps: {} }));
+    const newItem = await discountItemFromApi(itemDetails);
+    dispatch(
+      showModal({
+        modalType: "SUCCESS_MODAL",
+        modalProps: {
+          message: "Item Discounted!",
+          duration: 3000,
+        },
+      })
+    );
+    dispatch(discountItemSuccess({ newItem, itemIndex }));
+  } catch (error) {
+    dispatch(
+      showModal({
+        modalType: "ERROR_MODAL",
+        modalProps: {
+          message: error.message,
+          duration: 3000,
+        },
+      })
+    );
+    dispatch(discountItemFailure());
   }
 };
