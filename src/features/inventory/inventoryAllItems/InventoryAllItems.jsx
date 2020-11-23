@@ -13,6 +13,8 @@ const useStyles = makeStyles((_) => {
       width: "100%",
       display: "flex",
       flexDirection: "column",
+
+      paddingTop: "63px",
     },
     loadingIndicator: {
       height: "100%",
