@@ -5,6 +5,7 @@ import {
   ErrorModal,
   SuccessModal,
 } from "../../components/modals";
+import { ConfirmationModal } from "../../components/modals/ConfirmationModal";
 import {
   InventoryAddItemModal,
   InventoryDiscountItemModal,
@@ -20,6 +21,7 @@ const modalComponents = {
   LOADING_MODAL: LoadingModal,
   ERROR_MODAL: ErrorModal,
   SUCCESS_MODAL: SuccessModal,
+  CONFIRMATION_MODAL: ConfirmationModal,
 };
 
 const ModalManager = () => {

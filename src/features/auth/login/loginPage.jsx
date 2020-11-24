@@ -49,10 +49,6 @@ const LoginPage = () => {
       return <CircularProgress />;
     }
 
-    if (error) {
-      return <Typography>{error}</Typography>;
-    }
-
     if (Object.keys(user).length === 0) {
       return (
         <Paper className={classes.container}>

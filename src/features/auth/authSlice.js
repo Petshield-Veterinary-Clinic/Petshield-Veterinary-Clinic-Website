@@ -28,18 +28,19 @@ const authSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     },
-    logoutStart(state, action) {
+    logoutStart(state, _) {
       state.isLoading = true;
     },
-    logoutSuccess(state, action) {
+    logoutSuccess(state, _) {
       state.user = {};
+      state.token = null;
       state.isLoading = false;
     },
     logoutFailure(state, action) {
       state.isLoading = false;
       state.error = action.payload;
     },
-    checkAuthStart(state, action) {
+    checkAuthStart(state, _) {
       state.isLoading = true;
     },
     checkAuthSuccess(state, action) {
@@ -101,5 +102,16 @@ export const checkAuth = () => async (dispatch) => {
     dispatch(checkAuthSuccess(user));
   } catch (error) {
     dispatch(checkAuthFailure(error.message));
+  }
+};
+
+export const logout = () => async (dispatch) => {
+  localStorage.clear();
+  try {
+    dispatch(hideModal());
+    dispatch(logoutStart());
+    dispatch(logoutSuccess());
+  } catch (error) {
+    dispatch(logoutFailure(error));
   }
 };
