@@ -1,9 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch,
-} from "react-router-dom";
+import { Router, Redirect, Route, Switch } from "react-router";
 import "./App.css";
 import React, { useEffect } from "react";
 import { CustomAppBar } from "../components/CustomAppBar";
@@ -17,9 +12,9 @@ import ModalManager from "../features/modals/ModalManager";
 import PrivateRoute from "../components/PrivateRoute";
 import LoginPage from "../features/auth/login/loginPage";
 import { useDispatch, useSelector } from "react-redux";
-import PageHolder from "../components/PageHolder";
 import { CircularProgress, CssBaseline } from "@material-ui/core";
 import { checkAuth } from "../features/auth/authSlice";
+import history from "./history";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +47,7 @@ const App = () => {
     }
     return (
       <div className={classes.root}>
-        <Router>
+        <Router history={history}>
           <Switch>
             <Route exact path="/auth/login" component={LoginPage} />
             <Route path="/content">
@@ -72,9 +67,10 @@ const App = () => {
                   path="/content/inventory/all-items"
                   component={InventoryAllItems}
                 />
-                <Redirect from="/content" to="/content/home/dashboard" />
+                <Redirect from="/" to="/content/home/dashboard" />
               </Switch>
             </Route>
+            <Redirect from="/" to="/content/home/dashboard" />
           </Switch>
         </Router>
         <ModalManager />

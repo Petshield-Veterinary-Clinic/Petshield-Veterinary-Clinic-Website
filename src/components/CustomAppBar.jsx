@@ -42,11 +42,10 @@ export const CustomAppBar = () => {
     handleMenuClose();
     dispatch(
       showModal({
-        modalType: "CONFIRMATION_MODAL",
+        modalType: "LOGOUT_MODAL",
         modalProps: {
-          type: "LOGOUT",
-          title: "Logout?",
-          message: "Are you sure you want to logout?",
+          title: "Logout",
+          message: "Are you sure you want to logout from the session?",
         },
       })
     );
