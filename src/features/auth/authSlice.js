@@ -108,7 +108,6 @@ export const checkAuth = () => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   localStorage.clear();
   try {
-    dispatch(hideModal());
     dispatch(logoutStart());
     dispatch(logoutSuccess());
   } catch (error) {

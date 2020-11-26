@@ -9,11 +9,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { AccountCircleOutlined } from "@material-ui/icons";
 import { drawerWidth } from "../consts";
-import { hideModal, showModal } from "../features/modals/modalSlice";
+import { showModal } from "../features/modals/modalSlice";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../features/auth/authSlice";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -30,7 +28,6 @@ export const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const dispatch = useDispatch();
-  const history = useHistory();
   const classes = useStyles();
 
   const handleMenuOpen = (event) => {
@@ -47,15 +44,9 @@ export const CustomAppBar = () => {
       showModal({
         modalType: "CONFIRMATION_MODAL",
         modalProps: {
+          type: "LOGOUT",
           title: "Logout?",
           message: "Are you sure you want to logout?",
-          handlePositivePressed: () => {
-            dispatch(logout());
-            history.replace("/auth/login");
-          },
-          handleNegativePressed: () => {
-            dispatch(hideModal());
-          },
         },
       })
     );

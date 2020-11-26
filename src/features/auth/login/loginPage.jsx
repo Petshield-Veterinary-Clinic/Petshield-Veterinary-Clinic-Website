@@ -62,7 +62,7 @@ const LoginPage = () => {
         </Paper>
       );
     } else {
-      return <Redirect to="/home/dashboard" />;
+      return <Redirect to="/content/home/dashboard" />;
     }
   };
 

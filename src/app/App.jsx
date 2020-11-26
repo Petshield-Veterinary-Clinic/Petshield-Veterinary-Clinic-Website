@@ -30,12 +30,6 @@ const useStyles = makeStyles((theme) => ({
   }, // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
 
-  contentWrapper: {
-    display: "flex",
-    width: "100%",
-    height: "100%",
-    padding: theme.spacing(3),
-  },
   toastContainer: {
     zIndex: "1000000",
   },
@@ -61,29 +55,26 @@ const App = () => {
         <Router>
           <Switch>
             <Route exact path="/auth/login" component={LoginPage} />
-            <div className={classes.contentWrapper}>
+            <Route path="/content">
               <CssBaseline />
               <CustomDrawer />
               <CustomAppBar />
               <Switch>
                 <PrivateRoute
-                  exact
-                  path="/home/dashboard"
+                  path="/content/home/dashboard"
                   component={HomeDashboard}
                 />
                 <PrivateRoute
-                  exact
-                  path="/inventory/item-transactions"
+                  path="/content/inventory/item-transactions"
                   component={InventoryItemTransactions}
                 />
                 <PrivateRoute
-                  exact
-                  path="/inventory/all-items"
+                  path="/content/inventory/all-items"
                   component={InventoryAllItems}
                 />
-                <Redirect from="/" to="/home/dashboard" />
+                <Redirect from="/content" to="/content/home/dashboard" />
               </Switch>
-            </div>
+            </Route>
           </Switch>
         </Router>
         <ModalManager />

@@ -118,12 +118,12 @@ export const CustomDrawer = () => {
         {
           label: "All Items",
           icon: AllItemsIcon,
-          path: "/inventory/all-items",
+          path: "/content/inventory/all-items",
         },
         {
           label: "Item Transactions",
           icon: ItemTransactionIcon,
-          path: "/inventory/item-transactions",
+          path: "/content/inventory/item-transactions",
         },
       ],
     },

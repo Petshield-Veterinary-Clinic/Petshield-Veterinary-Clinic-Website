@@ -6,15 +6,16 @@ import { makeStyles } from "@material-ui/core/styles";
 import { fetchItems } from "../inventorySlice";
 import { InventoryAllItemsTable } from "./InventoryAllItemsTable/InventoryAllItemsTable";
 
-const useStyles = makeStyles((_) => {
+const useStyles = makeStyles((theme) => {
   return {
     root: {
+      padding: theme.spacing(3),
       height: "100%",
       width: "100%",
       display: "flex",
       flexDirection: "column",
 
-      paddingTop: "63px",
+      paddingTop: "83px",
     },
     loadingIndicator: {
       height: "100%",

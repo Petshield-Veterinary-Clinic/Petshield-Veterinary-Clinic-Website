@@ -234,13 +234,13 @@ export const InventoryAllItemsTable = ({ items }) => {
       <Table {...getTableProps()}>
         <TableHead>
           {headerGroups.map((headerGroup) => (
-            <TableRow>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableCell
                   key={header.id}
                   {...header.getHeaderProps(header.getSortByToggleProps())}
                 >
-                  <div className={classes.tableHeader}>
+                  <div key={header.id} className={classes.tableHeader}>
                     {header.render("Header")}
                     {header.isSorted ? (
                       header.isSortedDesc ? (
@@ -261,10 +261,10 @@ export const InventoryAllItemsTable = ({ items }) => {
             prepareRow(row);
             return (
               <>
-                <TableRow {...row.getRowProps()}>
-                  {row.cells.map((cell) => {
+                <TableRow key={row.id} {...row.getRowProps()}>
+                  {row.cells.map((cell, index) => {
                     return (
-                      <TableCell>
+                      <TableCell key={`col${index}`}>
                         <div
                           {...cell.getCellProps([
                             {
@@ -278,7 +278,7 @@ export const InventoryAllItemsTable = ({ items }) => {
                       </TableCell>
                     );
                   })}
-                  <TableCell>
+                  <TableCell key={row.id}>
                     <Button
                       fullWidth
                       endIcon={<EditIcon></EditIcon>}

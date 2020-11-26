@@ -42,7 +42,9 @@ const InventoryAllItemsTableHeader = ({ setPageSize, pageSize }) => {
           Show &nbsp;
           <Select value={pageSize} onChange={handleOnItemCountChange}>
             {showItemCountValues.map((itemCount) => (
-              <MenuItem value={itemCount}>{`${itemCount}`}</MenuItem>
+              <MenuItem key={itemCount} value={itemCount}>
+                {itemCount}
+              </MenuItem>
             ))}
           </Select>
           &nbsp; entries
