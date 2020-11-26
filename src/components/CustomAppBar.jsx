@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AccountCircleOutlined } from "@material-ui/icons";
+import { AccountCircle } from "@material-ui/icons";
 import { drawerWidth } from "../consts";
 import { showModal } from "../features/modals/modalSlice";
 import React, { useState } from "react";
@@ -55,9 +55,9 @@ export const CustomAppBar = () => {
     return (
       <Menu
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
         keepMounted
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
+        transformOrigin={{ vertical: "bottom", horizontal: "left" }}
         open={isMenuOpen}
         onClose={handleMenuClose}
       >
@@ -75,7 +75,7 @@ export const CustomAppBar = () => {
           </Typography>
           <div className={classes.grow}></div>
           <IconButton edge="end" onClick={handleMenuOpen}>
-            <AccountCircleOutlined color="secondary" />
+            <AccountCircle style={{ fontSize: "2rem" }} color="secondary" />
           </IconButton>
         </Toolbar>
       </AppBar>

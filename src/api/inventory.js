@@ -61,3 +61,12 @@ export const discountItem = async (item) => {
     throw Error(response.data.error);
   }
 };
+
+export const getItemSales = async () => {
+  const response = await axios.get(`/item-sales`);
+  if (response.data.data) {
+    return response.data.data;
+  } else {
+    throw Error(response.data.error);
+  }
+};

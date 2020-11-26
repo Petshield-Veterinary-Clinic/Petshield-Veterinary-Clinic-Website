@@ -6,49 +6,50 @@ import {
   addItem as addItemToApi,
   modifyItem as modifyItemFromApi,
   discountItem as discountItemFromApi,
+  getItemSales,
 } from "../../api/inventory";
 
 import { showModal } from "../modals/modalSlice";
 
 let initialState = {
   items: [],
+  itemSales: [],
   isLoading: false,
   error: null,
+};
+
+const handleOnStart = (state) => {
+  state.isLoading = true;
+};
+
+const handleOnError = (state, action) => {
+  state.isLoading = false;
+  state.error = action.payload;
 };
 
 const inventorySlice = createSlice({
   name: "inventory",
   initialState,
   reducers: {
-    getItemsStart(state, _) {
-      state.isLoading = true;
-    },
+    getItemsStart: handleOnStart,
     getItemsSuccess(state, action) {
       state.isLoading = false;
       state.items = action.payload;
       state.error = null;
     },
-    getItemsFailure(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
+    getItemsFailure: handleOnError,
     searchItemsSuccess(state, action) {
       state.isLoading = false;
       state.items = action.payload;
       state.error = null;
     },
-    searchItemsStart(state, _) {
-      state.isLoading = true;
-    },
-    searchItemsFailure(state, action) {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
+    searchItemsStart: handleOnStart,
+    searchItemsFailure: handleOnError,
     addItemStart(_, __) {},
     addItemSuccess(state, action) {
       state.items = [...state.items, action.payload];
     },
-    addItemFailure(_, __) {},
+    addItemFailure: handleOnError,
     modifyItemStart() {},
     modifyItemSuccess(state, action) {
       state.items = state.items.map((item, index) => {
@@ -58,7 +59,7 @@ const inventorySlice = createSlice({
         return item;
       });
     },
-    modifyItemFailure() {},
+    modifyItemFailure: handleOnError,
     discountItemStart() {},
     discountItemSuccess(state, action) {
       state.items = state.items.map((item, index) => {
@@ -68,7 +69,16 @@ const inventorySlice = createSlice({
         return item;
       });
     },
-    discountItemFailure() {},
+    discountItemFailure: handleOnError,
+    fetchItemSalesStart: handleOnStart,
+    fetchItemSalesSuccess(state, action) {
+      state.itemSales = action.payload;
+      state.isLoading = false;
+    },
+    fetchItemSalesFailure: handleOnError,
+    addItemSaleStart() {},
+    addItemSaleSuccess(state, action) {},
+    addItemSaleFailure: handleOnError,
   },
 });
 
@@ -76,6 +86,12 @@ export const {
   getItemsStart,
   getItemsSuccess,
   getItemsFailure,
+  fetchItemSalesStart,
+  fetchItemSalesSuccess,
+  fetchItemSalesFailure,
+  addItemSaleStart,
+  addItemSaleSuccess,
+  addItemSaleFailure,
   searchItemsStart,
   searchItemsSuccess,
   searchItemsFailure,
@@ -198,5 +214,15 @@ export const discountItem = (itemDetails, itemIndex) => async (dispatch) => {
       })
     );
     dispatch(discountItemFailure());
+  }
+};
+
+export const fetchItemSales = () => async (dispatch) => {
+  try {
+    dispatch(fetchItemSalesStart());
+    const items = await getItemSales();
+    dispatch(fetchItemSalesSuccess(items));
+  } catch (error) {
+    dispatch(fetchItemSalesFailure(error));
   }
 };

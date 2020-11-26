@@ -26,16 +26,15 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
+
 const InventoryAllItems = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isLoading, items, error } = useSelector((state) => state.inventory);
 
   useEffect(() => {
-    if (!isLoading && !items) {
-      dispatch(fetchItems());
-    }
-  }, [items, isLoading, dispatch]);
+    dispatch(fetchItems());
+  }, [dispatch]);
 
   const renderContent = () => {
     if (isLoading) {
