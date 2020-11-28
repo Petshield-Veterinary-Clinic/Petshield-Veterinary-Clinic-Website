@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { InventoryItemTransactionsTable } from "./InventoryItemTransactionsTable";
+import { InventorySalesTable } from "./InventorySalesTable";
 import moment from "moment";
 
-const InventoryItemTransactionsTableContainer = ({ itemSales }) => {
+const InventorySalesTableContainer = ({ itemSales }) => {
   const dispatch = useDispatch();
 
   const data = useMemo(() => {
@@ -48,7 +48,7 @@ const InventoryItemTransactionsTableContainer = ({ itemSales }) => {
     ],
     []
   );
-  return <InventoryItemTransactionsTable data={data} columns={columns} />;
+  return <InventorySalesTable data={data} columns={columns} />;
 };
 
-export default InventoryItemTransactionsTableContainer;
+export default InventorySalesTableContainer;

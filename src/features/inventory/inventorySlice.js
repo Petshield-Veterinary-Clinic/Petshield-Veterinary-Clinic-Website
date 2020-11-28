@@ -70,15 +70,6 @@ const inventorySlice = createSlice({
       });
     },
     discountItemFailure: handleOnError,
-    fetchItemSalesStart: handleOnStart,
-    fetchItemSalesSuccess(state, action) {
-      state.itemSales = action.payload;
-      state.isLoading = false;
-    },
-    fetchItemSalesFailure: handleOnError,
-    addItemSaleStart() {},
-    addItemSaleSuccess(state, action) {},
-    addItemSaleFailure: handleOnError,
   },
 });
 
@@ -86,12 +77,6 @@ export const {
   getItemsStart,
   getItemsSuccess,
   getItemsFailure,
-  fetchItemSalesStart,
-  fetchItemSalesSuccess,
-  fetchItemSalesFailure,
-  addItemSaleStart,
-  addItemSaleSuccess,
-  addItemSaleFailure,
   searchItemsStart,
   searchItemsSuccess,
   searchItemsFailure,
@@ -214,15 +199,5 @@ export const discountItem = (itemDetails, itemIndex) => async (dispatch) => {
       })
     );
     dispatch(discountItemFailure());
-  }
-};
-
-export const fetchItemSales = () => async (dispatch) => {
-  try {
-    dispatch(fetchItemSalesStart());
-    const items = await getItemSales();
-    dispatch(fetchItemSalesSuccess(items));
-  } catch (error) {
-    dispatch(fetchItemSalesFailure(error));
   }
 };

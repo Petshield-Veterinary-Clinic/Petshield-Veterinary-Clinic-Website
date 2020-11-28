@@ -3,8 +3,8 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { fetchItemSales } from "../inventorySlice";
-import InventoryItemTransactionsTableContainer from "./InventoryItemTransactionsTable/InventoryItemTransactionsTableContainer";
+import { fetchItemSales } from "./inventorySalesSlice";
+import InventorySalesTableContainer from "./InventorySalesTable/InventorySalesTableContainer";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventoryItemTransactions = () => {
+const InventorySales = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { isLoading, itemSales, error } = useSelector(
-    (state) => state.inventory
+    (state) => state.inventorySales
   );
 
   useEffect(() => {
@@ -49,10 +49,10 @@ const InventoryItemTransactions = () => {
     if (error) {
       return <div>An Error has occured!</div>;
     }
-    return <InventoryItemTransactionsTableContainer itemSales={itemSales} />;
+    return <InventorySalesTableContainer itemSales={itemSales} />;
   };
 
   return <div className={classes.root}>{renderContent()}</div>;
 };
 
-export default InventoryItemTransactions;
+export default InventorySales;

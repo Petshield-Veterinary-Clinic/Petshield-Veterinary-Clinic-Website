@@ -14,8 +14,8 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 import { blue } from "@material-ui/core/colors";
-import InventoryItemTransactionsTableFooter from "./InventoryItemTransactionsTableFooter";
-import InventoryItemTransactionsTableHeader from "./InventoryItemTransactionsTableHeader";
+import InventorySalesTableFooter from "./InventorySalesTableFooter";
+import InventorySalesTableHeader from "./InventorySalesTableHeader";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const InventoryItemTransactionsTable = ({ data, columns }) => {
+export const InventorySalesTable = ({ data, columns }) => {
   const classes = useStyles();
 
   const {
@@ -113,7 +113,7 @@ export const InventoryItemTransactionsTable = ({ data, columns }) => {
 
   return (
     <Paper className={classes.root}>
-      <InventoryItemTransactionsTableHeader
+      <InventorySalesTableHeader
         pageSize={pageSize}
         setPageSize={setPageSize}
       />
@@ -159,7 +159,7 @@ export const InventoryItemTransactionsTable = ({ data, columns }) => {
           })}
         </TableBody>
       </Table>
-      <InventoryItemTransactionsTableFooter
+      <InventorySalesTableFooter
         canPreviousPage={canPreviousPage}
         canNextPage={canNextPage}
         previousPage={previousPage}

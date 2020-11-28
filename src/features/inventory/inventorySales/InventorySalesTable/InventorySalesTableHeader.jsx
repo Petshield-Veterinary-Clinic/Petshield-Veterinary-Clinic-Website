@@ -16,16 +16,16 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventoryItemTransactionsTableHeader = ({ setPageSize, pageSize }) => {
+const InventorySalesTableHeader = ({ setPageSize, pageSize }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const showItemCountValues = [10, 20, 30, 40, 50];
 
-  const handleAddItemPressed = (_) => {
+  const handleAddTransactionPressed = (_) => {
     dispatch(
       showModal({
-        modalType: "ADD_ITEM_MODAL",
+        modalType: "ADD_TRANSACTION_MODAL",
         modalProps: {},
       })
     );
@@ -54,7 +54,7 @@ const InventoryItemTransactionsTableHeader = ({ setPageSize, pageSize }) => {
         <Button
           variant="outlined"
           startIcon={<AddIcon />}
-          onClick={handleAddItemPressed}
+          onClick={handleAddTransactionPressed}
         >
           Add Transaction
         </Button>
@@ -63,4 +63,4 @@ const InventoryItemTransactionsTableHeader = ({ setPageSize, pageSize }) => {
   );
 };
 
-export default InventoryItemTransactionsTableHeader;
+export default InventorySalesTableHeader;

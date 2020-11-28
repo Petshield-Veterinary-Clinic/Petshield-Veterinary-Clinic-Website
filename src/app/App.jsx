@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import HomeDashboard from "../features/homeDashboard/HomeDashboard";
 import InventoryAllItems from "../features/inventory/inventoryAllItems/InventoryAllItems";
-import InventoryItemTransactions from "../features/inventory/inventoryItemTransactions/InventoryItemTransactions";
+import InventorySales from "../features/inventory/inventorySales/InventorySales";
 import ModalManager from "../features/modals/ModalManager";
 import PrivateRoute from "../components/PrivateRoute";
 import LoginPage from "../features/auth/login/loginPage";
@@ -60,8 +60,8 @@ const App = () => {
                   component={HomeDashboard}
                 />
                 <PrivateRoute
-                  path="/content/inventory/item-transactions"
-                  component={InventoryItemTransactions}
+                  path="/content/inventory/sales"
+                  component={InventorySales}
                 />
                 <PrivateRoute
                   path="/content/inventory/all-items"

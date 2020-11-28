@@ -15,7 +15,7 @@ const useStyles = makeStyles(() => {
     },
   };
 });
-const InventoryItemTransactionsTableFooter = ({
+const InventorySalesTableFooter = ({
   gotoPage,
   nextPage,
   previousPage,
@@ -75,4 +75,4 @@ const InventoryItemTransactionsTableFooter = ({
   );
 };
 
-export default InventoryItemTransactionsTableFooter;
+export default InventorySalesTableFooter;

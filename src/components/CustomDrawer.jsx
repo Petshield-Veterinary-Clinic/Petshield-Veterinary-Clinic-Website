@@ -123,7 +123,7 @@ export const CustomDrawer = () => {
         {
           label: "Item Transactions",
           icon: ItemTransactionIcon,
-          path: "/content/inventory/item-transactions",
+          path: "/content/inventory/sales",
         },
       ],
     },
