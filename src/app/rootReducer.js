@@ -1,13 +1,15 @@
 import { combineReducers } from "@reduxjs/toolkit";
 
-import inventoryReducer from "../features/inventory/inventorySlice";
+import inventoryItemsReducer from "../features/inventory/inventoryItems/inventoryItemsSlice";
 import inventorySalesReducer from "../features/inventory/inventorySales/inventorySalesSlice";
+import inventorySearchReducer from "../features/inventory/inventorySearchSlice";
 import modalsReducer from "../features/modals/modalSlice";
 import authReducer from "../features/auth/authSlice";
 
 const rootReducer = combineReducers({
-  inventory: inventoryReducer,
+  inventoryItems: inventoryItemsReducer,
   inventorySales: inventorySalesReducer,
+  inventorySearch: inventorySearchReducer,
   modals: modalsReducer,
   auth: authReducer,
 });

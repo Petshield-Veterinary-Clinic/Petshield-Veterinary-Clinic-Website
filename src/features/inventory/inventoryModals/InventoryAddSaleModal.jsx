@@ -15,8 +15,9 @@ import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../modals/modalSlice";
 import { useForm, Controller } from "react-hook-form";
-import { addItem, fetchItems, fetchItemsWithSearch } from "../inventorySlice";
-import { debounce } from "../../../utils/debounce";
+import { addItemSale } from "../inventorySales/inventorySalesSlice";
+import { searchItems, clearItemsSearch } from "../inventorySearchSlice";
+import { debounce } from "lodash";
 import { blue } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => {
@@ -28,9 +29,9 @@ const useStyles = makeStyles((theme) => {
       gridGap: "1em",
     },
     itemDetailsWrapper: {
-      display: "flex",
+      display: "grid",
       width: "100%",
-      flexWrap: "wrap",
+      gridTemplateColumns: "1fr 1fr 1fr",
       placeContent: "center",
       gridGap: "1em",
       padding: "1em 5em",
@@ -43,14 +44,23 @@ const useStyles = makeStyles((theme) => {
     },
     itemLabel: {
       textAlign: "center",
-      borderBottom: "1px solid green",
+      borderBottom: "2px solid green",
       borderColor: theme.palette.secondary.main,
+      borderRadius: "5px",
       margin: "0 2em",
       padding: "0 1em",
+      fontSize: "1rem",
+      fontWeight: "bold",
+      textTransform: "UPPERCASE",
     },
     itemContent: {
       textAlign: "center",
       padding: "0.5em",
+    },
+    itemReduce: {
+      color: "red",
+      fontSize: "1rem",
+      fontWeight: "bold",
     },
     discounted: {
       color: `${blue[400]} !important`,
@@ -61,17 +71,20 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const InventoryAddTransactionModal = ({ isVisible }) => {
+export const InventoryAddSaleModal = ({ isVisible }) => {
   const [open, setOpen] = useState(isVisible);
-  const [fieldOpen, setFieldOpen] = useState(false);
+
   const [selectedItem, setSelectedItem] = useState({});
-  const [itemQuantity, setItemQuantity] = useState(0);
-  const { items, isLoading, error } = useSelector((state) => state.inventory);
+  const [itemQuantity, setItemQuantity] = useState(1);
+  const { result, isLoading, error } = useSelector(
+    (state) => state.inventorySearch
+  );
   const classes = useStyles(selectedItem);
   const dispatch = useDispatch();
 
-  const handleSubmit = (data) => {
-    console.log(data);
+  const handleSubmit = ({ selectedItem, quantity }) => {
+    dispatch(addItemSale(selectedItem.ID, quantity));
+    setOpen(!isVisible);
   };
 
   const handleOnClose = () => {
@@ -94,7 +107,7 @@ export const InventoryAddTransactionModal = ({ isVisible }) => {
       return <div>In Stock</div>;
     };
 
-    if (Object.keys(selectedItem).length === 0 && itemQuantity === 0) {
+    if (Object.keys(selectedItem).length === 0 || itemQuantity === 0) {
       return null;
     }
 
@@ -113,7 +126,8 @@ export const InventoryAddTransactionModal = ({ isVisible }) => {
             Item Stock
           </Typography>
           <Typography className={classes.itemContent}>
-            {selectedItem.inStock}
+            {`${selectedItem.inStock}`}
+            <span className={classes.itemReduce}>{` -${itemQuantity}`}</span>
           </Typography>
         </div>
         <div className={classes.itemDetail}>
@@ -149,6 +163,7 @@ export const InventoryAddTransactionModal = ({ isVisible }) => {
             selectedItem.price
           ).toFixed(2)}`}</Typography>
         </div>
+        <div></div>
         <div className={classes.itemDetail}>
           <Typography variant="h6" className={classes.itemLabel}>
             Total Item Price
@@ -157,6 +172,7 @@ export const InventoryAddTransactionModal = ({ isVisible }) => {
             totalItemPrice
           ).toFixed(2)}`}</Typography>
         </div>
+        <div></div>
       </div>
     );
   };
@@ -174,11 +190,11 @@ export const InventoryAddTransactionModal = ({ isVisible }) => {
           onSubmit={handleSubmit}
           classes={classes}
           dispatch={dispatch}
-          items={items}
-          fieldOpen={fieldOpen}
-          setFieldOpen={setFieldOpen}
+          items={result}
+          selectedItem={selectedItem}
           setSelectedItem={setSelectedItem}
           setItemQuantity={setItemQuantity}
+          itemQuantity={itemQuantity}
           isLoading={isLoading}
           error={error}
         />
@@ -201,8 +217,8 @@ const AddSalesForm = ({
   items,
   isLoading,
   error,
-  fieldOpen,
-  setFieldOpen,
+  itemQuantity,
+  selectedItem,
   setItemQuantity,
   setSelectedItem,
 }) => {
@@ -219,27 +235,34 @@ const AddSalesForm = ({
     },
   };
 
-  const { register, handleSubmit, errors, control, getValues, watch } = useForm(
-    {
-      defaultValues: {
-        selectedItem: {
-          description: "",
-          discount: 0,
-          inStock: "",
-          incentive: 0,
-          name: "",
-          price: 0,
-          remarks: "",
-          salesCategory: "",
-        },
+  const { register, handleSubmit, errors, control } = useForm({
+    defaultValues: {
+      selectedItem: {
+        description: "",
+        discount: 0,
+        inStock: "",
+        incentive: 0,
+        name: "",
+        price: 0,
+        remarks: "",
+        salesCategory: "",
       },
-    }
-  );
+      quantity: 1,
+    },
+  });
 
-  const handleOnChange = ({ target: { value } }) => {
-    if (value !== "" && value.length >= 3) {
-      debounce(800, dispatch(fetchItemsWithSearch(value)));
+  const search = (searchTerm) => {
+    if (searchTerm === "") {
+      dispatch(clearItemsSearch());
+    } else {
+      dispatch(searchItems(searchTerm));
     }
+  };
+
+  const debouncedSearch = debounce(search, 800);
+
+  const handleOnChange = (e) => {
+    debouncedSearch(e.target.value);
   };
 
   return (
@@ -249,7 +272,7 @@ const AddSalesForm = ({
           <Autocomplete
             loading={isLoading}
             options={items.filter((item) => item.inStock > 0)}
-            getOptionLabel={(option) => String(option.name)}
+            getOptionLabel={(option) => option.name}
             getOptionSelected={(option) => option.name}
             renderOption={(option) => (
               <Typography>{String(option.name)}</Typography>
@@ -297,23 +320,28 @@ const AddSalesForm = ({
           required: true,
         }}
       />
-      <TextField
-        variant="outlined"
-        label="Quantity"
-        inputRef={register({
-          required: true,
-          min: 0,
-        })}
-        error={!!errors.quantity}
-        helperText={!!errors.quantity ? "Enter Item Quanity" : ""}
-        name="quantity"
-        type="number"
-        fullWidth
-        size="small"
-        onChange={(e) => {
-          setItemQuantity(e.target.value);
-        }}
-      />
+      {Object.keys(selectedItem).length === 0 ? null : (
+        <TextField
+          hidden={Object.keys(selectedItem).length === 0}
+          variant="outlined"
+          label="Quantity"
+          inputRef={register({
+            required: true,
+            min: 1,
+            validate: (quantity) =>
+              quantity <= Number(selectedItem.inStock) && quantity > 0,
+          })}
+          error={!!errors.quantity}
+          helperText={!!errors.quantity ? "Invalid Input" : ""}
+          name="quantity"
+          fullWidth
+          size="small"
+          value={itemQuantity}
+          onChange={(e) => {
+            setItemQuantity(e.target.value);
+          }}
+        />
+      )}
     </form>
   );
 };

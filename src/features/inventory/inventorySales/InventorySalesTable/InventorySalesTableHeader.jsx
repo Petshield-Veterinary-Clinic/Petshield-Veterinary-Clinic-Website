@@ -25,7 +25,7 @@ const InventorySalesTableHeader = ({ setPageSize, pageSize }) => {
   const handleAddTransactionPressed = (_) => {
     dispatch(
       showModal({
-        modalType: "ADD_TRANSACTION_MODAL",
+        modalType: "ADD_SALE_MODAL",
         modalProps: {},
       })
     );

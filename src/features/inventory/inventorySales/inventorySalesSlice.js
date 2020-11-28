@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getItemSales } from "../../../api/inventory";
+import {
+  getItemSales,
+  addItemSale as addItemSaleToApi,
+} from "../../../api/inventory";
+import { showModal } from "../../modals/modalSlice";
+import { clearItemsSearch } from "../inventorySearchSlice";
 
 let initialState = {
   isLoading: false,
@@ -52,8 +57,38 @@ export const fetchItemSales = (branchName) => async (dispatch) => {
   try {
     dispatch(fetchItemSalesStart());
     const sales = await getItemSales();
+
     dispatch(fetchItemSalesSuccess(sales));
   } catch (error) {
     dispatch(fetchItemSalesError(error));
+  }
+};
+
+export const addItemSale = (itemId, itemQuantity) => async (dispatch) => {
+  try {
+    dispatch(addItemSaleStart());
+    const newItemSale = await addItemSaleToApi(itemId, itemQuantity);
+    dispatch(addItemSaleSuccess(newItemSale));
+    dispatch(
+      showModal({
+        modalType: "SUCCESS_MODAL",
+        modalProps: {
+          message: "Transaction Complete!",
+          duration: 3000,
+        },
+      })
+    );
+    dispatch(clearItemsSearch());
+  } catch (error) {
+    dispatch(addItemSaleFailure(error));
+    dispatch(
+      showModal({
+        modalType: "ERROR_MODAL",
+        modalProps: {
+          message: error.message,
+          duration: 3000,
+        },
+      })
+    );
   }
 };

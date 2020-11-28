@@ -12,7 +12,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../modals/modalSlice";
 import { useForm } from "react-hook-form";
-import { addItem } from "../inventorySlice";
+import { addItem } from "../inventoryItems/inventoryItemsSlice";
 
 const useStyles = makeStyles((_) => {
   return {

@@ -70,3 +70,12 @@ export const getItemSales = async () => {
     throw Error(response.data.error);
   }
 };
+
+export const addItemSale = async (itemId, itemQuantity) => {
+  const response = await axios.post(`/item-sales/${itemId}/${itemQuantity}`);
+  if (response.data.data) {
+    return response.data.data;
+  } else {
+    throw Error(response.data.error);
+  }
+};

@@ -13,12 +13,12 @@ import {
   InventoryDiscountItemModal,
   InventoryManageItemModal,
   InventoryModifyItemModal,
-  InventoryAddTransactionModal,
+  InventoryAddSaleModal,
 } from "../inventory/inventoryModals";
 
 const modalComponents = {
   ADD_ITEM_MODAL: InventoryAddItemModal,
-  ADD_TRANSACTION_MODAL: InventoryAddTransactionModal,
+  ADD_SALE_MODAL: InventoryAddSaleModal,
   MANAGE_ITEM_MODAL: InventoryManageItemModal,
   MODIFY_ITEM_MODAL: InventoryModifyItemModal,
   DISCOUNT_ITEM_MODAL: InventoryDiscountItemModal,

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventoryAllItemsTableHeader = ({ setPageSize, pageSize }) => {
+const InventoryItemsTableHeader = ({ setPageSize, pageSize }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -63,4 +63,4 @@ const InventoryAllItemsTableHeader = ({ setPageSize, pageSize }) => {
   );
 };
 
-export default InventoryAllItemsTableHeader;
+export default InventoryItemsTableHeader;

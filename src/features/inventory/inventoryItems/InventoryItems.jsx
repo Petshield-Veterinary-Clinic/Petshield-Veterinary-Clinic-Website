@@ -1,10 +1,11 @@
 import { CircularProgress } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import InventoryAllItemsSearchField from "./InventoryAllItemsSearchField";
+import InventoryItemsSearchField from "./InventoryItemsSearchField";
 import { makeStyles } from "@material-ui/core/styles";
-import { fetchItems } from "../inventorySlice";
-import { InventoryAllItemsTable } from "./InventoryAllItemsTable/InventoryAllItemsTable";
+import { fetchItems } from "./inventoryItemsSlice";
+import InventoryItemsTableContainer from "./InventoryItemsTable/InventoryItemsTableContainer";
+import _ from "lodash";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -27,17 +28,22 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventoryAllItems = () => {
+const InventoryItems = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { isLoading, items, error } = useSelector((state) => state.inventory);
+  const { isLoading, items, error } = useSelector(
+    (state) => state.inventoryItems
+  );
+  const { isLoading: isSearching, result, error: searchError } = useSelector(
+    (state) => state.inventorySearch
+  );
 
   useEffect(() => {
     dispatch(fetchItems());
   }, [dispatch]);
 
   const renderContent = () => {
-    if (isLoading) {
+    if (isLoading || isSearching) {
       return (
         <div className={classes.loadingIndicator}>
           <CircularProgress color="secondary" />
@@ -47,14 +53,18 @@ const InventoryAllItems = () => {
     if (error) {
       return <div>An Error has occured!</div>;
     }
-    return <InventoryAllItemsTable items={items} />;
+    return (
+      <InventoryItemsTableContainer
+        items={result.length > 0 ? result : items}
+      />
+    );
   };
   return (
     <div className={classes.root}>
-      <InventoryAllItemsSearchField />
+      <InventoryItemsSearchField />
       {renderContent()}
     </div>
   );
 };
 
-export default InventoryAllItems;
+export default InventoryItems;

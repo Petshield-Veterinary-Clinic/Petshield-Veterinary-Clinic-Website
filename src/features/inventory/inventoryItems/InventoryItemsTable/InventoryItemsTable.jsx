@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useTable, usePagination, useSortBy } from "react-table";
 import {
   Button,
@@ -16,8 +16,8 @@ import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 import { useDispatch } from "react-redux";
 
-import InventoryAllItemsTableFooter from "./InventoryAllItemsTableFooter";
-import InventoryAllItemsTableHeader from "./InventoryAllItemsTableHeader";
+import InventoryItemsTableFooter from "./InventoryItemsTableFooter";
+import InventoryItemsTableHeader from "./InventoryItemsTableHeader";
 import { showModal } from "../../../modals/modalSlice";
 import { blue } from "@material-ui/core/colors";
 
@@ -82,76 +82,9 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const InventoryAllItemsTable = ({ items }) => {
+export const InventoryItemsTable = ({ data, columns, items }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const data = useMemo(() => {
-    return items.map((item) => {
-      let status = "";
-      const isDiscounted = item.discount > 0;
-      const discountAmount = isDiscounted
-        ? item.price * (item.discount / 100)
-        : 0;
-      // Check if the item is In Stock and if has discount
-      if (item.discount > 0 && item.inStock > 0) {
-        status = "Discounted";
-      } else if (item.discount === 0 && item.inStock > 0) {
-        status = "In Stock";
-      } else {
-        status = "Out of Stock";
-      }
-
-      return {
-        col1: item.ID,
-        col2: item.name,
-        col3: item.salesCategory,
-        col4: item.inStock,
-        col5: status,
-        col6: item.price.toFixed(2),
-        col7: item.discount,
-        col8: (item.price - discountAmount).toFixed(2),
-      };
-    });
-  }, [items]);
-
-  const columns = useMemo(
-    () => [
-      {
-        Header: "ID",
-        accessor: "col1",
-      },
-      {
-        Header: "Name",
-        accessor: "col2",
-      },
-      {
-        Header: "Category",
-        accessor: "col3",
-      },
-      {
-        Header: "Stock",
-        accessor: "col4",
-      },
-      {
-        Header: "Status",
-        accessor: "col5",
-      },
-      {
-        Header: "Original Price",
-        accessor: "col6",
-      },
-      {
-        Header: "Discount",
-        accessor: "col7",
-      },
-      {
-        Header: "Total Price",
-        accessor: "col8",
-      },
-    ],
-    []
-  );
 
   const {
     getTableProps,
@@ -227,7 +160,7 @@ export const InventoryAllItemsTable = ({ items }) => {
 
   return (
     <Paper className={classes.root}>
-      <InventoryAllItemsTableHeader
+      <InventoryItemsTableHeader
         pageSize={pageSize}
         setPageSize={setPageSize}
       />
@@ -296,7 +229,7 @@ export const InventoryAllItemsTable = ({ items }) => {
           })}
         </TableBody>
       </Table>
-      <InventoryAllItemsTableFooter
+      <InventoryItemsTableFooter
         canPreviousPage={canPreviousPage}
         canNextPage={canNextPage}
         previousPage={previousPage}
@@ -305,7 +238,7 @@ export const InventoryAllItemsTable = ({ items }) => {
         pageCount={pageCount}
         pageSize={pageSize}
         pageIndex={pageIndex}
-        itemsCount={items.length}
+        itemsCount={data.length}
       />
     </Paper>
   );

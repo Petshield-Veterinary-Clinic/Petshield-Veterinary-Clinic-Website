@@ -6,7 +6,7 @@ import { CustomDrawer } from "../components/CustomDrawer";
 import { makeStyles } from "@material-ui/core/styles";
 
 import HomeDashboard from "../features/homeDashboard/HomeDashboard";
-import InventoryAllItems from "../features/inventory/inventoryAllItems/InventoryAllItems";
+import InventoryItems from "../features/inventory/inventoryItems/InventoryItems";
 import InventorySales from "../features/inventory/inventorySales/InventorySales";
 import ModalManager from "../features/modals/ModalManager";
 import PrivateRoute from "../components/PrivateRoute";
@@ -64,8 +64,8 @@ const App = () => {
                   component={InventorySales}
                 />
                 <PrivateRoute
-                  path="/content/inventory/all-items"
-                  component={InventoryAllItems}
+                  path="/content/inventory/items"
+                  component={InventoryItems}
                 />
                 <Redirect from="/" to="/content/home/dashboard" />
               </Switch>

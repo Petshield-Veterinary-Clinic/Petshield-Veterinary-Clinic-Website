@@ -11,9 +11,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal, showModal } from "../../modals/modalSlice";
-import { useForm } from "react-hook-form";
-import { modifyItem } from "../inventorySlice";
-import { set } from "lodash";
 
 const useStyles = makeStyles((_) => {
   return {
