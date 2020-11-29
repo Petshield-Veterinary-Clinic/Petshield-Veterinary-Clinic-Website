@@ -40,10 +40,11 @@ export const {
   clearItemsSearch,
 } = inventorySearchSlice.actions;
 
-export const searchItems = (searchTerm) => async (dispatch) => {
+export const searchItems = (searchTerm) => async (dispatch, getState) => {
+  const { user } = getState().auth;
   try {
     dispatch(searchItemsStart());
-    const items = await getItemsWithSearchTerm(searchTerm);
+    const items = await getItemsWithSearchTerm(searchTerm, user.branchName);
     dispatch(searchItemsSuccess(items));
   } catch (error) {
     dispatch(searchItemsFailure(error));

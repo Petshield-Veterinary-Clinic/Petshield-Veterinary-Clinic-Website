@@ -82,21 +82,23 @@ export const {
 
 export default inventorySlice.reducer;
 
-export const fetchItems = () => async (dispatch) => {
+export const fetchItems = () => async (dispatch, getState) => {
+  const { user } = getState().auth;
   try {
     dispatch(fetchItemsStart());
-    const items = await getItems();
+    const items = await getItems(user.branchName);
     dispatch(fetchItemsSuccess(items));
   } catch (error) {
     dispatch(fetchItemsFailure(error.message));
   }
 };
 
-export const addItem = (itemDetails) => async (dispatch) => {
+export const addItem = (itemDetails) => async (dispatch, getState) => {
+  const { user } = getState().auth;
   try {
     dispatch(addItemStart());
     dispatch(showModal({ modalType: "LOADING_MODAL", modalProps: {} }));
-    await addItemToApi(itemDetails);
+    await addItemToApi(itemDetails, user.branchName);
     dispatch(
       showModal({
         modalType: "SUCCESS_MODAL",
@@ -121,11 +123,15 @@ export const addItem = (itemDetails) => async (dispatch) => {
   }
 };
 
-export const modifyItem = (itemDetails, itemIndex) => async (dispatch) => {
+export const modifyItem = (itemDetails, itemIndex) => async (
+  dispatch,
+  getState
+) => {
+  const { user } = getState().auth;
   try {
     dispatch(modifyItemStart());
     dispatch(showModal({ modalType: "LOADING_MODAL", modalProps: {} }));
-    const newItem = await modifyItemFromApi(itemDetails);
+    const newItem = await modifyItemFromApi(itemDetails, user.branchName);
     dispatch(
       showModal({
         modalType: "SUCCESS_MODAL",
@@ -150,11 +156,15 @@ export const modifyItem = (itemDetails, itemIndex) => async (dispatch) => {
   }
 };
 
-export const discountItem = (itemDetails, itemIndex) => async (dispatch) => {
+export const discountItem = (itemDetails, itemIndex) => async (
+  dispatch,
+  getState
+) => {
+  const { user } = getState().auth;
   try {
     dispatch(discountItemStart());
     dispatch(showModal({ modalType: "LOADING_MODAL", modalProps: {} }));
-    const newItem = await discountItemFromApi(itemDetails);
+    const newItem = await discountItemFromApi(itemDetails, user.branchName);
     dispatch(
       showModal({
         modalType: "SUCCESS_MODAL",

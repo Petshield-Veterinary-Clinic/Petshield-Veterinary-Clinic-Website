@@ -53,21 +53,29 @@ export const {
   addItemSaleSuccess,
 } = inventorySalesSlice.actions;
 
-export const fetchItemSales = (branchName) => async (dispatch) => {
+export const fetchItemSales = () => async (dispatch, getState) => {
+  const { user } = getState().auth;
   try {
     dispatch(fetchItemSalesStart());
-    const sales = await getItemSales();
-
+    const sales = await getItemSales(user.branchName);
     dispatch(fetchItemSalesSuccess(sales));
   } catch (error) {
     dispatch(fetchItemSalesError(error));
   }
 };
 
-export const addItemSale = (itemId, itemQuantity) => async (dispatch) => {
+export const addItemSale = (itemId, itemQuantity) => async (
+  dispatch,
+  getState
+) => {
   try {
+    const { user } = getState().auth;
     dispatch(addItemSaleStart());
-    const newItemSale = await addItemSaleToApi(itemId, itemQuantity);
+    const newItemSale = await addItemSaleToApi(
+      user.branchName,
+      itemId,
+      itemQuantity
+    );
     dispatch(addItemSaleSuccess(newItemSale));
     dispatch(
       showModal({
