@@ -49,38 +49,28 @@ const App = () => {
       <div className={classes.root}>
         <Router history={history}>
           <Switch>
-            <Route
-              exact
-              path="/Petshield-Veterinary-Clinic-Website/auth/login"
-              component={LoginPage}
-            />
-            <Route path="/Petshield-Veterinary-Clinic-Website/content">
+            <Route exact path="/auth/login" component={LoginPage} />
+            <Route path="/content">
               <CssBaseline />
               <CustomDrawer />
               <CustomAppBar />
               <Switch>
                 <PrivateRoute
-                  path="/Petshield-Veterinary-Clinic-Website/content/home/dashboard"
+                  path="/content/home/dashboard"
                   component={HomeDashboard}
                 />
                 <PrivateRoute
-                  path="/Petshield-Veterinary-Clinic-Website/content/inventory/sales"
+                  path="/content/inventory/sales"
                   component={InventorySales}
                 />
                 <PrivateRoute
-                  path="/Petshield-Veterinary-Clinic-Website/content/inventory/items"
+                  path="/content/inventory/items"
                   component={InventoryItems}
                 />
-                <Redirect
-                  from="/"
-                  to="/Petshield-Veterinary-Clinic-Website/content/home/dashboard"
-                />
+                <Redirect from="/" to="/content/home/dashboard" />
               </Switch>
             </Route>
-            <Redirect
-              from="/"
-              to="/Petshield-Veterinary-Clinic-Website/content/home/dashboard"
-            />
+            <Redirect from="/" to="/content/home/dashboard" />
           </Switch>
         </Router>
         <ModalManager />

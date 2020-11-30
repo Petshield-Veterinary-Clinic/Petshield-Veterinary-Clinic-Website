@@ -38,7 +38,6 @@ const inventorySalesSlice = createSlice({
     addItemSaleStart() {},
     addItemSaleSuccess(state, action) {
       state.isLoading = false;
-      state.itemSales = [...state.itemSales, action.payload];
       state.error = null;
     },
     addItemSaleFailure: handleOnError,
