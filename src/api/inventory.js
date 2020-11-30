@@ -36,7 +36,8 @@ export const modifyItem = async (item, branchName) => {
   const parsedItem = {
     ...item,
     price: Number(item.price),
-    incentive: Number(item.incentive),
+    incentiveAmount: Number(item.incentiveAmount),
+    incentiveRate: Number(item.incentiveRate),
     discount: Number(item.discount),
   };
   const response = await axios.patch(

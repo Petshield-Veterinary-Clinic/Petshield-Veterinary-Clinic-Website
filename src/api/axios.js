@@ -1,8 +1,8 @@
 import axios from "axios";
-import { LOCAL_API_BASE_URL } from "../consts";
+import { config } from "../consts";
 
 const instance = axios.create({
-  baseURL: LOCAL_API_BASE_URL,
+  baseURL: config.API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },

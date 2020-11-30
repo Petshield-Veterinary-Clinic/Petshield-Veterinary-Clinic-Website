@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchItemSales } from "./inventorySalesSlice";
 import InventorySalesTableContainer from "./InventorySalesTable/InventorySalesTableContainer";
+import { InventorySalesDailySales } from "./InventorySalesDailySales";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => {
 
       paddingTop: "83px",
     },
+
     loadingIndicator: {
       height: "100%",
       width: "100%",
@@ -49,7 +51,12 @@ const InventorySales = () => {
     if (error) {
       return <div>An Error has occured!</div>;
     }
-    return <InventorySalesTableContainer itemSales={itemSales} />;
+    return (
+      <>
+        <InventorySalesDailySales />
+        <InventorySalesTableContainer itemSales={itemSales} />
+      </>
+    );
   };
 
   return <div className={classes.root}>{renderContent()}</div>;

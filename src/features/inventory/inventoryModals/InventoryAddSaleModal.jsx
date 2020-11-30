@@ -83,8 +83,10 @@ export const InventoryAddSaleModal = ({ isVisible }) => {
   const dispatch = useDispatch();
 
   const handleSubmit = ({ selectedItem, quantity }) => {
-    dispatch(addItemSale(selectedItem.ID, quantity));
-    setOpen(!isVisible);
+    if (selectedItem.name !== "") {
+      dispatch(addItemSale(selectedItem.ID, itemQuantity));
+      setOpen(!isVisible);
+    }
   };
 
   const handleOnClose = () => {
@@ -96,7 +98,8 @@ export const InventoryAddSaleModal = ({ isVisible }) => {
   };
   const renderItemDetails = () => {
     const discountAmount = selectedItem.price * (selectedItem.discount / 100);
-    const incentiveAmount = selectedItem.price * (selectedItem.incentive / 100);
+    const incentiveAmount =
+      selectedItem.price * (selectedItem.incentiveRate / 100);
     const totalItemPrice =
       selectedItem.price * itemQuantity - discountAmount - incentiveAmount;
 
@@ -127,7 +130,11 @@ export const InventoryAddSaleModal = ({ isVisible }) => {
           </Typography>
           <Typography className={classes.itemContent}>
             {`${selectedItem.inStock}`}
-            <span className={classes.itemReduce}>{` -${itemQuantity}`}</span>
+            <span className={classes.itemReduce}>
+              {selectedItem.salesCategory !== "Store Sales"
+                ? ""
+                : ` -${itemQuantity}`}
+            </span>
           </Typography>
         </div>
         <div className={classes.itemDetail}>
@@ -151,7 +158,7 @@ export const InventoryAddSaleModal = ({ isVisible }) => {
             Item Incentive
           </Typography>
           <Typography className={classes.itemContent}>{`${
-            selectedItem.incentive
+            selectedItem.incentiveRate
           }% (${Number(incentiveAmount).toFixed(2)})`}</Typography>
         </div>
 
@@ -322,6 +329,7 @@ const AddSalesForm = ({
       />
       {Object.keys(selectedItem).length === 0 ? null : (
         <TextField
+          disabled={selectedItem.salesCategory !== "Store Sales"}
           hidden={Object.keys(selectedItem).length === 0}
           variant="outlined"
           label="Quantity"

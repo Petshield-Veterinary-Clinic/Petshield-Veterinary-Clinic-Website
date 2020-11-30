@@ -8,6 +8,9 @@ import {
   DialogTitle,
   TextField,
   Typography,
+  Switch,
+  FormControlLabel,
+  Checkbox,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../modals/modalSlice";
@@ -24,17 +27,30 @@ const useStyles = makeStyles((_) => {
     },
     addItemFormField: {
       margin: "0.5em",
+      flexGrow: "1",
+    },
+    incentiveFieldsWrapper: {
+      display: "flex",
     },
   };
 });
 
 export const InventoryAddItemModal = ({ isVisible }) => {
   const [open, setOpen] = useState(isVisible);
+  const [isIncentiveFixed, setIncentiveFixed] = useState(false);
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleSubmit = (data) => {
-    dispatch(addItem(data));
+    const newItem = { ...data };
+    newItem.isIncentiveFixed = isIncentiveFixed;
+    if (isIncentiveFixed) {
+      newItem.incentiveRate = 0;
+    } else {
+      newItem.incentiveAmount = 0;
+    }
+
+    dispatch(addItem(newItem));
     setOpen(!isVisible);
   };
 
@@ -50,7 +66,12 @@ export const InventoryAddItemModal = ({ isVisible }) => {
     <Dialog open={open} onClose={handleOnClose} onExited={handleOnExited}>
       <DialogTitle>Add Item</DialogTitle>
       <DialogContent>
-        <AddItemForm onSubmit={handleSubmit} classes={classes} />
+        <AddItemForm
+          onSubmit={handleSubmit}
+          classes={classes}
+          isIncentiveFixed={isIncentiveFixed}
+          setIncentiveFixed={setIncentiveFixed}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleOnClose}>Cancel</Button>
@@ -62,11 +83,18 @@ export const InventoryAddItemModal = ({ isVisible }) => {
   );
 };
 
-const AddItemForm = ({ onSubmit, classes }) => {
+const AddItemForm = ({
+  onSubmit,
+  classes,
+  isIncentiveFixed,
+  setIncentiveFixed,
+}) => {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       remarks: "",
       salesCategory: "",
+      incentiveRate: 0,
+      incentiveAmount: 0,
     },
   });
   return (
@@ -122,22 +150,52 @@ const AddItemForm = ({ onSubmit, classes }) => {
         size="small"
         inputRef={register}
       />
-      <TextField
-        className={classes.addItemFormField}
-        variant="outlined"
-        label="Incentive Rate"
-        name="incentive"
-        size="small"
-        InputProps={{
-          endAdornment: <Typography>%</Typography>,
-        }}
-        inputRef={register({
-          required: true,
-          max: 100.0,
-          min: 0.0,
-        })}
-        error={!!errors.incentive}
-      />
+      <div>
+        <FormControlLabel
+          className={classes.addItemFormField}
+          control={
+            <Checkbox
+              checked={isIncentiveFixed}
+              onChange={() => {
+                setIncentiveFixed(!isIncentiveFixed);
+              }}
+            />
+          }
+          label="Fixed Incentive Rate"
+        />
+        <div className={classes.incentiveFieldsWrapper}>
+          <TextField
+            disabled={isIncentiveFixed}
+            className={classes.addItemFormField}
+            variant="outlined"
+            label="Incentive Rate"
+            name="incentiveRate"
+            size="small"
+            InputProps={{
+              endAdornment: <Typography>%</Typography>,
+            }}
+            inputRef={register({
+              required: true,
+              max: 100.0,
+              min: 0.0,
+            })}
+            error={!!errors.incentiveRate}
+          />
+          <TextField
+            disabled={!isIncentiveFixed}
+            className={classes.addItemFormField}
+            variant="outlined"
+            label="Incentive Amount"
+            name="incentiveAmount"
+            size="small"
+            inputRef={register({
+              required: true,
+              min: 0.0,
+            })}
+            error={!!errors.incentiveAmount}
+          />
+        </div>
+      </div>
       <TextField
         className={classes.addItemFormField}
         variant="outlined"

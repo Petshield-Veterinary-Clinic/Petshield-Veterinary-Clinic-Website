@@ -8,11 +8,14 @@ import {
   DialogTitle,
   TextField,
   Typography,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../modals/modalSlice";
 import { useForm } from "react-hook-form";
 import { modifyItem } from "../inventoryItems/inventoryItemsSlice";
+import { update } from "lodash";
 
 const useStyles = makeStyles((_) => {
   return {
@@ -24,18 +27,30 @@ const useStyles = makeStyles((_) => {
     },
     addItemFormField: {
       margin: "0.5em",
+      flexGrow: "1",
+    },
+    incentiveFieldsWrapper: {
+      display: "flex",
     },
   };
 });
 
 export const InventoryModifyItemModal = ({ isVisible, item, itemIndex }) => {
   const [open, setOpen] = useState(isVisible);
+  const [isIncentiveFixed, setIncentiveFixed] = useState(item.isIncentiveFixed);
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const handleSubmit = (data) => {
-    // console.log({ ...item, ...data });
-    dispatch(modifyItem({ ...item, ...data }, itemIndex));
+    const updatedItem = { ...item, ...data };
+    updatedItem.isIncentiveFixed = isIncentiveFixed;
+    if (isIncentiveFixed) {
+      updatedItem.incentiveRate = 0;
+    } else {
+      updatedItem.incentiveAmount = 0;
+    }
+
+    dispatch(modifyItem(updatedItem, itemIndex));
     setOpen(!isVisible);
   };
 
@@ -60,6 +75,8 @@ export const InventoryModifyItemModal = ({ isVisible, item, itemIndex }) => {
           onSubmit={handleSubmit}
           classes={classes}
           itemDetails={item}
+          isIncentiveFixed={isIncentiveFixed}
+          setIncentiveFixed={setIncentiveFixed}
         />
       </DialogContent>
       <DialogActions>
@@ -72,7 +89,13 @@ export const InventoryModifyItemModal = ({ isVisible, item, itemIndex }) => {
   );
 };
 
-const ModifyItemForm = ({ onSubmit, classes, itemDetails }) => {
+const ModifyItemForm = ({
+  onSubmit,
+  classes,
+  itemDetails,
+  isIncentiveFixed,
+  setIncentiveFixed,
+}) => {
   const { register, handleSubmit, errors } = useForm({
     defaultValues: {
       remarks: itemDetails.remarks !== null ? itemDetails.remarks : "",
@@ -80,10 +103,14 @@ const ModifyItemForm = ({ onSubmit, classes, itemDetails }) => {
         itemDetails.salesCategory !== null ? itemDetails.salesCategory : "",
       price: itemDetails.price !== null ? itemDetails.price : 0,
       name: itemDetails.name !== null ? itemDetails.name : "",
-      incentive: itemDetails.incentive !== null ? itemDetails.incentive : 0,
+      incentiveRate:
+        itemDetails.incentiveRate !== null ? itemDetails.incentiveRate : 0,
+      incentiveAmount:
+        itemDetails.incentiveAmount !== null ? itemDetails.incentiveAmount : 0,
       inStock: itemDetails.inStock !== null ? itemDetails.inStock : 0,
     },
   });
+
   return (
     <form
       noValidate
@@ -137,22 +164,50 @@ const ModifyItemForm = ({ onSubmit, classes, itemDetails }) => {
         size="small"
         inputRef={register}
       />
-      <TextField
+      <FormControlLabel
         className={classes.addItemFormField}
-        variant="outlined"
-        label="Incentive Rate"
-        name="incentive"
-        size="small"
-        InputProps={{
-          endAdornment: <Typography>%</Typography>,
-        }}
-        inputRef={register({
-          required: true,
-          max: 100.0,
-          min: 0.0,
-        })}
-        error={!!errors.incentive}
+        control={
+          <Checkbox
+            checked={isIncentiveFixed}
+            onChange={() => {
+              setIncentiveFixed(!isIncentiveFixed);
+            }}
+          />
+        }
+        label="Fixed Incentive Rate"
       />
+      <div className={classes.incentiveFieldsWrapper}>
+        <TextField
+          disabled={isIncentiveFixed}
+          className={classes.addItemFormField}
+          variant="outlined"
+          label="Incentive Rate"
+          name="incentiveRate"
+          size="small"
+          InputProps={{
+            endAdornment: <Typography>%</Typography>,
+          }}
+          inputRef={register({
+            required: true,
+            max: 100.0,
+            min: 0.0,
+          })}
+          error={!!errors.incentiveRate}
+        />
+        <TextField
+          disabled={!isIncentiveFixed}
+          className={classes.addItemFormField}
+          variant="outlined"
+          label="Incentive Amount"
+          name="incentiveAmount"
+          size="small"
+          inputRef={register({
+            required: true,
+            min: 0.0,
+          })}
+          error={!!errors.incentiveAmount}
+        />
+      </div>
       <TextField
         className={classes.addItemFormField}
         variant="outlined"

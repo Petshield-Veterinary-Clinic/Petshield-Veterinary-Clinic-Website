@@ -7,8 +7,10 @@ import {
   modifyItem as modifyItemFromApi,
   discountItem as discountItemFromApi,
 } from "../../../api/inventory";
+import { config } from "../../../consts";
 
 import { showModal } from "../../modals/modalSlice";
+import { clearItemsSearch } from "../inventorySearchSlice";
 
 let initialState = {
   items: [],
@@ -39,7 +41,7 @@ const inventorySlice = createSlice({
     fetchItemsFailure: handleError,
     addItemStart(_, __) {},
     addItemSuccess(state, action) {
-      state.items = [...state.items, action.payload];
+      // state.items = [...state.items, action.payload];
     },
     addItemFailure: handleError,
     modifyItemStart() {},
@@ -84,10 +86,16 @@ export default inventorySlice.reducer;
 
 export const fetchItems = () => async (dispatch, getState) => {
   const { user } = getState().auth;
+  const token = localStorage.getItem("token");
   try {
     dispatch(fetchItemsStart());
-    const items = await getItems(user.branchName);
-    dispatch(fetchItemsSuccess(items));
+    const ws = new WebSocket(
+      `${config.WS_BASE_URL}/items/${user.branchName}?jwt=${token}`
+    );
+    ws.onmessage = (e) => {
+      const response = JSON.parse(e.data);
+      dispatch(fetchItemsSuccess(response.data));
+    };
   } catch (error) {
     dispatch(fetchItemsFailure(error.message));
   }
@@ -108,7 +116,7 @@ export const addItem = (itemDetails) => async (dispatch, getState) => {
         },
       })
     );
-    dispatch(addItemSuccess(itemDetails));
+    dispatch(addItemSuccess());
   } catch (error) {
     dispatch(
       showModal({
@@ -128,10 +136,12 @@ export const modifyItem = (itemDetails, itemIndex) => async (
   getState
 ) => {
   const { user } = getState().auth;
+
   try {
     dispatch(modifyItemStart());
     dispatch(showModal({ modalType: "LOADING_MODAL", modalProps: {} }));
     const newItem = await modifyItemFromApi(itemDetails, user.branchName);
+
     dispatch(
       showModal({
         modalType: "SUCCESS_MODAL",
@@ -141,6 +151,7 @@ export const modifyItem = (itemDetails, itemIndex) => async (
         },
       })
     );
+    dispatch(clearItemsSearch());
     dispatch(modifyItemSuccess({ newItem, itemIndex }));
   } catch (error) {
     dispatch(

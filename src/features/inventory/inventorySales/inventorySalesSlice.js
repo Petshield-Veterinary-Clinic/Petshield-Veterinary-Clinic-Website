@@ -3,12 +3,14 @@ import {
   getItemSales,
   addItemSale as addItemSaleToApi,
 } from "../../../api/inventory";
+import { config } from "../../../consts";
 import { showModal } from "../../modals/modalSlice";
 import { clearItemsSearch } from "../inventorySearchSlice";
 
 let initialState = {
   isLoading: false,
   itemSales: [],
+  dailySales: 0,
   error: null,
 };
 
@@ -28,7 +30,8 @@ const inventorySalesSlice = createSlice({
     fetchItemSalesStart: handleOnStart,
     fetchItemSalesSuccess(state, action) {
       state.isLoading = false;
-      state.itemSales = action.payload;
+      state.itemSales = action.payload.itemSales;
+      state.dailySales = action.payload.dailySales;
       state.error = null;
     },
     fetchItemSalesError: handleOnError,
@@ -55,10 +58,17 @@ export const {
 
 export const fetchItemSales = () => async (dispatch, getState) => {
   const { user } = getState().auth;
+  const token = localStorage.getItem("token");
   try {
     dispatch(fetchItemSalesStart());
-    const sales = await getItemSales(user.branchName);
-    dispatch(fetchItemSalesSuccess(sales));
+    const ws = new WebSocket(
+      `${config.WS_BASE_URL}/item-sales/${user.branchName}?jwt=${token}`
+    );
+
+    ws.onmessage = (e) => {
+      const response = JSON.parse(e.data);
+      dispatch(fetchItemSalesSuccess(response.data));
+    };
   } catch (error) {
     dispatch(fetchItemSalesError(error));
   }

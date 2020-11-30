@@ -11,7 +11,8 @@ import { AccountCircle } from "@material-ui/icons";
 import { drawerWidth } from "../consts";
 import { showModal } from "../features/modals/modalSlice";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const { user } = useSelector((state) => state.auth);
   const isMenuOpen = Boolean(anchorEl);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -70,10 +72,11 @@ export const CustomAppBar = () => {
     <>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
+          <Typography noWrap>
             Petshield Veterinary Clinic and Grooming Center System
           </Typography>
           <div className={classes.grow}></div>
+          <Typography>{`${_.capitalize(user.branchName)}-Branch`}</Typography>
           <IconButton edge="end" onClick={handleMenuOpen}>
             <AccountCircle style={{ fontSize: "2rem" }} color="secondary" />
           </IconButton>

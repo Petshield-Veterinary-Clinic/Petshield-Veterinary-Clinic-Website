@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { fetchItems } from "./inventoryItemsSlice";
 import InventoryItemsTableContainer from "./InventoryItemsTable/InventoryItemsTableContainer";
 import _ from "lodash";
+import { clearItemsSearch } from "../inventorySearchSlice";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -39,6 +40,7 @@ const InventoryItems = () => {
   );
 
   useEffect(() => {
+    dispatch(clearItemsSearch());
     dispatch(fetchItems());
   }, [dispatch]);
 
