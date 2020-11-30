@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/petshield-veterinary-clinic-website/static/css/main.5e64e9e9.chunk.css",
-    "main.js": "/petshield-veterinary-clinic-website/static/js/main.a206008c.chunk.js",
-    "main.js.map": "/petshield-veterinary-clinic-website/static/js/main.a206008c.chunk.js.map",
+    "main.js": "/petshield-veterinary-clinic-website/static/js/main.c06181f9.chunk.js",
+    "main.js.map": "/petshield-veterinary-clinic-website/static/js/main.c06181f9.chunk.js.map",
     "runtime-main.js": "/petshield-veterinary-clinic-website/static/js/runtime-main.7ec5787a.js",
     "runtime-main.js.map": "/petshield-veterinary-clinic-website/static/js/runtime-main.7ec5787a.js.map",
     "static/js/2.b77796c7.chunk.js": "/petshield-veterinary-clinic-website/static/js/2.b77796c7.chunk.js",
@@ -26,6 +26,6 @@
     "static/js/runtime-main.7ec5787a.js",
     "static/js/2.b77796c7.chunk.js",
     "static/css/main.5e64e9e9.chunk.css",
-    "static/js/main.a206008c.chunk.js"
+    "static/js/main.c06181f9.chunk.js"
   ]
 }
