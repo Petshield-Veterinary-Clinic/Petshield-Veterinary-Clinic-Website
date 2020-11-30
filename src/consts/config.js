@@ -1,6 +1,6 @@
 const prod = {
-  API_BASE_URL: "coaching-tracker-api-prod.herokuapp.com",
-  WS_BASE_URL: `wss://coaching-tracker-api-prod.herokuapp.com`,
+  API_BASE_URL: "https://petshield-veterinary-api-dev.herokuapp.com",
+  WS_BASE_URL: `wss://petshield-veterinary-api-dev.herokuapp.com`,
   WS_TIMEOUT: 25000,
 };
 

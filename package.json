@@ -1,5 +1,6 @@
 {
-  "name": "Petshield-Veterinary-Clinic-Website",
+  "name": "petshield-veterinary-clinic-website",
+  "homepage": "https://Petshield-Veterinary-Clinic.github.io/Petshield-Veterinary-Clinic-Website",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -35,7 +36,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -54,11 +57,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-<<<<<<< HEAD
-=======
   },
   "devDependencies": {
-    "file-loader": "^6.2.0"
->>>>>>> d0578cda972418e627571c9af0647e6b3cf6c0e3
+    "file-loader": "^6.2.0",
+    "gh-pages": "^3.1.0"
   }
 }
