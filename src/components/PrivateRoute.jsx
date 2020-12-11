@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const PrivateRoute = (props) => {
   // Get Authentication Reducer
-  const { isLoading, user, error } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   if (Object.keys(user).length !== 0 && user.constructor === Object) {
     return (

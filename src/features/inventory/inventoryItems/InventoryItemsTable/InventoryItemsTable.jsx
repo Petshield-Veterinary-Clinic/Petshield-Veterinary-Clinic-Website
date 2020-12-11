@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme) => {
     root: {
       width: "100%",
       height: "100%",
-      border: `1px solid ${theme.palette.secondary.main}`,
-      borderRadius: "20px",
+
+      backgroundColor: "#1d1d1d",
       padding: "1.5em",
       overflowX: "auto",
     },

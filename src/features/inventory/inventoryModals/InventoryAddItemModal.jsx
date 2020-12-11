@@ -63,7 +63,11 @@ export const InventoryAddItemModal = ({ isVisible }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleOnClose} onExited={handleOnExited}>
+    <Dialog
+      open={open}
+      onClose={handleOnClose}
+      TransitionProps={{ onExited: handleOnExited }}
+    >
       <DialogTitle>Add Item</DialogTitle>
       <DialogContent>
         <AddItemForm

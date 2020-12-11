@@ -37,14 +37,15 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    backgroundColor: "#343434",
   },
   nested: {
     paddingLeft: theme.spacing(4),
   },
   drawerIcon: {
-    width: "40px",
-    height: "40px",
-    fill: `${theme.palette.secondary.main} !important`,
+    width: "38px",
+    height: "38px",
+    fill: `${theme.palette.primary.main} !important`,
   },
 }));
 

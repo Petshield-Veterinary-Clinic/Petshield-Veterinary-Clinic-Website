@@ -71,15 +71,8 @@ export default authSlice.reducer;
 export const logIn = (credentials) => async (dispatch) => {
   try {
     dispatch(loginStart());
-    dispatch(
-      showModal({
-        modalType: "LOADING_MODAL",
-        modalProps: {},
-      })
-    );
     const user = await loginUser(credentials);
     dispatch(loginSuccess(user));
-    dispatch(hideModal());
   } catch (error) {
     dispatch(loginFailure(error.message));
     dispatch(

@@ -38,8 +38,8 @@ export const ErrorModal = ({ isVisible, message, duration }) => {
     <Dialog
       open={open}
       onClose={handleOnClose}
-      onExited={handleOnExited}
       onEnter={handleOnEnter}
+      TransitionProps={{ onExited: handleOnExited }}
     >
       <DialogTitle>Error!</DialogTitle>
       <DialogContent>

@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => {
       flexDirection: "row",
       justifyContent: "space-between",
     },
+    itemCount: {
+      display: "flex",
+      alignItems: "center",
+    },
   };
 });
 
@@ -37,18 +41,16 @@ const InventoryItemsTableHeader = ({ setPageSize, pageSize }) => {
 
   return (
     <div className={classes.root}>
-      <div>
-        <Typography>
-          Show &nbsp;
-          <Select value={pageSize} onChange={handleOnItemCountChange}>
-            {showItemCountValues.map((itemCount) => (
-              <MenuItem key={itemCount} value={itemCount}>
-                {itemCount}
-              </MenuItem>
-            ))}
-          </Select>
-          &nbsp; entries
-        </Typography>
+      <div className={classes.itemCount}>
+        <Typography>Show &nbsp;</Typography>
+        <Select value={pageSize} onChange={handleOnItemCountChange}>
+          {showItemCountValues.map((itemCount) => (
+            <MenuItem key={itemCount} value={itemCount}>
+              {itemCount}
+            </MenuItem>
+          ))}
+        </Select>
+        <Typography>&nbsp; entries</Typography>
       </div>
       <div>
         <Button

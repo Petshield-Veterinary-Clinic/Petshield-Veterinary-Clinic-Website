@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 const App = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { user, isLoading, error } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -42,9 +41,6 @@ const App = () => {
   }, [dispatch]);
 
   const renderContent = () => {
-    if (isLoading) {
-      return <CircularProgress />;
-    }
     return (
       <div className={classes.root}>
         <Router history={history}>

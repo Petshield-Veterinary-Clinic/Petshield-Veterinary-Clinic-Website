@@ -43,11 +43,16 @@ const useStyles = makeStyles((theme) => {
       height: "100%",
       maxHeight: "500px",
       maxWidth: "500px",
-
       gridTemplate: "1fr 1fr 1fr/ 1fr",
       placeContent: "center",
       padding: "1em",
       zIndex: 2,
+    },
+    loading: {
+      display: "grid",
+      width: "100%",
+      height: "100%",
+      placeContent: "center",
     },
 
     centerItem: {
@@ -77,7 +82,11 @@ const LoginPage = () => {
 
   const renderContent = () => {
     if (isLoading) {
-      return <CircularProgress />;
+      return (
+        <div className={classes.loading}>
+          <CircularProgress color="primary" />
+        </div>
+      );
     }
 
     if (Object.keys(user).length === 0) {

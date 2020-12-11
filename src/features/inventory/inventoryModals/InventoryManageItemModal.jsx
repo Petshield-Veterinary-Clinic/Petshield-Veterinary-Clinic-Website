@@ -68,7 +68,7 @@ export const InventoryManageItemModal = ({ isVisible, item, itemIndex }) => {
     <Dialog
       open={open}
       onClose={handleOnClose}
-      onExited={handleOnExited}
+      TransitionProps={{ onExited: handleOnExited }}
       fullWidth
     >
       <DialogTitle>Manage Item</DialogTitle>

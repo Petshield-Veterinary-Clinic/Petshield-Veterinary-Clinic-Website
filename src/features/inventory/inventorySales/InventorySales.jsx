@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       padding: theme.spacing(3),
-      height: "100%",
+      height: "100vh",
       width: "100%",
       display: "flex",
       flexDirection: "column",
-
+      backgroundColor: "#121212",
       paddingTop: "83px",
     },
 

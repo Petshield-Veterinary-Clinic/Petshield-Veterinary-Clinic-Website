@@ -38,9 +38,9 @@ export const SuccessModal = ({ isVisible, message, duration }) => {
     <Dialog
       open={open}
       onClose={handleOnClose}
-      onExited={handleOnExited}
       disableBackdropClick={true}
       onEnter={handleOnEnter}
+      TransitionProps={{ onExited: handleOnExited }}
     >
       <DialogTitle>Success!</DialogTitle>
       <DialogContent>

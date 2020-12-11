@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
+    backgroundColor: "#272727",
     flexGrow: 1,
   },
   grow: {
@@ -78,7 +79,7 @@ export const CustomAppBar = () => {
           <div className={classes.grow}></div>
           <Typography>{`${_.capitalize(user.branchName)}-Branch`}</Typography>
           <IconButton edge="end" onClick={handleMenuOpen}>
-            <AccountCircle style={{ fontSize: "2rem" }} color="secondary" />
+            <AccountCircle style={{ fontSize: "2rem" }} color="primary" />
           </IconButton>
         </Toolbar>
       </AppBar>

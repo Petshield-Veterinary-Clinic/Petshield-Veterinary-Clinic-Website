@@ -9,17 +9,29 @@ const useStyles = makeStyles((theme) => {
       display: "grid",
       width: "100%",
       gridTemplate: "1fr / 1fr 1fr 1fr",
-      gridGap: "1em",
+      gridGap: "1.5em",
       paddingBottom: "1em",
     },
     dailySalesCard: {
+      position: "relative",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
+      height: "150px",
       alignItems: "center",
-      border: "1px solid green",
       padding: "1em",
-      borderRadius: "10px",
+      backgroundColor: "#1D1D1D",
+      "&::before": {
+        content: '" "',
+        position: "absolute",
+        backgroundColor: theme.palette.primary.main,
+        height: "8px",
+        width: "50%",
+        top: "-3px",
+        borderRadius: "20px",
+      },
+      // Inline Indicator
+      // boxShadowInset: "0px 0px 0px 10px #000",
     },
   };
 });
@@ -51,11 +63,11 @@ export const InventorySalesDailySales = () => {
 
   return (
     <div className={classes.root}>
-      <Card className={classes.dailySalesCard}>
+      <Card className={classes.dailySalesCard} elevation={0}>
         <Typography style={{ fontWeight: "bold" }}>Daily Sales</Typography>
         <Typography>{`P${Number(computedDailySales).toFixed(2)}`}</Typography>
       </Card>
-      <Card className={classes.dailySalesCard}>
+      <Card className={classes.dailySalesCard} elevation={1}>
         <Typography style={{ fontWeight: "bold" }}>
           Daily Sales - Blood Test
         </Typography>
@@ -63,7 +75,7 @@ export const InventorySalesDailySales = () => {
           2
         )}`}</Typography>
       </Card>
-      <Card className={classes.dailySalesCard}>
+      <Card className={classes.dailySalesCard} elevation={1}>
         <Typography style={{ fontWeight: "bold" }}>Net Daily Sales</Typography>
         <Typography>{`P${Number(
           computedDailySalesBloodTest + computedDailySales

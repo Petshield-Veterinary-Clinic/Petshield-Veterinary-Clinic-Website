@@ -46,7 +46,11 @@ export const InventoryDiscountItemModal = ({ isVisible, item, itemIndex }) => {
     dispatch(hideModal());
   };
   return (
-    <Dialog open={open} onClose={handleOnClose} onExited={handleOnExited}>
+    <Dialog
+      open={open}
+      onClose={handleOnClose}
+      TransitionProps={{ onExited: handleOnExited }}
+    >
       <DialogTitle>Discount Item</DialogTitle>
       <DialogContent>
         <DiscountItemForm

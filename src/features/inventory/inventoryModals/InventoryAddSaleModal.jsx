@@ -9,9 +9,10 @@ import {
   DialogTitle,
   TextField,
   Typography,
+  Autocomplete,
+  Fade,
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
-import { Autocomplete } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../modals/modalSlice";
 import { useForm, Controller } from "react-hook-form";
@@ -93,9 +94,10 @@ export const InventoryAddSaleModal = ({ isVisible }) => {
     setOpen(!isVisible);
   };
 
-  const handleOnExited = () => {
+  const handleExited = () => {
     dispatch(hideModal());
   };
+
   const renderItemDetails = () => {
     const discountAmount = selectedItem.price * (selectedItem.discount / 100);
     const incentiveAmount =
@@ -188,8 +190,11 @@ export const InventoryAddSaleModal = ({ isVisible }) => {
     <Dialog
       open={open}
       onClose={handleOnClose}
-      onExited={handleOnExited}
       fullScreen
+      TransitionComponent={Fade}
+      TransitionProps={{
+        onExited: handleExited,
+      }}
     >
       <DialogTitle>Add Transaction</DialogTitle>
       <DialogContent>
@@ -229,6 +234,12 @@ const AddSalesForm = ({
   setItemQuantity,
   setSelectedItem,
 }) => {
+  const options = items.map((item) => {
+    return {
+      id: item.ID,
+      label: item.name,
+    };
+  });
   const defaultValues = {
     selectedItem: {
       description: "",
@@ -280,10 +291,6 @@ const AddSalesForm = ({
             loading={isLoading}
             options={items.filter((item) => item.inStock > 0)}
             getOptionLabel={(option) => option.name}
-            getOptionSelected={(option) => option.name}
-            renderOption={(option) => (
-              <Typography>{String(option.name)}</Typography>
-            )}
             renderInput={(params) => (
               <TextField
                 {...params}

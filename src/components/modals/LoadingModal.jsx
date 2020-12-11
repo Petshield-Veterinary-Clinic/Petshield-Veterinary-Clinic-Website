@@ -11,8 +11,6 @@ import { hideModal } from "../../features/modals/modalSlice";
 const useStyles = makeStyles((_) => {
   return {
     loadingIndicator: {
-      width: "100%",
-      height: "100%",
       display: "flex",
       justifyContent: "center",
       alignItems: "center,",
@@ -34,7 +32,12 @@ export const LoadingModal = ({ isVisible }) => {
   };
 
   return (
-    <Dialog open={open} onClose={handleOnClose} onExited={handleOnExited}>
+    <Dialog
+      open={open}
+      onClose={handleOnClose}
+      TransitionProps={{ onExited: handleOnExited }}
+      fullWidth={false}
+    >
       <DialogTitle>Loading...</DialogTitle>
       <DialogContent className={classes.loadingIndicator}>
         <CircularProgress color="secondary" />

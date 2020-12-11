@@ -29,7 +29,11 @@ const ConfirmationModal = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleOnClose} onExited={handleOnExited}>
+    <Dialog
+      open={open}
+      onClose={handleOnClose}
+      TransitionProps={{ onExited: handleOnExited }}
+    >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{message}</DialogContentText>
