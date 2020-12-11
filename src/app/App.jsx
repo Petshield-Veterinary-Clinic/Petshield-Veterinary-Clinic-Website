@@ -51,7 +51,6 @@ const App = () => {
           <Switch>
             <Route exact path="/auth/login" component={LoginPage} />
             <Route path="/content">
-              <CssBaseline />
               <CustomDrawer />
               <CustomAppBar />
               <Switch>

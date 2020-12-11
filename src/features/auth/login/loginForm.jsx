@@ -9,10 +9,9 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       display: "flex",
-      padding: "1em",
-      margin: "2em",
       flexDirection: "column",
       justifyContent: "space-evenly",
+      width: "100%",
     },
     textField: {
       paddingBottom: "1em",

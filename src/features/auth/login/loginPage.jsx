@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
   CircularProgress,
+  Grid,
   Paper,
   TextField,
   Typography,
@@ -12,6 +13,9 @@ import {
 import LoginForm from "./loginForm";
 import { checkAuth, logIn } from "../authSlice";
 import { Redirect } from "react-router-dom";
+import bg from "../../../assets/login_background.png";
+import logo from "../../../assets/logo.png";
+
 const useStyles = makeStyles((theme) => {
   return {
     root: {
@@ -20,17 +24,44 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: theme.palette.background.default,
-      boxSizing: "border-box",
+    },
+    background: {
+      height: "100vh",
+      width: "100%",
+      position: "absolute",
+      top: "0",
+      left: "0",
+      backgroundImage: `url(${bg})`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      filter: "blur(4px)",
     },
     container: {
-      display: "flex",
+      display: "grid",
       width: "100%",
-      maxWidth: "600px",
-      flexDirection: "column",
-      border: "1px solid red",
-      borderColor: theme.palette.secondary.main,
+      height: "100%",
+      maxHeight: "500px",
+      maxWidth: "500px",
+
+      gridTemplate: "1fr 1fr 1fr/ 1fr",
+      placeContent: "center",
       padding: "1em",
+      zIndex: 2,
+    },
+
+    centerItem: {
+      display: "grid",
+      placeSelf: "center",
+    },
+
+    logo: {
+      position: "fixed",
+      top: "0",
+      margin: "1em auto",
+      width: "80px",
+      height: "80px",
+      zIndex: 2,
     },
   };
 });
@@ -51,14 +82,26 @@ const LoginPage = () => {
 
     if (Object.keys(user).length === 0) {
       return (
-        <Paper className={classes.container}>
-          <Typography align="center" variant="h4">
+        <Paper variant={"outlined"} className={classes.container}>
+          <Typography
+            className={classes.centerItem}
+            align="center"
+            variant={"h5"}
+          >
             Petshield Veterinary Clinic
           </Typography>
-          <LoginForm onSubmit={handleSubmit} />
-          <Button form="loginForm" type="submit" variant="contained">
-            Login
-          </Button>
+          <div>
+            <LoginForm onSubmit={handleSubmit} />
+            <Button
+              color="primary"
+              form="loginForm"
+              type="submit"
+              variant="contained"
+              fullWidth
+            >
+              Login
+            </Button>
+          </div>
         </Paper>
       );
     } else {
@@ -66,7 +109,13 @@ const LoginPage = () => {
     }
   };
 
-  return <div className={classes.root}>{renderContent()}</div>;
+  return (
+    <Paper className={classes.root} elevation={0}>
+      <img className={classes.logo} src={logo}></img>
+      <div className={classes.background}></div>
+      {renderContent()}
+    </Paper>
+  );
 };
 
 export default LoginPage;

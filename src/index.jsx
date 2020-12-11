@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@material-ui/core";
+import { CssBaseline, ThemeProvider } from "@material-ui/core";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
@@ -9,6 +9,7 @@ import { darkTheme } from "./consts";
 const render = () => {
   ReactDOM.render(
     <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
       <Provider store={store}>
         <App />
       </Provider>
