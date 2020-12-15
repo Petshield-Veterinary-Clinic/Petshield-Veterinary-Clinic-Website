@@ -15,6 +15,10 @@ import LoginPage from "../features/auth/login/loginPage";
 import { useDispatch } from "react-redux";
 import { checkAuth } from "../features/auth/authSlice";
 import history from "./history";
+import ClientsAppointments from "../features/clients/clientsAppointments/ClientsAppointments";
+import ClientsAgreementForm from "../features/clients/clientsAgreementForm/ClientsAgreementForm";
+import ClientsAllClients from "../features/clients/clientsAllClients/ClientsAllClients";
+import ClientsPayments from "../features/clients/clientsPayments/ClientsPayments";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,25 +50,50 @@ const App = () => {
         <Router history={history}>
           <Switch>
             <Route exact path="/auth/login" component={LoginPage} />
+            <Route path="/admin"></Route>
             <Route path="/content">
               <CustomDrawer />
               <CustomAppBar />
               <Switch>
                 <PrivateRoute
+                  exact
                   path="/content/home/dashboard"
                   component={HomeDashboard}
                 />
                 <PrivateRoute
+                  exact
                   path="/content/home/pet-queues"
                   component={HomePetQueues}
                 />
                 <PrivateRoute
+                  exact
                   path="/content/inventory/sales"
                   component={InventorySales}
                 />
                 <PrivateRoute
+                  exact
                   path="/content/inventory/items"
                   component={InventoryItems}
+                />
+                <PrivateRoute
+                  exact
+                  path="/content/clients/all-clients"
+                  component={ClientsAllClients}
+                />
+                <PrivateRoute
+                  exact
+                  path="/content/clients/agreement-form"
+                  component={ClientsAgreementForm}
+                />
+                <PrivateRoute
+                  exact
+                  path="/content/clients/appointments"
+                  component={ClientsAppointments}
+                />
+                <PrivateRoute
+                  exact
+                  path="/content/clients/payments"
+                  component={ClientsPayments}
                 />
                 <Redirect from="/" to="/content/home/dashboard" />
               </Switch>
