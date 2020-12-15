@@ -1,4 +1,4 @@
-import { CircularProgress, Paper } from "@material-ui/core";
+import { CircularProgress, Fab, Paper } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import InventoryItemsSearchField from "./InventoryItemsSearchField";
@@ -7,6 +7,7 @@ import { fetchItems } from "./inventoryItemsSlice";
 import InventoryItemsTableContainer from "./InventoryItemsTable/InventoryItemsTableContainer";
 import _ from "lodash";
 import { clearItemsSearch } from "../inventorySearchSlice";
+import { Add } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -63,7 +64,6 @@ const InventoryItems = () => {
   };
   return (
     <Paper elevation={0} className={classes.root}>
-      <InventoryItemsSearchField />
       {renderContent()}
     </Paper>
   );

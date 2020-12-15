@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { InventoryItemsTable } from "./InventoryItemsTable";
 
 const InventoryItemsTableContainer = ({ items }) => {
-  const dispatch = useDispatch();
   const data = useMemo(() => {
     return items.map((item) => {
       let status = "";

@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Badge,
   IconButton,
   Menu,
   MenuItem,
@@ -7,7 +8,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { AccountCircle } from "@material-ui/icons";
+import {
+  AccountCircle,
+  AccountCircleOutlined,
+  Notifications,
+} from "@material-ui/icons";
 import { drawerWidth } from "../consts";
 import { showModal } from "../features/modals/modalSlice";
 import React, { useState } from "react";
@@ -77,9 +82,14 @@ export const CustomAppBar = () => {
             Petshield Veterinary Clinic and Grooming Center System
           </Typography>
           <div className={classes.grow}></div>
-          <Typography>{`${_.capitalize(user.branchName)}-Branch`}</Typography>
+
+          <IconButton>
+            <Badge badgeContent={1} color="primary">
+              <Notifications />
+            </Badge>
+          </IconButton>
           <IconButton edge="end" onClick={handleMenuOpen}>
-            <AccountCircle style={{ fontSize: "2rem" }} color="primary" />
+            <AccountCircle style={{ fontSize: "2rem" }} />
           </IconButton>
         </Toolbar>
       </AppBar>

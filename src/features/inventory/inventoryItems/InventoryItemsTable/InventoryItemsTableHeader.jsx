@@ -1,6 +1,14 @@
 import React from "react";
-import { Button, Select, MenuItem, Typography } from "@material-ui/core";
+import {
+  Button,
+  Select,
+  MenuItem,
+  Typography,
+  TextField,
+  InputAdornment,
+} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { Search } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { showModal } from "../../../modals/modalSlice";
@@ -12,6 +20,7 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
+      alignItem: "center",
     },
     itemCount: {
       display: "flex",
@@ -20,7 +29,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventoryItemsTableHeader = ({ setPageSize, pageSize }) => {
+const InventoryItemsTableHeader = ({
+  setPageSize,
+  pageSize,
+  handleSearchItemChanged,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -52,14 +65,23 @@ const InventoryItemsTableHeader = ({ setPageSize, pageSize }) => {
         </Select>
         <Typography>&nbsp; entries</Typography>
       </div>
+
       <div>
-        <Button
+        <TextField
           variant="outlined"
-          startIcon={<AddIcon />}
-          onClick={handleAddItemPressed}
-        >
-          Add Item
-        </Button>
+          label="Search"
+          size="small"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <Search color="primary" />
+              </InputAdornment>
+            ),
+          }}
+          onChange={(e) => {
+            handleSearchItemChanged(e.target.value);
+          }}
+        ></TextField>
       </div>
     </div>
   );

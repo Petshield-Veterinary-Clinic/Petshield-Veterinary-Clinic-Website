@@ -5,14 +5,14 @@ import { CustomAppBar } from "../components/CustomAppBar";
 import { CustomDrawer } from "../components/CustomDrawer";
 import { makeStyles } from "@material-ui/core/styles";
 
-import HomeDashboard from "../features/homeDashboard/HomeDashboard";
+import HomeDashboard from "../features/home/homeDashboard/HomeDashboard";
+import HomePetQueues from "../features/home/homePetQueues/HomePetQueues";
 import InventoryItems from "../features/inventory/inventoryItems/InventoryItems";
 import InventorySales from "../features/inventory/inventorySales/InventorySales";
 import ModalManager from "../features/modals/ModalManager";
 import PrivateRoute from "../components/PrivateRoute";
 import LoginPage from "../features/auth/login/loginPage";
-import { useDispatch, useSelector } from "react-redux";
-import { CircularProgress, CssBaseline } from "@material-ui/core";
+import { useDispatch } from "react-redux";
 import { checkAuth } from "../features/auth/authSlice";
 import history from "./history";
 
@@ -53,6 +53,10 @@ const App = () => {
                 <PrivateRoute
                   path="/content/home/dashboard"
                   component={HomeDashboard}
+                />
+                <PrivateRoute
+                  path="/content/home/pet-queues"
+                  component={HomePetQueues}
                 />
                 <PrivateRoute
                   path="/content/inventory/sales"

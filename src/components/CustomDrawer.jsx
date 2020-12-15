@@ -68,12 +68,12 @@ export const CustomDrawer = () => {
         {
           label: "Dashboard",
           icon: DashboardIcon,
-          path: " ",
+          path: "/content/home/dashboard",
         },
         {
           label: "Pet Queue",
           icon: PetQueueIcon,
-          path: " ",
+          path: "/content/home/pet-queues",
         },
       ],
     },

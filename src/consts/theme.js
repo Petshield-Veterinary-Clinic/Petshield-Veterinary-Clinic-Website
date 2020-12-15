@@ -10,4 +10,20 @@ export const darkTheme = createMuiTheme({
       main: "#26a69a",
     },
   },
+  components: {
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#1D1D1D",
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "#1D1D1D",
+        },
+      },
+    },
+  },
 });

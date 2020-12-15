@@ -1,5 +1,5 @@
 import React from "react";
-import { useTable, usePagination, useSortBy } from "react-table";
+import { useTable, usePagination, useSortBy, useFilters } from "react-table";
 import {
   Button,
   Paper,
@@ -90,6 +90,7 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
     getTableProps,
     headerGroups,
     prepareRow,
+    rows,
     page,
     canPreviousPage,
     canNextPage,
@@ -98,6 +99,7 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
     nextPage,
     previousPage,
     setPageSize,
+    setFilter,
     state: { pageIndex, pageSize },
   } = useTable(
     {
@@ -108,6 +110,7 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
         pageSize: 10,
       },
     },
+    useFilters,
     useSortBy,
     usePagination
   );
@@ -158,11 +161,16 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
     );
   };
 
+  const handleSearchItemChanged = (searchTerm) => {
+    setFilter("col2", searchTerm);
+  };
+
   return (
     <Paper className={classes.root}>
       <InventoryItemsTableHeader
         pageSize={pageSize}
         setPageSize={setPageSize}
+        handleSearchItemChanged={handleSearchItemChanged}
       />
       <Table {...getTableProps()}>
         <TableHead>
@@ -238,7 +246,7 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
         pageCount={pageCount}
         pageSize={pageSize}
         pageIndex={pageIndex}
-        itemsCount={data.length}
+        itemsCount={rows.length}
       />
     </Paper>
   );
