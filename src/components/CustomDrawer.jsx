@@ -87,22 +87,22 @@ export const CustomDrawer = () => {
         {
           label: "All Clients",
           icon: AllClientsIcon,
-          path: " ",
+          path: "/content/clients/all-clients",
         },
         {
           label: "Payments",
           icon: PaymentsIcon,
-          path: " ",
+          path: "/content/clients/payments",
         },
         {
           label: "Appointments",
           icon: AppointmentsIcon,
-          path: " ",
+          path: "/content/clients/appointments",
         },
         {
           label: "Agreement Form",
           icon: AgreementFormIcon,
-          path: " ",
+          path: "/content/clients/agreement-form",
         },
       ],
     },

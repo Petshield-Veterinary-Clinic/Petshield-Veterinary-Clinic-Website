@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   DialogContentText,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../features/modals/modalSlice";
-const useStyles = makeStyles((_) => {
-  return {};
-});
 
 export const SuccessModal = ({ isVisible, message, duration }) => {
   const [open, setOpen] = useState(isVisible);
@@ -39,8 +34,7 @@ export const SuccessModal = ({ isVisible, message, duration }) => {
       open={open}
       onClose={handleOnClose}
       disableBackdropClick={true}
-      onEnter={handleOnEnter}
-      TransitionProps={{ onExited: handleOnExited }}
+      TransitionProps={{ onExited: handleOnExited, onEnter: handleOnEnter }}
     >
       <DialogTitle>Success!</DialogTitle>
       <DialogContent>

@@ -13,15 +13,24 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { showModal } from "../../../modals/modalSlice";
 
-const useStyles = makeStyles((theme) => {
+const useStyles = makeStyles((_) => {
   return {
     root: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "space-between",
+      alignItem: "center",
+    },
+    container: {
       width: "100%",
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
       alignItem: "center",
+      marginBottom: "1em",
     },
+
     itemCount: {
       display: "flex",
       alignItems: "center",
@@ -54,34 +63,46 @@ const InventoryItemsTableHeader = ({
 
   return (
     <div className={classes.root}>
-      <div className={classes.itemCount}>
-        <Typography>Show &nbsp;</Typography>
-        <Select value={pageSize} onChange={handleOnItemCountChange}>
-          {showItemCountValues.map((itemCount) => (
-            <MenuItem key={itemCount} value={itemCount}>
-              {itemCount}
-            </MenuItem>
-          ))}
-        </Select>
-        <Typography>&nbsp; entries</Typography>
-      </div>
-
-      <div>
-        <TextField
+      <div className={classes.container}>
+        <div></div>
+        <Button
+          className={classes.addItemButton}
           variant="outlined"
-          label="Search"
-          size="small"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment>
-                <Search color="primary" />
-              </InputAdornment>
-            ),
-          }}
-          onChange={(e) => {
-            handleSearchItemChanged(e.target.value);
-          }}
-        ></TextField>
+          endIcon={<AddIcon />}
+          onClick={handleAddItemPressed}
+        >
+          Add Item
+        </Button>
+      </div>
+      <div className={classes.container}>
+        <div className={classes.itemCount}>
+          <Typography>Show &nbsp;</Typography>
+          <Select value={pageSize} onChange={handleOnItemCountChange}>
+            {showItemCountValues.map((itemCount) => (
+              <MenuItem key={itemCount} value={itemCount}>
+                {itemCount}
+              </MenuItem>
+            ))}
+          </Select>
+          <Typography>&nbsp; entries</Typography>
+        </div>
+        <div>
+          <TextField
+            variant="outlined"
+            label="Search"
+            size="small"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment>
+                  <Search color="primary" />
+                </InputAdornment>
+              ),
+            }}
+            onChange={(e) => {
+              handleSearchItemChanged(e.target.value);
+            }}
+          ></TextField>
+        </div>
       </div>
     </div>
   );

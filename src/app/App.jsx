@@ -19,6 +19,9 @@ import ClientsAppointments from "../features/clients/clientsAppointments/Clients
 import ClientsAgreementForm from "../features/clients/clientsAgreementForm/ClientsAgreementForm";
 import ClientsAllClients from "../features/clients/clientsAllClients/ClientsAllClients";
 import ClientsPayments from "../features/clients/clientsPayments/ClientsPayments";
+import HomePage from "../features/home/HomePage";
+import ClientsPage from "../features/clients/ClientsPage";
+import InventoryPage from "../features/inventory/InventoryPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,25 +58,11 @@ const App = () => {
               <CustomDrawer />
               <CustomAppBar />
               <Switch>
+                <PrivateRoute path="/content/home" component={HomePage} />
+                <PrivateRoute path="/content/clients" component={ClientsPage} />
                 <PrivateRoute
-                  exact
-                  path="/content/home/dashboard"
-                  component={HomeDashboard}
-                />
-                <PrivateRoute
-                  exact
-                  path="/content/home/pet-queues"
-                  component={HomePetQueues}
-                />
-                <PrivateRoute
-                  exact
-                  path="/content/inventory/sales"
-                  component={InventorySales}
-                />
-                <PrivateRoute
-                  exact
-                  path="/content/inventory/items"
-                  component={InventoryItems}
+                  path="/content/inventory"
+                  component={InventoryPage}
                 />
                 <PrivateRoute
                   exact
