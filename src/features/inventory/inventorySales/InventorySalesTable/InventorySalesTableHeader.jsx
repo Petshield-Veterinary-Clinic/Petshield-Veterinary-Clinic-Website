@@ -4,6 +4,8 @@ import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { showModal } from "../../../modals/modalSlice";
+import { useSelector } from "react-redux";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -23,9 +25,7 @@ const useStyles = makeStyles((theme) => {
 const InventorySalesTableHeader = ({ setPageSize, pageSize }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const showItemCountValues = [10, 20, 30, 40, 50];
-
   const handleAddTransactionPressed = (_) => {
     dispatch(
       showModal({
@@ -52,6 +52,7 @@ const InventorySalesTableHeader = ({ setPageSize, pageSize }) => {
         </Select>
         <Typography>&nbsp; entries</Typography>
       </div>
+
       <div>
         <Button
           variant="outlined"

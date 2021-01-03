@@ -1,10 +1,9 @@
-import React, { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useMemo, useState } from "react";
 import { InventorySalesTable } from "./InventorySalesTable";
 import moment from "moment";
 
 const InventorySalesTableContainer = ({ itemSales }) => {
-  const dispatch = useDispatch();
+  const currentDate = moment(Date.now()).format("MM-DD-YYYY");
 
   const data = useMemo(() => {
     return itemSales.map((itemSale) => {

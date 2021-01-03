@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { fetchItemSales } from "./inventorySalesSlice";
 import InventorySalesTableContainer from "./InventorySalesTable/InventorySalesTableContainer";
 import { InventorySalesDailySales } from "./InventorySalesDailySales";
+import { InventorySalesDatePicker } from "./InventorySalesDatePicker";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -37,7 +38,7 @@ const InventorySales = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchItemSales());
+    dispatch(fetchItemSales(""));
   }, [dispatch]);
 
   const renderContent = () => {
@@ -59,7 +60,12 @@ const InventorySales = () => {
     );
   };
 
-  return <div className={classes.root}>{renderContent()}</div>;
+  return (
+    <div className={classes.root}>
+      <InventorySalesDatePicker />
+      {renderContent()}
+    </div>
+  );
 };
 
 export default InventorySales;

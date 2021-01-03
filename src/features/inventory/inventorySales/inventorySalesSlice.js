@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  getItemSales,
-  addItemSale as addItemSaleToApi,
-} from "../../../api/inventory";
+import { addItemSale as addItemSaleToApi } from "../../../api/inventory";
 import { config } from "../../../consts";
 import { showModal } from "../../modals/modalSlice";
 import { clearItemsSearch } from "../inventorySearchSlice";
@@ -11,6 +8,7 @@ let initialState = {
   isLoading: false,
   itemSales: [],
   dailySales: 0,
+  metadata: null,
   error: null,
 };
 
@@ -32,6 +30,7 @@ const inventorySalesSlice = createSlice({
       state.isLoading = false;
       state.itemSales = action.payload.itemSales;
       state.dailySales = action.payload.dailySales;
+      state.metadata = action.payload.metadata;
       state.error = null;
     },
     fetchItemSalesError: handleOnError,
@@ -55,15 +54,22 @@ export const {
   addItemSaleSuccess,
 } = inventorySalesSlice.actions;
 
-export const fetchItemSales = () => async (dispatch, getState) => {
+export const fetchItemSales = (salesDate) => async (dispatch, getState) => {
   const { user } = getState().auth;
   const token = localStorage.getItem("token");
   try {
     dispatch(fetchItemSalesStart());
-    const ws = new WebSocket(
-      `${config.WS_BASE_URL}/item-sales/${user.branchName}?jwt=${token}`
-    );
+    let ws;
 
+    if (salesDate !== "" && salesDate !== "all") {
+      ws = new WebSocket(
+        `${config.WS_BASE_URL}/item-sales/${user.branchName}?jwt=${token}&salesDate=${salesDate}&filterSales=true`
+      );
+    } else {
+      ws = new WebSocket(
+        `${config.WS_BASE_URL}/item-sales/${user.branchName}?jwt=${token}&filterSales=false`
+      );
+    }
     ws.onmessage = (e) => {
       const response = JSON.parse(e.data);
       dispatch(fetchItemSalesSuccess(response.data));
