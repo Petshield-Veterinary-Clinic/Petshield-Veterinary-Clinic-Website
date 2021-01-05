@@ -7,7 +7,7 @@ import { showModal } from "../../../modals/modalSlice";
 const useStyles = makeStyles(() => {
   return {
     root: {
-      display: "flex",
+      display: "table-cell",
       width: "100%",
       paddingTop: "1em",
       alignItems: "center",

@@ -14,6 +14,7 @@ const InventorySalesTableContainer = ({ itemSales }) => {
         col4: `${Number(itemSale.incentives).toFixed(2)}%`,
         col5: `₱${Number(itemSale.netSales).toFixed(2)}`,
         col6: moment(itemSale.CreatedAt).format("L"),
+        col7: itemSale.item.salesCategory,
       };
     });
   }, [itemSales]);
@@ -43,6 +44,10 @@ const InventorySalesTableContainer = ({ itemSales }) => {
       {
         Header: "Transaction Date",
         accessor: "col6",
+      },
+      {
+        Header: "Category",
+        accessor: "col7",
       },
     ],
     []

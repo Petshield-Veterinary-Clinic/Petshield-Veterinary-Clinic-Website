@@ -10,10 +10,17 @@ import moment from "moment";
 const useStyles = makeStyles((theme) => {
   return {
     root: {
-      width: "100%",
       display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
+      justifyContent: "center",
+      alignItems: "center",
+      gridGap: "1em",
+      paddingBottom: "1em",
+      flexDirection: "column",
+      [theme.breakpoints.up("sm")]: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      },
     },
     itemCount: {
       display: "flex",
@@ -22,10 +29,10 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventorySalesTableHeader = ({ setPageSize, pageSize }) => {
+const InventorySalesTableHeader = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const showItemCountValues = [10, 20, 30, 40, 50];
+
   const handleAddTransactionPressed = (_) => {
     dispatch(
       showModal({
@@ -35,23 +42,9 @@ const InventorySalesTableHeader = ({ setPageSize, pageSize }) => {
     );
   };
 
-  const handleOnItemCountChange = (e) => {
-    setPageSize(e.target.value);
-  };
-
   return (
     <div className={classes.root}>
-      <div className={classes.itemCount}>
-        <Typography>Show &nbsp;</Typography>
-        <Select value={pageSize} onChange={handleOnItemCountChange}>
-          {showItemCountValues.map((itemCount) => (
-            <MenuItem key={itemCount} value={itemCount}>
-              {itemCount}
-            </MenuItem>
-          ))}
-        </Select>
-        <Typography>&nbsp; entries</Typography>
-      </div>
+      <div></div>
 
       <div>
         <Button

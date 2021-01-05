@@ -8,9 +8,12 @@ const useStyles = makeStyles((theme) => {
     root: {
       display: "grid",
       width: "100%",
-      gridTemplate: "1fr / 1fr 1fr 1fr",
+
       gridGap: "1.5em",
       paddingBottom: "1em",
+      [theme.breakpoints.up("sm")]: {
+        gridTemplate: "1fr / 1fr 1fr 1fr",
+      },
     },
     dailySalesCard: {
       position: "relative",

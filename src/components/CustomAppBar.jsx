@@ -7,36 +7,67 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
+import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   AccountCircle,
-  AccountCircleOutlined,
   Notifications,
+  Menu as MenuIcon,
 } from "@material-ui/icons";
 import { drawerWidth } from "../consts";
 import { showModal } from "../features/modals/modalSlice";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import _ from "lodash";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
+import { toggleDrawer } from "../features/drawer/drawerSlice";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: drawerWidth,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+    width: "100%",
     backgroundColor: "#272727",
     flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
   },
   grow: {
     flexGrow: 1,
   },
 }));
 
+const appbarTitles = {
+  dashboard: "Dashboard",
+  "pet-queues": "Pet Queues",
+  "all-clients": "All Clients",
+  payments: "Payments",
+  appointments: "Appointments",
+  "appointment-form": "Appointment Form",
+  items: "All Items",
+  sales: "All Sales",
+};
+
 export const CustomAppBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const { user } = useSelector((state) => state.auth);
+  const [appbarTitle, setAppbarTitle] = useState("");
+  const location = useLocation();
   const isMenuOpen = Boolean(anchorEl);
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  useEffect(() => {
+    const pathname = location.pathname;
+    const splittedPathname = pathname.split("/");
+    const appbarTitle =
+      appbarTitles[splittedPathname[splittedPathname.length - 1]];
+    setAppbarTitle(appbarTitle);
+  }, [location, appbarTitle, setAppbarTitle]);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.target);
@@ -44,6 +75,10 @@ export const CustomAppBar = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDrawerToggle = () => {
+    dispatch(toggleDrawer());
   };
 
   const handleOnSignoutPressed = () => {
@@ -74,13 +109,24 @@ export const CustomAppBar = () => {
     );
   };
 
+  const renderTitle = () => {
+    return "Petshield Veterinary Clinic - " + appbarTitle;
+  };
+
   return (
     <>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography noWrap>
-            Petshield Veterinary Clinic and Grooming Center System
-          </Typography>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography>{renderTitle()}</Typography>
           <div className={classes.grow}></div>
 
           <IconButton>

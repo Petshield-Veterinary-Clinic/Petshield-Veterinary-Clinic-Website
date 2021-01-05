@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTable, usePagination, useSortBy } from "react-table";
 import {
   Paper,
@@ -7,7 +7,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TableContainer,
   Typography,
+  TablePagination,
+  TableFooter,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
@@ -22,11 +25,14 @@ const useStyles = makeStyles((theme) => {
     root: {
       width: "100%",
       height: "100%",
-
       padding: "1.5em",
-      overflowX: "auto",
+      overflow: "hidden",
       backgroundColor: "#1d1d1d",
+      [theme.breakpoints.up("sm")]: {
+        overflow: "auto",
+      },
     },
+
     showItemCountButtons: {
       display: "flex",
       justifyContent: "space-between",
@@ -80,18 +86,13 @@ const useStyles = makeStyles((theme) => {
 
 export const InventorySalesTable = ({ data, columns }) => {
   const classes = useStyles();
-
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const {
     getTableProps,
     headerGroups,
     prepareRow,
-    page,
-    canPreviousPage,
-    canNextPage,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
+    rows,
     setPageSize,
     state: { pageIndex, pageSize },
   } = useTable(
@@ -103,12 +104,20 @@ export const InventorySalesTable = ({ data, columns }) => {
         pageSize: 10,
       },
     },
-    useSortBy,
-    usePagination
+    useSortBy
   );
 
   const renderCell = (cell) => {
     return <Typography>{cell.render("Cell")}</Typography>;
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(+event.target.value);
+    setPage(0);
   };
 
   return (
@@ -117,58 +126,62 @@ export const InventorySalesTable = ({ data, columns }) => {
         pageSize={pageSize}
         setPageSize={setPageSize}
       />
-      <Table {...getTableProps()}>
-        <TableHead>
-          {headerGroups.map((headerGroup) => (
-            <TableRow>
-              {headerGroup.headers.map((header) => (
-                <TableCell
-                  {...header.getHeaderProps(header.getSortByToggleProps())}
-                >
-                  <div className={classes.tableHeader}>
-                    {header.render("Header")}
-                    {header.isSorted ? (
-                      header.isSortedDesc ? (
-                        <ArrowDownwardIcon fontSize="small" />
-                      ) : (
-                        <ArrowUpwardIcon fontSize="small" />
-                      )
-                    ) : null}
-                  </div>
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableHead>
-        <TableBody>
-          {page.map((row, _) => {
-            prepareRow(row);
-            return (
-              <>
-                <TableRow key={row.id} {...row.getRowProps()}>
-                  {row.cells.map((cell, index) => {
-                    return (
-                      <TableCell key={`col${index}`}>
-                        <div {...cell.getCellProps()}>{renderCell(cell)}</div>
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              </>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <InventorySalesTableFooter
-        canPreviousPage={canPreviousPage}
-        canNextPage={canNextPage}
-        previousPage={previousPage}
-        nextPage={nextPage}
-        gotoPage={gotoPage}
-        pageCount={pageCount}
-        pageSize={pageSize}
-        pageIndex={pageIndex}
-        itemsCount={data.length}
+      <TableContainer>
+        <Table {...getTableProps()} stickyHeader>
+          <TableHead>
+            {headerGroups.map((headerGroup) => (
+              <TableRow>
+                {headerGroup.headers.map((header) => (
+                  <TableCell
+                    {...header.getHeaderProps(header.getSortByToggleProps())}
+                  >
+                    <div className={classes.tableHeader}>
+                      {header.render("Header")}
+                      {header.isSorted ? (
+                        header.isSortedDesc ? (
+                          <ArrowDownwardIcon fontSize="small" />
+                        ) : (
+                          <ArrowUpwardIcon fontSize="small" />
+                        )
+                      ) : null}
+                    </div>
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableHead>
+          <TableBody className={classes.container}>
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, _) => {
+                prepareRow(row);
+                return (
+                  <>
+                    <TableRow key={row.id} {...row.getRowProps()}>
+                      {row.cells.map((cell, index) => {
+                        return (
+                          <TableCell key={`col${index}`}>
+                            <div {...cell.getCellProps()}>
+                              {renderCell(cell)}
+                            </div>
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  </>
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[10, 25, 50, 100]}
+        component="div"
+        rowsPerPage={rowsPerPage}
+        count={data.length}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   );

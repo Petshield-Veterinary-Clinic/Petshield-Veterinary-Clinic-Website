@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
   Collapse,
+  Hidden,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { drawerWidth } from "../consts";
@@ -25,6 +26,8 @@ import ItemTransactionIcon from "../assets/item_transactions.svg";
 import PetQueueIcon from "../assets/pet_queue.svg";
 import PaymentsIcon from "../assets/payments.svg";
 import { ReactSVG } from "react-svg";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleDrawer } from "../features/drawer/drawerSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,8 +35,10 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: theme.mixins.toolbar,
   drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
+    [theme.breakpoints.up("sm")]: {
+      width: drawerWidth,
+      flexShrink: 0,
+    },
   },
   drawerPaper: {
     width: drawerWidth,
@@ -51,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const CustomDrawer = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { isOpen } = useSelector((state) => state.drawer);
   const [expandedItems, setExpandedItems] = useState({
     home: false,
     clients: false,
@@ -130,15 +137,8 @@ export const CustomDrawer = () => {
     },
   ];
 
-  return (
-    <Drawer
-      className={classes.drawer}
-      variant="permanent"
-      classes={{
-        paper: classes.drawerPaper,
-      }}
-      anchor="left"
-    >
+  const drawer = (
+    <>
       <div className={classes.toolbar} />
       <Divider />
       <List>
@@ -192,6 +192,48 @@ export const CustomDrawer = () => {
           );
         })}
       </List>
-    </Drawer>
+    </>
   );
+
+  const handleDrawerToggle = () => {
+    dispatch(toggleDrawer());
+  };
+
+  const renderContent = () => {
+    return (
+      <>
+        <Hidden smUp implementation="css">
+          <Drawer
+            className={classes.drawer}
+            variant="temporary"
+            anchor="left"
+            open={isOpen}
+            onClose={handleDrawerToggle}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+        <Hidden smDown implementation="css">
+          <Drawer
+            className={classes.drawer}
+            classes={{
+              paper: classes.drawerPaper,
+            }}
+            variant="permanent"
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Hidden>
+      </>
+    );
+  };
+
+  return renderContent();
 };

@@ -8,9 +8,12 @@ import { fetchItemSales } from "./inventorySalesSlice";
 const useStyles = makeStyles((theme) => {
   return {
     root: {
-      display: "flex",
-      justifyContent: "flex-end",
       marginBottom: theme.spacing(1),
+      width: "100%",
+      [theme.breakpoints.up("sm")]: {
+        display: "flex",
+        justifyContent: "flex-end",
+      },
     },
   };
 });

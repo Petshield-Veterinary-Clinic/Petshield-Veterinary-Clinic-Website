@@ -26,16 +26,26 @@ const useStyles = makeStyles((theme) => {
     form: {
       display: "grid",
       width: "100%",
-      gridTemplate: "1fr / 1fr 0.05fr",
+      gridTemplate: "1fr 1fr / 1fr",
       gridGap: "1em",
+      [theme.breakpoints.up("sm")]: {
+        gridTemplate: "1fr / 1fr 0.05fr",
+        gridGap: "1em",
+      },
     },
     itemDetailsWrapper: {
-      display: "grid",
+      display: "flex",
+      flexDirection: "column",
       width: "100%",
-      gridTemplateColumns: "1fr 1fr 1fr",
-      placeContent: "center",
+      paddingTop: "1em",
       gridGap: "1em",
-      padding: "1em 5em",
+
+      [theme.breakpoints.up("sm")]: {
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr 1fr",
+        placeContent: "center",
+        padding: "1em 5em",
+      },
     },
     itemDetail: {
       border: "2px solid green",
