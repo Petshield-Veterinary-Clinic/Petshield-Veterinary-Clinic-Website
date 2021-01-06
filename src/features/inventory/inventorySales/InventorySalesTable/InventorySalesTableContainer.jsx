@@ -6,15 +6,19 @@ const InventorySalesTableContainer = ({ itemSales }) => {
   const data = useMemo(() => {
     return itemSales.map((itemSale) => {
       return {
-        col1: itemSale.item.name,
-        col2: itemSale.quantity,
-        col3: `₱${Number(itemSale.sales).toFixed(2)}`,
-        col4: itemSale.item.isIncentiveFixed
+        col1: moment(itemSale.CreatedAt).format("L"),
+        col2: itemSale.item.name,
+        col3: `₱${Number(itemSale.item.price).toFixed(2)}`,
+        col4: itemSale.quantity,
+        col5: `₱${Number(itemSale.sales).toFixed(2)}`,
+        col6: `${Number(itemSale.item.incentiveRate).toFixed(2)}%`,
+        col7: itemSale.item.isIncentiveFixed
           ? `₱${Number(itemSale.item.incentiveAmount).toFixed(2)}`
-          : `${Number(itemSale.item.incentiveRate).toFixed(2)}%`,
-        col5: `₱${Number(itemSale.netSales).toFixed(2)}`,
-        col6: moment(itemSale.CreatedAt).format("L"),
-        col7: itemSale.item.salesCategory,
+          : `₱${Number(itemSale.sales * itemSale.item.incentiveRate).toFixed(
+              2
+            )}`,
+        col8: `₱${Number(itemSale.netSales).toFixed(2)}`,
+        col9: itemSale.item.salesCategory,
       };
     });
   }, [itemSales]);
@@ -22,32 +26,40 @@ const InventorySalesTableContainer = ({ itemSales }) => {
   const columns = useMemo(
     () => [
       {
-        Header: "Name",
+        Header: "Date",
         accessor: "col1",
       },
       {
-        Header: "Quantity",
+        Header: "Product",
         accessor: "col2",
       },
       {
-        Header: "Sales",
+        Header: "Price",
         accessor: "col3",
       },
       {
-        Header: "Incentives",
+        Header: "Qty",
         accessor: "col4",
       },
       {
-        Header: "Net Sales",
+        Header: "Sales",
         accessor: "col5",
       },
       {
-        Header: "Transaction Date",
+        Header: "Rate",
         accessor: "col6",
       },
       {
-        Header: "Category",
+        Header: "Incentives",
         accessor: "col7",
+      },
+      {
+        Header: "Net Sales",
+        accessor: "col8",
+      },
+      {
+        Header: "Category",
+        accessor: "col9",
       },
     ],
     []

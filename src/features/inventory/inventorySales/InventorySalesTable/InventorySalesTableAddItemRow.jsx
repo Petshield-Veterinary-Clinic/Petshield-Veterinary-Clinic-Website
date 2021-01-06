@@ -90,13 +90,11 @@ export const InventorySalesTableAddItemRow = ({
   const renderItemDetails = () => {
     // Compute Net Sales
     let sales = selectedItem.price * quantity;
-    let netSales = sales;
 
-    if (selectedItem.isIncentiveFixed) {
-      netSales -= selectedItem.incentiveAmount;
-    } else {
-      netSales -= selectedItem.price * selectedItem.incentiveRate;
-    }
+    const incentiveAmount = selectedItem.isIncentiveFixed
+      ? Number(selectedItem.incentiveAmount).toFixed(2)
+      : Number(sales * (selectedItem.incentiveRate / 100)).toFixed(2);
+    const netSales = sales - incentiveAmount;
 
     if (Object.keys(selectedItem).length === 0) {
       return null;
@@ -104,6 +102,9 @@ export const InventorySalesTableAddItemRow = ({
 
     return (
       <>
+        <TableCell>
+          <Typography>₱{Number(selectedItem.price).toFixed(2)}</Typography>
+        </TableCell>
         <TableCell className={classes.quantityCell}>
           <TextField
             size="small"
@@ -126,17 +127,22 @@ export const InventorySalesTableAddItemRow = ({
         </TableCell>
         <TableCell>
           <Typography>
+            {`${Number(selectedItem.incentiveRate).toFixed(2)}%`}
+          </Typography>
+        </TableCell>
+        <TableCell>
+          <Typography>
             {selectedItem.isIncentiveFixed
               ? `₱${Number(selectedItem.incentiveAmount).toFixed(2)}`
-              : `${Number(selectedItem.incentiveRate).toFixed(2)}%`}
+              : `₱${Number(sales * (selectedItem.incentiveRate / 100)).toFixed(
+                  2
+                )}`}
           </Typography>
         </TableCell>
         <TableCell>
           <Typography>₱{Number(netSales).toFixed(2)}</Typography>
         </TableCell>
-        <TableCell>
-          <Typography>{currentDate}</Typography>
-        </TableCell>
+
         <TableCell>
           <Typography>{selectedItem.salesCategory}</Typography>
         </TableCell>
@@ -179,6 +185,9 @@ export const InventorySalesTableAddItemRow = ({
   return (
     <TableRow className={classes.root}>
       <TableCell>
+        <Typography>{currentDate}</Typography>
+      </TableCell>
+      <TableCell>
         <Autocomplete
           loading={isLoading}
           options={result.filter((item) => item.inStock > 0)}
@@ -187,7 +196,7 @@ export const InventorySalesTableAddItemRow = ({
             <TextField
               {...params}
               size="small"
-              label="Item Name"
+              label="Product Name"
               variant="outlined"
               onChange={handleOnSearchTermChange}
               InputProps={{
