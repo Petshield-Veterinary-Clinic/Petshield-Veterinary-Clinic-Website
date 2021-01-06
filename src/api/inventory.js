@@ -88,3 +88,12 @@ export const addItemSale = async (branchName, itemId, itemQuantity) => {
     throw Error(response.data.error);
   }
 };
+
+export const deleteItemSale = async (branchName, itemId) => {
+  const response = await axios.delete(`/item-sales/${branchName}/${itemId}`);
+  if (response.data.data) {
+    return response.data.data;
+  } else {
+    throw Error(response.data.error);
+  }
+};

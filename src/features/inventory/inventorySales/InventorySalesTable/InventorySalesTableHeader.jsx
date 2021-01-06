@@ -1,11 +1,7 @@
 import React from "react";
-import { Button, Select, MenuItem, Typography } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
-import { showModal } from "../../../modals/modalSlice";
-import { useSelector } from "react-redux";
-import moment from "moment";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -29,17 +25,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventorySalesTableHeader = () => {
+const InventorySalesTableHeader = ({ toggleAddItemSaleRow }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
-  const handleAddTransactionPressed = (_) => {
-    dispatch(
-      showModal({
-        modalType: "ADD_SALE_MODAL",
-        modalProps: {},
-      })
-    );
+  const handleAddTransactionPressed = () => {
+    toggleAddItemSaleRow(true);
   };
 
   return (

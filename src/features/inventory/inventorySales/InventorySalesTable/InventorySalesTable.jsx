@@ -11,14 +11,18 @@ import {
   Typography,
   TablePagination,
   TableFooter,
+  Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
+import { Delete } from "@material-ui/icons";
 
 import { blue } from "@material-ui/core/colors";
-import InventorySalesTableFooter from "./InventorySalesTableFooter";
 import InventorySalesTableHeader from "./InventorySalesTableHeader";
+import { InventorySalesTableAddItemRow } from "./InventorySalesTableAddItemRow";
+import { showModal } from "../../../modals/modalSlice";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -81,28 +85,22 @@ const useStyles = makeStyles((theme) => {
       textAlign: "center",
       fontWeight: "bold",
     },
+    deleteButton: {
+      borderColor: "red",
+    },
   };
 });
 
 export const InventorySalesTable = ({ data, columns }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const {
-    getTableProps,
-    headerGroups,
-    prepareRow,
-    rows,
-    setPageSize,
-    state: { pageIndex, pageSize },
-  } = useTable(
+  const [showAddItemSaleRow, toggleAddItemSaleRow] = useState(false);
+  const { getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       data,
       columns,
-      initialState: {
-        pageIndex: 0,
-        pageSize: 10,
-      },
     },
     useSortBy
   );
@@ -111,7 +109,7 @@ export const InventorySalesTable = ({ data, columns }) => {
     return <Typography>{cell.render("Cell")}</Typography>;
   };
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 
@@ -120,12 +118,22 @@ export const InventorySalesTable = ({ data, columns }) => {
     setPage(0);
   };
 
+  const onItemSaleDeleteButtonPressed = (itemIndex) => {
+    dispatch(
+      showModal({
+        modalType: "DELETE_SALE_CONFIRMATION_MODAL",
+        modalProps: {
+          title: "Delete transaction?",
+          message: "Are you sure you want to delete this transaction?",
+          itemIndex,
+        },
+      })
+    );
+  };
+
   return (
     <Paper className={classes.root}>
-      <InventorySalesTableHeader
-        pageSize={pageSize}
-        setPageSize={setPageSize}
-      />
+      <InventorySalesTableHeader toggleAddItemSaleRow={toggleAddItemSaleRow} />
       <TableContainer>
         <Table {...getTableProps()} stickyHeader>
           <TableHead>
@@ -147,10 +155,15 @@ export const InventorySalesTable = ({ data, columns }) => {
                     </div>
                   </TableCell>
                 ))}
+                <TableCell></TableCell>
               </TableRow>
             ))}
           </TableHead>
           <TableBody className={classes.container}>
+            <InventorySalesTableAddItemRow
+              showAddItemSaleRow={showAddItemSaleRow}
+              toggleAddItemSaleRow={toggleAddItemSaleRow}
+            />
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, _) => {
@@ -167,6 +180,17 @@ export const InventorySalesTable = ({ data, columns }) => {
                           </TableCell>
                         );
                       })}
+                      <TableCell>
+                        <Button
+                          className={classes.deleteButton}
+                          variant="outlined"
+                          onClick={() => {
+                            onItemSaleDeleteButtonPressed(row.index);
+                          }}
+                        >
+                          <Delete color="error" />
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   </>
                 );

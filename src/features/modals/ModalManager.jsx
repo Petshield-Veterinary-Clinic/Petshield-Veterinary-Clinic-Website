@@ -14,11 +14,14 @@ import {
   InventoryManageItemModal,
   InventoryModifyItemModal,
   InventoryAddSaleModal,
+  InventoryAddItemSaleConfirmationModal,
+  InventoryDeleteItemSaleConfirmationModal,
 } from "../inventory/inventoryModals";
 
 const modalComponents = {
   ADD_ITEM_MODAL: InventoryAddItemModal,
-  ADD_SALE_MODAL: InventoryAddSaleModal,
+  ADD_SALE_CONFIRMATION_MODAL: InventoryAddItemSaleConfirmationModal,
+  DELETE_SALE_CONFIRMATION_MODAL: InventoryDeleteItemSaleConfirmationModal,
   MANAGE_ITEM_MODAL: InventoryManageItemModal,
   MODIFY_ITEM_MODAL: InventoryModifyItemModal,
   DISCOUNT_ITEM_MODAL: InventoryDiscountItemModal,

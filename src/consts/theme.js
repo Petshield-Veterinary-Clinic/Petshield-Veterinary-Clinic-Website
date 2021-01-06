@@ -26,6 +26,13 @@ export const darkTheme = responsiveFontSizes(
           },
         },
       },
+      MuiTableCell: {
+        styleOverrides: {
+          root: {
+            textAlign: "center",
+          },
+        },
+      },
     },
   })
 );

@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addItemSale as addItemSaleToApi } from "../../../api/inventory";
+import {
+  addItemSale as addItemSaleToApi,
+  deleteItemSale as deleteItemSaleFromApi,
+} from "../../../api/inventory";
 import { config } from "../../../consts";
-import { showModal } from "../../modals/modalSlice";
+import { showModal, hideModal } from "../../modals/modalSlice";
 import { clearItemsSearch } from "../inventorySearchSlice";
 
 let initialState = {
@@ -35,11 +38,17 @@ const inventorySalesSlice = createSlice({
     },
     fetchItemSalesError: handleOnError,
     addItemSaleStart() {},
-    addItemSaleSuccess(state, action) {
+    addItemSaleSuccess(state, _) {
       state.isLoading = false;
       state.error = null;
     },
     addItemSaleFailure: handleOnError,
+    deleteItemSaleStart() {},
+    deleteItemSaleSuccess(state, _) {
+      state.isLoading = false;
+      state.error = null;
+    },
+    deleteItemSaleFailure: handleOnError,
   },
 });
 
@@ -52,6 +61,9 @@ export const {
   addItemSaleFailure,
   addItemSaleStart,
   addItemSaleSuccess,
+  deleteItemSaleFailure,
+  deleteItemSaleStart,
+  deleteItemSaleSuccess,
 } = inventorySalesSlice.actions;
 
 export const fetchItemSales = (salesDate) => async (dispatch, getState) => {
@@ -86,12 +98,19 @@ export const addItemSale = (itemId, itemQuantity) => async (
   try {
     const { user } = getState().auth;
     dispatch(addItemSaleStart());
+    dispatch(hideModal());
+    dispatch(
+      showModal({
+        modalType: "LOADING_MODAL",
+      })
+    );
     const newItemSale = await addItemSaleToApi(
       user.branchName,
       itemId,
       itemQuantity
     );
     dispatch(addItemSaleSuccess(newItemSale));
+    dispatch(hideModal());
     dispatch(
       showModal({
         modalType: "SUCCESS_MODAL",
@@ -104,6 +123,46 @@ export const addItemSale = (itemId, itemQuantity) => async (
     dispatch(clearItemsSearch());
   } catch (error) {
     dispatch(addItemSaleFailure(error));
+    dispatch(
+      showModal({
+        modalType: "ERROR_MODAL",
+        modalProps: {
+          message: error.message,
+          duration: 3000,
+        },
+      })
+    );
+  }
+};
+
+export const deleteItemSale = (itemId) => async (dispatch, getState) => {
+  try {
+    const { user } = getState().auth;
+    dispatch(deleteItemSaleStart());
+    dispatch(hideModal());
+    dispatch(
+      showModal({
+        modalType: "LOADING_MODAL",
+      })
+    );
+    const deletedItemSale = await deleteItemSaleFromApi(
+      user.branchName,
+      itemId
+    );
+    dispatch(deleteItemSaleSuccess(deletedItemSale));
+    dispatch(hideModal());
+    dispatch(
+      showModal({
+        modalType: "SUCCESS_MODAL",
+        modalProps: {
+          message: "Transaction deleted successfully!",
+          duration: 3000,
+        },
+      })
+    );
+    dispatch(clearItemsSearch());
+  } catch (error) {
+    dispatch(deleteItemSaleFailure(error));
     dispatch(
       showModal({
         modalType: "ERROR_MODAL",
