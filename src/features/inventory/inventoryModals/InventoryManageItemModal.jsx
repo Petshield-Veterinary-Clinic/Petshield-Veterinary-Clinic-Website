@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal, showModal } from "../../modals/modalSlice";
+import { deleteItem } from "../inventoryItems/inventoryItemsSlice";
 
 const useStyles = makeStyles((_) => {
   return {
@@ -22,6 +23,10 @@ const useStyles = makeStyles((_) => {
       alignItems: "center",
       justifyContent: "center",
       padding: "1em",
+    },
+    deleteBtn: {
+      borderColor: "red",
+      color: "red",
     },
   };
 });
@@ -64,6 +69,12 @@ export const InventoryManageItemModal = ({ isVisible, item, itemIndex }) => {
     );
   };
 
+  const handleDeleteItemPressed = (itemId) => {
+    setOpen(!isVisible);
+    console.log(item.ID);
+    dispatch(deleteItem(item.ID));
+  };
+
   return (
     <Dialog
       open={open}
@@ -83,6 +94,15 @@ export const InventoryManageItemModal = ({ isVisible, item, itemIndex }) => {
           onClick={handleDiscountItemPressed}
         >
           Discount Item
+        </Button>
+        <br />
+        <Button
+          className={classes.deleteBtn}
+          fullWidth
+          variant="outlined"
+          onClick={handleDeleteItemPressed}
+        >
+          Delete Item
         </Button>
       </DialogContent>
     </Dialog>

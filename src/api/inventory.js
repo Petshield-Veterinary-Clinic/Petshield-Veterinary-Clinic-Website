@@ -51,6 +51,15 @@ export const modifyItem = async (item, branchName) => {
   }
 };
 
+export const deleteItem = async (itemId, branchName) => {
+  const response = await axios.delete(`/items/item/${branchName}/${itemId}`);
+  if (response.data.data) {
+    return response.data.data;
+  } else {
+    throw Error(response.data.error);
+  }
+};
+
 export const discountItem = async (item, branchName) => {
   const parsedItem = {
     ...item,

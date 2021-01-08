@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Typography, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { DailySalesCard } from "./DailySalesCard";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -12,29 +13,8 @@ const useStyles = makeStyles((theme) => {
       gridGap: "1.5em",
       paddingBottom: "1em",
       [theme.breakpoints.up("sm")]: {
-        gridTemplate: "1fr / 1fr 1fr 1fr 1fr",
+        gridTemplate: "1fr / 1fr 1fr 1fr 1fr 1fr 1fr",
       },
-    },
-    dailySalesCard: {
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      height: "150px",
-      alignItems: "center",
-      padding: "1em",
-      backgroundColor: "#1D1D1D",
-      "&::before": {
-        content: '" "',
-        position: "absolute",
-        backgroundColor: theme.palette.primary.main,
-        height: "8px",
-        width: "50%",
-        top: "-3px",
-        borderRadius: "20px",
-      },
-      // Inline Indicator
-      // boxShadowInset: "0px 0px 0px 10px #000",
     },
   };
 });
@@ -50,6 +30,13 @@ export const InventorySalesDailySales = () => {
   const [computedDailySalesGrooming, setComputedDailySalesGrooming] = useState(
     0
   );
+  const [computedDailySalesVetSales, setComputedDailySalesVetSales] = useState(
+    0
+  );
+  const [
+    computedDailySalesStoreSales,
+    setComputedDailySalesStoreSales,
+  ] = useState(0);
 
   useEffect(() => {
     let totalSales = 0;
@@ -63,6 +50,14 @@ export const InventorySalesDailySales = () => {
         setComputedDailySalesGrooming(
           dailySales[val].sales - dailySales[val].incentives
         );
+      } else if (val === "VET Sales") {
+        setComputedDailySalesVetSales(
+          dailySales[val].sales - dailySales[val].incentives
+        );
+      } else if (val === "Store Sales") {
+        setComputedDailySalesStoreSales(
+          dailySales[val].sales - dailySales[val].incentives
+        );
       } else {
         totalSales += dailySales[val].sales;
         totalIncentives += dailySales[val].incentives;
@@ -74,36 +69,39 @@ export const InventorySalesDailySales = () => {
     setComputedDailySales,
     setComputedDailySalesBloodTest,
     setComputedDailySalesGrooming,
+    setComputedDailySalesStoreSales,
+    setComputedDailySalesVetSales,
   ]);
 
   return (
     <div className={classes.root}>
-      <Card className={classes.dailySalesCard} elevation={0}>
-        <Typography style={{ fontWeight: "bold" }}>Daily Sales</Typography>
-        <Typography>{`P${Number(computedDailySales).toFixed(2)}`}</Typography>
-      </Card>
-      <Card className={classes.dailySalesCard} elevation={1}>
-        <Typography style={{ fontWeight: "bold" }}>
-          Daily Sales - Blood Test
-        </Typography>
-        <Typography>{`P${Number(computedDailySalesBloodTest).toFixed(
-          2
-        )}`}</Typography>
-      </Card>{" "}
-      <Card className={classes.dailySalesCard} elevation={1}>
-        <Typography style={{ fontWeight: "bold" }}>
-          Daily Sales - Grooming
-        </Typography>
-        <Typography>{`P${Number(computedDailySalesGrooming).toFixed(
-          2
-        )}`}</Typography>
-      </Card>
-      <Card className={classes.dailySalesCard} elevation={1}>
-        <Typography style={{ fontWeight: "bold" }}>Net Daily Sales</Typography>
-        <Typography>{`P${Number(
-          computedDailySalesBloodTest + computedDailySales
-        ).toFixed(2)}`}</Typography>
-      </Card>
+      <DailySalesCard title={"Daily Sales"} value={computedDailySales} />
+      <DailySalesCard
+        title={"Daily Sales - Blood Test"}
+        value={computedDailySalesBloodTest}
+      />
+      <DailySalesCard
+        title={"Daily Sales - Grooming"}
+        value={computedDailySalesGrooming}
+      />
+      <DailySalesCard
+        title={"Daily Sales - Store Sales"}
+        value={computedDailySalesStoreSales}
+      />
+      <DailySalesCard
+        title={"Daily Sales - VET Sales"}
+        value={computedDailySalesVetSales}
+      />
+      <DailySalesCard
+        title={"Daily Net Sales "}
+        value={
+          computedDailySales +
+          computedDailySalesBloodTest +
+          computedDailySalesGrooming +
+          computedDailySalesStoreSales +
+          computedDailySalesVetSales
+        }
+      />
     </div>
   );
 };
