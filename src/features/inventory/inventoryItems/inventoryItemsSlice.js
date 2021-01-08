@@ -1,8 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
-  getItemsWithSearchTerm,
-  getItems,
+  deleteItem as deleteItemFromApi,
   addItem as addItemToApi,
   modifyItem as modifyItemFromApi,
   discountItem as discountItemFromApi,
@@ -10,7 +9,6 @@ import {
 import { config } from "../../../consts";
 
 import { showModal } from "../../modals/modalSlice";
-import { clearItemsSearch } from "../inventorySearchSlice";
 
 let initialState = {
   items: [],
@@ -64,6 +62,11 @@ const inventorySlice = createSlice({
       });
     },
     discountItemFailure: handleError,
+    deleteItemStart() {},
+    deleteItemSuccess(state, action) {
+      state.items = state.items.filter((item) => item.ID !== action.payload);
+    },
+    deleteItemFailure: handleError,
   },
 });
 
@@ -80,6 +83,9 @@ export const {
   discountItemStart,
   discountItemFailure,
   discountItemSuccess,
+  deleteItemStart,
+  deleteItemSuccess,
+  deleteItemFailure,
 } = inventorySlice.actions;
 
 export default inventorySlice.reducer;
@@ -151,7 +157,6 @@ export const modifyItem = (itemDetails, itemIndex) => async (
         },
       })
     );
-    dispatch(clearItemsSearch());
     dispatch(modifyItemSuccess({ newItem, itemIndex }));
   } catch (error) {
     dispatch(
@@ -164,6 +169,37 @@ export const modifyItem = (itemDetails, itemIndex) => async (
       })
     );
     dispatch(modifyItemFailure());
+  }
+};
+
+export const deleteItem = (itemId) => async (dispatch, getState) => {
+  const { user } = getState().auth;
+  try {
+    dispatch(deleteItemStart());
+    dispatch(showModal({ modalType: "LOADING_MODAL", modalProps: {} }));
+    await deleteItemFromApi(itemId, user.branchName);
+    dispatch(
+      showModal({
+        modalType: "SUCCESS_MODAL",
+        modalProps: {
+          message: "Item Successfully Deleted!",
+          duration: 3000,
+        },
+      })
+    );
+
+    dispatch(deleteItemSuccess(itemId));
+  } catch (error) {
+    dispatch(
+      showModal({
+        modalType: "ERROR_MODAL",
+        modalProps: {
+          message: error.message,
+          duration: 3000,
+        },
+      })
+    );
+    dispatch(deleteItemFailure());
   }
 };
 
