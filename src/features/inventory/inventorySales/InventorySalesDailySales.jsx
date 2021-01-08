@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => {
       gridGap: "1.5em",
       paddingBottom: "1em",
       [theme.breakpoints.up("sm")]: {
-        gridTemplate: "1fr / 1fr 1fr 1fr",
+        gridTemplate: "1fr / 1fr 1fr 1fr 1fr",
       },
     },
     dailySalesCard: {
@@ -47,22 +47,34 @@ export const InventorySalesDailySales = () => {
     computedDailySalesBloodTest,
     setComputedDailySalesBloodTest,
   ] = useState(0);
+  const [computedDailySalesGrooming, setComputedDailySalesGrooming] = useState(
+    0
+  );
 
   useEffect(() => {
     let totalSales = 0;
     let totalIncentives = 0;
     Object.keys(dailySales).forEach((val) => {
-      if (val !== "Blood Test") {
-        totalSales += dailySales[val].sales;
-        totalIncentives += dailySales[val].incentives;
-      } else {
+      if (val === "Blood Test") {
         setComputedDailySalesBloodTest(
           dailySales[val].sales - dailySales[val].incentives
         );
+      } else if (val === "Grooming") {
+        setComputedDailySalesGrooming(
+          dailySales[val].sales - dailySales[val].incentives
+        );
+      } else {
+        totalSales += dailySales[val].sales;
+        totalIncentives += dailySales[val].incentives;
       }
     });
     setComputedDailySales(totalSales - totalIncentives);
-  }, [dailySales, setComputedDailySales, setComputedDailySalesBloodTest]);
+  }, [
+    dailySales,
+    setComputedDailySales,
+    setComputedDailySalesBloodTest,
+    setComputedDailySalesGrooming,
+  ]);
 
   return (
     <div className={classes.root}>
@@ -75,6 +87,14 @@ export const InventorySalesDailySales = () => {
           Daily Sales - Blood Test
         </Typography>
         <Typography>{`P${Number(computedDailySalesBloodTest).toFixed(
+          2
+        )}`}</Typography>
+      </Card>{" "}
+      <Card className={classes.dailySalesCard} elevation={1}>
+        <Typography style={{ fontWeight: "bold" }}>
+          Daily Sales - Grooming
+        </Typography>
+        <Typography>{`P${Number(computedDailySalesGrooming).toFixed(
           2
         )}`}</Typography>
       </Card>
