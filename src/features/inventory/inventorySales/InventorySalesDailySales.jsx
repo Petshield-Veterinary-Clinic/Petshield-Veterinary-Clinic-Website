@@ -21,22 +21,21 @@ const useStyles = makeStyles((theme) => {
 
 export const InventorySalesDailySales = () => {
   const classes = useStyles();
-  const { dailySales } = useSelector((state) => state.inventorySales);
+  const { dailySales, metadata } = useSelector((state) => state.inventorySales);
   const [computedDailySales, setComputedDailySales] = useState(0);
   const [
     computedDailySalesBloodTest,
     setComputedDailySalesBloodTest,
   ] = useState(0);
-  const [computedDailySalesGrooming, setComputedDailySalesGrooming] = useState(
-    0
-  );
-  const [computedDailySalesVetSales, setComputedDailySalesVetSales] = useState(
-    0
-  );
-  const [
-    computedDailySalesStoreSales,
-    setComputedDailySalesStoreSales,
-  ] = useState(0);
+  const [comptedSalesGrooming, setComputedSalesGrooming] = useState(0);
+  const [computedSalesVetSales, setComputedSalesVetSales] = useState(0);
+  const [computedSalesStoreSales, setComputedSalesStoreSales] = useState(0);
+  const salesTitle =
+    String(metadata.salesDateCateg[0]).toUpperCase() +
+    String(metadata.salesDateCateg).substring(
+      1,
+      metadata.salesDateCateg.length
+    );
 
   useEffect(() => {
     let totalSales = 0;
@@ -47,15 +46,15 @@ export const InventorySalesDailySales = () => {
           dailySales[val].sales - dailySales[val].incentives
         );
       } else if (val === "Grooming") {
-        setComputedDailySalesGrooming(
+        setComputedSalesGrooming(
           dailySales[val].sales - dailySales[val].incentives
         );
       } else if (val === "VET Sales") {
-        setComputedDailySalesVetSales(
+        setComputedSalesVetSales(
           dailySales[val].sales - dailySales[val].incentives
         );
       } else if (val === "Store Sales") {
-        setComputedDailySalesStoreSales(
+        setComputedSalesStoreSales(
           dailySales[val].sales - dailySales[val].incentives
         );
       } else {
@@ -68,38 +67,41 @@ export const InventorySalesDailySales = () => {
     dailySales,
     setComputedDailySales,
     setComputedDailySalesBloodTest,
-    setComputedDailySalesGrooming,
-    setComputedDailySalesStoreSales,
-    setComputedDailySalesVetSales,
+    setComputedSalesGrooming,
+    setComputedSalesStoreSales,
+    setComputedSalesVetSales,
   ]);
 
   return (
     <div className={classes.root}>
-      <DailySalesCard title={"Daily Sales"} value={computedDailySales} />
       <DailySalesCard
-        title={"Daily Sales - Blood Test"}
+        title={`${salesTitle} Sales`}
+        value={computedDailySales}
+      />
+      <DailySalesCard
+        title={`${salesTitle} Sales - Blood Test`}
         value={computedDailySalesBloodTest}
       />
       <DailySalesCard
-        title={"Daily Sales - Grooming"}
-        value={computedDailySalesGrooming}
+        title={`${salesTitle} Sales - Grooming`}
+        value={comptedSalesGrooming}
       />
       <DailySalesCard
-        title={"Daily Sales - Store Sales"}
-        value={computedDailySalesStoreSales}
+        title={`${salesTitle} Sales - Store Sales`}
+        value={computedSalesStoreSales}
       />
       <DailySalesCard
-        title={"Daily Sales - VET Sales"}
-        value={computedDailySalesVetSales}
+        title={`${salesTitle} Sales - VET Sales`}
+        value={computedSalesVetSales}
       />
       <DailySalesCard
-        title={"Daily Net Sales "}
+        title={`${salesTitle} Net Sales `}
         value={
           computedDailySales +
           computedDailySalesBloodTest +
-          computedDailySalesGrooming +
-          computedDailySalesStoreSales +
-          computedDailySalesVetSales
+          comptedSalesGrooming +
+          computedSalesStoreSales +
+          computedSalesVetSales
         }
       />
     </div>
