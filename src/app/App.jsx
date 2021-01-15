@@ -1,5 +1,4 @@
 import { Router, Redirect, Route, Switch } from "react-router";
-import "./App.css";
 import React, { useEffect } from "react";
 import { CustomAppBar } from "../components/CustomAppBar";
 import { CustomDrawer } from "../components/CustomDrawer";

@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core";
 import {
   AccountCircle,
   Notifications,
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
     [theme.breakpoints.up("sm")]: {
-      display: "none",
+      display: "none ",
     },
   },
   grow: {
@@ -98,9 +98,9 @@ export const CustomAppBar = () => {
     return (
       <Menu
         anchorEl={anchorEl}
-        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-        keepMounted
-        transformOrigin={{ vertical: "bottom", horizontal: "left" }}
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
         open={isMenuOpen}
         onClose={handleMenuClose}
       >

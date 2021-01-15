@@ -112,15 +112,8 @@ export const InventorySalesTableAddItemRow = ({
             type="number"
             value={quantity}
             onChange={handleOnQuantityChange}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment>
-                  /<Typography>{selectedItem.inStock}</Typography>
-                </InputAdornment>
-              ),
-            }}
+            fullWidth
           ></TextField>
-          <Divider orientation="vertical" flexItem></Divider>
         </TableCell>
         <TableCell>
           <Typography>₱{Number(sales).toFixed(2)}</Typography>

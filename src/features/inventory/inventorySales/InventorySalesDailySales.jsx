@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
 import { Typography, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { DailySalesCard } from "./DailySalesCard";
+import { InventorySalesCard } from "./InventorySalesCard";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -21,85 +21,76 @@ const useStyles = makeStyles((theme) => {
 
 export const InventorySalesDailySales = () => {
   const classes = useStyles();
-  const { dailySales } = useSelector((state) => state.inventorySales);
-  const [computedDailySales, setComputedDailySales] = useState(0);
-  const [
-    computedDailySalesBloodTest,
-    setComputedDailySalesBloodTest,
-  ] = useState(0);
-  const [computedDailySalesGrooming, setComputedDailySalesGrooming] = useState(
-    0
-  );
-  const [computedDailySalesVetSales, setComputedDailySalesVetSales] = useState(
-    0
-  );
-  const [
-    computedDailySalesStoreSales,
-    setComputedDailySalesStoreSales,
-  ] = useState(0);
+  const { dailySales, metadata } = useSelector((state) => state.inventorySales);
+  const [computedSales, setComputedSales] = useState(0);
+  const [computedSalesBloodTest, setComputedSalesBloodTest] = useState(0);
+  const [computedSalesGrooming, setComputedSalesGrooming] = useState(0);
+  const [computedSalesVetSales, setComputedSalesVetSales] = useState(0);
+  const [computedSalesStoreSales, setComputedSalesStoreSales] = useState(0);
+  const [salesTitle, setSalesTitle] = useState("");
 
-  useEffect(() => {
+  const computeSales = useCallback(() => {
     let totalSales = 0;
     let totalIncentives = 0;
     Object.keys(dailySales).forEach((val) => {
       if (val === "Blood Test") {
-        setComputedDailySalesBloodTest(
-          dailySales[val].sales - dailySales[val].incentives
-        );
+        setComputedSalesBloodTest(dailySales[val].netSales);
       } else if (val === "Grooming") {
-        setComputedDailySalesGrooming(
-          dailySales[val].sales - dailySales[val].incentives
-        );
+        setComputedSalesGrooming(dailySales[val].netSales);
       } else if (val === "VET Sales") {
-        setComputedDailySalesVetSales(
-          dailySales[val].sales - dailySales[val].incentives
-        );
+        setComputedSalesVetSales(dailySales[val].netSales);
       } else if (val === "Store Sales") {
-        setComputedDailySalesStoreSales(
-          dailySales[val].sales - dailySales[val].incentives
-        );
+        setComputedSalesStoreSales(dailySales[val].netSales);
       } else {
-        totalSales += dailySales[val].sales;
-        totalIncentives += dailySales[val].incentives;
+        console.log(dailySales[val]);
+        totalSales += dailySales[val].netSales;
       }
     });
-    setComputedDailySales(totalSales - totalIncentives);
-  }, [
-    dailySales,
-    setComputedDailySales,
-    setComputedDailySalesBloodTest,
-    setComputedDailySalesGrooming,
-    setComputedDailySalesStoreSales,
-    setComputedDailySalesVetSales,
-  ]);
+    setComputedSales(totalSales - totalIncentives);
+  }, [setComputedSales, dailySales]);
+
+  const getSalesTitle = useCallback(() => {
+    const title =
+      String(metadata.salesDateCateg[0]).toUpperCase() +
+      String(metadata.salesDateCateg).substring(
+        1,
+        metadata.salesDateCateg.length
+      );
+    setSalesTitle(title);
+  }, [setSalesTitle.metadata]);
+
+  useEffect(() => {
+    computeSales();
+    getSalesTitle();
+  }, [computeSales, getSalesTitle]);
 
   return (
     <div className={classes.root}>
-      <DailySalesCard title={"Daily Sales"} value={computedDailySales} />
-      <DailySalesCard
-        title={"Daily Sales - Blood Test"}
-        value={computedDailySalesBloodTest}
+      <InventorySalesCard title={`${salesTitle} Sales`} value={computedSales} />
+      <InventorySalesCard
+        title={`${salesTitle} Sales - Blood Test`}
+        value={computedSalesBloodTest}
       />
-      <DailySalesCard
-        title={"Daily Sales - Grooming"}
-        value={computedDailySalesGrooming}
+      <InventorySalesCard
+        title={`${salesTitle} Sales - Grooming`}
+        value={computedSalesGrooming}
       />
-      <DailySalesCard
-        title={"Daily Sales - Store Sales"}
-        value={computedDailySalesStoreSales}
+      <InventorySalesCard
+        title={`${salesTitle} Sales - Store Sales`}
+        value={computedSalesStoreSales}
       />
-      <DailySalesCard
-        title={"Daily Sales - VET Sales"}
-        value={computedDailySalesVetSales}
+      <InventorySalesCard
+        title={`${salesTitle} Sales - VET Sales`}
+        value={computedSalesVetSales}
       />
-      <DailySalesCard
-        title={"Daily Net Sales "}
+      <InventorySalesCard
+        title={`${salesTitle} Net Sales `}
         value={
-          computedDailySales +
-          computedDailySalesBloodTest +
-          computedDailySalesGrooming +
-          computedDailySalesStoreSales +
-          computedDailySalesVetSales
+          computedSales +
+          computedSalesBloodTest +
+          computedSalesGrooming +
+          computedSalesStoreSales +
+          computedSalesVetSales
         }
       />
     </div>

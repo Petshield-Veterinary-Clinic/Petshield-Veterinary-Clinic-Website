@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { InventorySalesTable } from "./InventorySalesTable";
 import moment from "moment";
 
@@ -14,9 +15,7 @@ const InventorySalesTableContainer = ({ itemSales }) => {
         col6: `${Number(itemSale.item.incentiveRate).toFixed(2)}%`,
         col7: itemSale.item.isIncentiveFixed
           ? `₱${Number(itemSale.item.incentiveAmount).toFixed(2)}`
-          : `₱${Number(itemSale.sales * itemSale.item.incentiveRate).toFixed(
-              2
-            )}`,
+          : `₱${Number(itemSale.incentives * itemSale.quantity).toFixed(2)}`,
         col8: `₱${Number(itemSale.netSales).toFixed(2)}`,
         col9: itemSale.item.salesCategory,
       };

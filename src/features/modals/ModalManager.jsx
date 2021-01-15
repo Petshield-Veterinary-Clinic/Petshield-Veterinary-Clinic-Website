@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import {
   LoadingModal,
@@ -6,14 +6,12 @@ import {
   SuccessModal,
   LogoutModal,
 } from "../../components/modals";
-import { ConfirmationModal } from "../../components/modals/ConfirmationModal";
 
 import {
   InventoryAddItemModal,
   InventoryDiscountItemModal,
   InventoryManageItemModal,
   InventoryModifyItemModal,
-  InventoryAddSaleModal,
   InventoryAddItemSaleConfirmationModal,
   InventoryDeleteItemSaleConfirmationModal,
 } from "../inventory/inventoryModals";

@@ -11,10 +11,11 @@ let initialState = {
   isLoading: false,
   itemSales: [],
   dailySales: 0,
-  metadata: null,
+  metadata: {
+    salesDateCateg: "daily",
+  },
   error: null,
 };
-
 const handleOnStart = (state) => {
   state.isLoading = true;
 };
@@ -66,22 +67,19 @@ export const {
   deleteItemSaleSuccess,
 } = inventorySalesSlice.actions;
 
-export const fetchItemSales = (salesDate) => async (dispatch, getState) => {
+export const fetchItemSales = ({ salesDate, salesDateCateg }) => async (
+  dispatch,
+  getState
+) => {
   const { user } = getState().auth;
   const token = localStorage.getItem("token");
+
   try {
     dispatch(fetchItemSalesStart());
     let ws;
-
-    if (salesDate !== "" && salesDate !== "all") {
-      ws = new WebSocket(
-        `${config.WS_BASE_URL}/item-sales/${user.branchName}?jwt=${token}&salesDate=${salesDate}&filterSales=true`
-      );
-    } else {
-      ws = new WebSocket(
-        `${config.WS_BASE_URL}/item-sales/${user.branchName}?jwt=${token}&filterSales=false`
-      );
-    }
+    ws = new WebSocket(
+      `${config.WS_BASE_URL}/item-sales/${user.branchName}?jwt=${token}&salesDate=${salesDate}&salesDateCateg=${salesDateCateg}`
+    );
     ws.onmessage = (e) => {
       const response = JSON.parse(e.data);
       dispatch(fetchItemSalesSuccess(response.data));
@@ -97,6 +95,7 @@ export const addItemSale = (itemId, itemQuantity) => async (
 ) => {
   try {
     const { user } = getState().auth;
+    const { metadata } = getState().inventorySales;
     dispatch(addItemSaleStart());
     dispatch(hideModal());
     dispatch(
@@ -107,7 +106,9 @@ export const addItemSale = (itemId, itemQuantity) => async (
     const newItemSale = await addItemSaleToApi(
       user.branchName,
       itemId,
-      itemQuantity
+      itemQuantity,
+      metadata.salesDate,
+      metadata.salesDateCateg
     );
     dispatch(addItemSaleSuccess(newItemSale));
     dispatch(hideModal());
@@ -138,6 +139,7 @@ export const addItemSale = (itemId, itemQuantity) => async (
 export const deleteItemSale = (itemId) => async (dispatch, getState) => {
   try {
     const { user } = getState().auth;
+    const { metadata } = getState().inventorySales;
     dispatch(deleteItemSaleStart());
     dispatch(hideModal());
     dispatch(
@@ -147,7 +149,9 @@ export const deleteItemSale = (itemId) => async (dispatch, getState) => {
     );
     const deletedItemSale = await deleteItemSaleFromApi(
       user.branchName,
-      itemId
+      itemId,
+      metadata.salesDate,
+      metadata.salesDateCateg
     );
     dispatch(deleteItemSaleSuccess(deletedItemSale));
     dispatch(hideModal());

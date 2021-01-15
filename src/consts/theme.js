@@ -1,4 +1,4 @@
-import { createMuiTheme, responsiveFontSizes } from "@material-ui/core";
+import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 
 export const darkTheme = responsiveFontSizes(
   createMuiTheme({
@@ -12,6 +12,11 @@ export const darkTheme = responsiveFontSizes(
       },
     },
     components: {
+      MuiMenu: {
+        styleOverrides: {
+          padding: "1em",
+        },
+      },
       MuiCard: {
         styleOverrides: {
           root: {
@@ -19,6 +24,7 @@ export const darkTheme = responsiveFontSizes(
           },
         },
       },
+
       MuiPaper: {
         styleOverrides: {
           root: {
@@ -34,5 +40,8 @@ export const darkTheme = responsiveFontSizes(
         },
       },
     },
-  })
+  }),
+  {
+    disableAlign: true,
+  }
 );

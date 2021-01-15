@@ -44,12 +44,13 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     backgroundColor: "#343434",
   },
+
   nested: {
-    paddingLeft: theme.spacing(4),
+    paddingLeft: `${theme.spacing(4)}`,
   },
   drawerIcon: {
-    width: "38px",
-    height: "38px",
+    width: "34px",
+    height: "34px",
     fill: `${theme.palette.primary.main} !important`,
   },
 }));
@@ -163,7 +164,7 @@ export const CustomDrawer = () => {
                 timeout="auto"
                 unmountOnExit
               >
-                <List component="div" disablePadding>
+                <List component="div">
                   {item.subItems.map((subItem) => {
                     return (
                       <ListItem

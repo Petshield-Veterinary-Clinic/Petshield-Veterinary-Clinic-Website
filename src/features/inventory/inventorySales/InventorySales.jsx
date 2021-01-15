@@ -7,6 +7,7 @@ import { fetchItemSales } from "./inventorySalesSlice";
 import InventorySalesTableContainer from "./InventorySalesTable/InventorySalesTableContainer";
 import { InventorySalesDailySales } from "./InventorySalesDailySales";
 import { InventorySalesDatePicker } from "./InventorySalesDatePicker";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -42,7 +43,10 @@ const InventorySales = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchItemSales(""));
+    const currentDate = moment(Date.now()).format("MM-DD-YYYY");
+    dispatch(
+      fetchItemSales({ salesDate: currentDate, salesDateCateg: "daily" })
+    );
   }, [dispatch]);
 
   const renderContent = () => {

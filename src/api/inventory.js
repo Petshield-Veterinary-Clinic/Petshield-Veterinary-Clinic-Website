@@ -87,9 +87,15 @@ export const getItemSales = async (branchName) => {
   }
 };
 
-export const addItemSale = async (branchName, itemId, itemQuantity) => {
+export const addItemSale = async (
+  branchName,
+  itemId,
+  itemQuantity,
+  salesDate,
+  salesDateCateg
+) => {
   const response = await axios.post(
-    `/item-sales/${branchName}/${itemId}/${itemQuantity}`
+    `/item-sales/${branchName}/${itemId}/${itemQuantity}?salesDate=${salesDate}&salesDateCateg=${salesDateCateg}`
   );
   if (response.data.data) {
     return response.data.data;
@@ -98,8 +104,15 @@ export const addItemSale = async (branchName, itemId, itemQuantity) => {
   }
 };
 
-export const deleteItemSale = async (branchName, itemId) => {
-  const response = await axios.delete(`/item-sales/${branchName}/${itemId}`);
+export const deleteItemSale = async (
+  branchName,
+  itemId,
+  salesDate,
+  salesDateCateg
+) => {
+  const response = await axios.delete(
+    `/item-sales/${branchName}/${itemId}?salesDate=${salesDate}&salesDateCateg=${salesDateCateg}`
+  );
   if (response.data.data) {
     return response.data.data;
   } else {

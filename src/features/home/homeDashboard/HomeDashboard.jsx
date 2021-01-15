@@ -1,6 +1,7 @@
 import { Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
+import { HomeSalesStats } from "./homeSalesStats/HomeSalesStats";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -18,7 +19,11 @@ const useStyles = makeStyles((theme) => {
 
 const HomeDashboard = () => {
   const classes = useStyles();
-  return <Paper className={classes.root}></Paper>;
+  return (
+    <Paper className={classes.root}>
+      <HomeSalesStats />
+    </Paper>
+  );
 };
 
 export default HomeDashboard;

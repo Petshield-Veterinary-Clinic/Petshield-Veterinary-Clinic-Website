@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
-  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   DialogContentText,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../features/modals/modalSlice";
-const useStyles = makeStyles((_) => {
-  return {};
-});
 
 export const ErrorModal = ({ isVisible, message, duration }) => {
   const [open, setOpen] = useState(isVisible);

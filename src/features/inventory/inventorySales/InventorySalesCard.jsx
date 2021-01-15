@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const DailySalesCard = ({ title, value }) => {
+export const InventorySalesCard = ({ title, value }) => {
   const classes = useStyles();
   return (
     <Card className={classes.root} elevation={0}>
