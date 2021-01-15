@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://src/app/App.css"],"names":[],"mappings":"AAAA,iBAGE,qBAAsB,CACtB,QAAS,CACT,SACF","file":"main.5e64e9e9.chunk.css","sourcesContent":["*,\r\n*:before,\r\n*:after {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n"]}
