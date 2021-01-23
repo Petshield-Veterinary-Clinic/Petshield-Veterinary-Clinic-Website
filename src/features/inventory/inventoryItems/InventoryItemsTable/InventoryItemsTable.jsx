@@ -178,7 +178,6 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <TableCell
-                  key={header.id}
                   {...header.getHeaderProps(header.getSortByToggleProps())}
                 >
                   <div key={header.id} className={classes.tableHeader}>

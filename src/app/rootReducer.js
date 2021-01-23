@@ -5,8 +5,11 @@ import inventorySalesReducer from "../features/inventory/inventorySales/inventor
 import inventorySearchReducer from "../features/inventory/inventorySearchSlice";
 import homeSalesStats from "../features/home/homeDashboard/homeSalesStats/homeSalesStatsSlice";
 import modalsReducer from "../features/modals/modalSlice";
+import infoModalsReducer from "../features/modals/infoModalSlice";
 import authReducer from "../features/auth/authSlice";
 import drawerReducer from "../features/drawer/drawerSlice";
+import notificationsReducer from "../features/notifications/notificationsSlice";
+import clientsReducer from "../features/clients/clientsSlice";
 
 const rootReducer = combineReducers({
   inventoryItems: inventoryItemsReducer,
@@ -14,8 +17,11 @@ const rootReducer = combineReducers({
   inventorySearch: inventorySearchReducer,
   homeSalesStats: homeSalesStats,
   modals: modalsReducer,
+  infoModals: infoModalsReducer,
   auth: authReducer,
   drawer: drawerReducer,
+  clients: clientsReducer,
+  notifications: notificationsReducer,
 });
 
 export default rootReducer;

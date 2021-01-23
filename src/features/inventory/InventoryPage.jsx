@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router";
+import { Switch, Route } from "react-router-dom";
 import InventoryItems from "./inventoryItems/InventoryItems";
 import InventorySales from "./inventorySales/InventorySales";
 

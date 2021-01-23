@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Select, MenuItem, TextField } from "@material-ui/core";
-import { useDispatch } from "react-redux";
+import { DatePicker } from "@material-ui/lab";
 import moment from "moment";
-import { fetchItemSales } from "./inventorySalesSlice";
-import { DatePicker, PickersDay } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -22,9 +20,11 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const InventorySalesDatePicker = () => {
+export const SalesDatePicker = ({
+  onSalesDateChanged,
+  onSalesDateCategChanged,
+}) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const currentDate = moment(Date.now()).format("MM-DD-YYYY");
 
   const datePickerViews = {
@@ -32,28 +32,25 @@ export const InventorySalesDatePicker = () => {
     monthly: ["month", "year"],
     yearly: ["year"],
   };
+
   const [selectedSalesDateCateg, setSelectedSalesDateCateg] = useState("daily");
   const [selectedSalesDate, setSelectedSalesDate] = useState(currentDate);
 
   const handleOnSalesDateCategChanged = (value) => {
     setSelectedSalesDateCateg(value);
-    dispatch(
-      fetchItemSales({
-        salesDate: selectedSalesDate,
-        salesDateCateg: value,
-      })
-    );
+    onSalesDateCategChanged({
+      salesDate: selectedSalesDate,
+      salesDateCateg: value,
+    });
   };
 
   const handleOnSalesDateChanged = (date) => {
     const formattedDate = date.format("MM-DD-YYYY").toString();
     setSelectedSalesDate(formattedDate);
-    dispatch(
-      fetchItemSales({
-        salesDate: formattedDate,
-        salesDateCateg: selectedSalesDateCateg,
-      })
-    );
+    onSalesDateChanged({
+      salesDate: formattedDate,
+      salesDateCateg: selectedSalesDateCateg,
+    });
   };
 
   const renderPicker = () => {

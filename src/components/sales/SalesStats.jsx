@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useSelector } from "react-redux";
-import { Typography, Card } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { InventorySalesCard } from "./InventorySalesCard";
+import { SalesCard } from "./SalesCard";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -19,9 +17,9 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const InventorySalesDailySales = () => {
+export const SalesStats = ({ dailySales, metadata }) => {
   const classes = useStyles();
-  const { dailySales, metadata } = useSelector((state) => state.inventorySales);
+
   const [computedSales, setComputedSales] = useState(0);
   const [computedSalesBloodTest, setComputedSalesBloodTest] = useState(0);
   const [computedSalesGrooming, setComputedSalesGrooming] = useState(0);
@@ -42,7 +40,6 @@ export const InventorySalesDailySales = () => {
       } else if (val === "Store Sales") {
         setComputedSalesStoreSales(dailySales[val].netSales);
       } else {
-        console.log(dailySales[val]);
         totalSales += dailySales[val].netSales;
       }
     });
@@ -57,7 +54,7 @@ export const InventorySalesDailySales = () => {
         metadata.salesDateCateg.length
       );
     setSalesTitle(title);
-  }, [setSalesTitle.metadata]);
+  }, [setSalesTitle, metadata]);
 
   useEffect(() => {
     computeSales();
@@ -66,24 +63,24 @@ export const InventorySalesDailySales = () => {
 
   return (
     <div className={classes.root}>
-      <InventorySalesCard title={`${salesTitle} Sales`} value={computedSales} />
-      <InventorySalesCard
+      <SalesCard title={`${salesTitle} Sales`} value={computedSales} />
+      <SalesCard
         title={`${salesTitle} Sales - Blood Test`}
         value={computedSalesBloodTest}
       />
-      <InventorySalesCard
+      <SalesCard
         title={`${salesTitle} Sales - Grooming`}
         value={computedSalesGrooming}
       />
-      <InventorySalesCard
+      <SalesCard
         title={`${salesTitle} Sales - Store Sales`}
         value={computedSalesStoreSales}
       />
-      <InventorySalesCard
+      <SalesCard
         title={`${salesTitle} Sales - VET Sales`}
         value={computedSalesVetSales}
       />
-      <InventorySalesCard
+      <SalesCard
         title={`${salesTitle} Net Sales `}
         value={
           computedSales +

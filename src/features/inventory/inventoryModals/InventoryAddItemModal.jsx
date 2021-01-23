@@ -8,14 +8,16 @@ import {
   DialogTitle,
   TextField,
   Typography,
-  Switch,
+  Select,
+  MenuItem,
   FormControlLabel,
   Checkbox,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../modals/modalSlice";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { addItem } from "../inventoryItems/inventoryItemsSlice";
+import { itemCategories } from "../../../consts";
 
 const useStyles = makeStyles((_) => {
   return {
@@ -93,10 +95,10 @@ const AddItemForm = ({
   isIncentiveFixed,
   setIncentiveFixed,
 }) => {
-  const { register, handleSubmit, errors } = useForm({
+  const { register, handleSubmit, errors, control } = useForm({
     defaultValues: {
       remarks: "",
-      salesCategory: "",
+      category: "Store Sales",
       incentiveRate: 0,
       incentiveAmount: 0,
     },
@@ -146,14 +148,24 @@ const AddItemForm = ({
         })}
         error={!!errors.price}
       />
-      <TextField
-        className={classes.addItemFormField}
-        variant="outlined"
-        label="Item Sales Category"
-        name="salesCategory"
-        size="small"
-        inputRef={register}
+      <Controller
+        control={control}
+        name="category"
+        as={
+          <Select
+            className={classes.addItemFormField}
+            variant="outlined"
+            size="small"
+          >
+            {itemCategories.map((itemCategory) => (
+              <MenuItem key={itemCategory} value={itemCategory}>
+                {itemCategory}
+              </MenuItem>
+            ))}
+          </Select>
+        }
       />
+
       <div>
         <FormControlLabel
           className={classes.addItemFormField}

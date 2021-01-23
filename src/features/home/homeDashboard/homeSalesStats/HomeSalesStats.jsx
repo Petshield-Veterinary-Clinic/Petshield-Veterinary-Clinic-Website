@@ -35,7 +35,7 @@ export const HomeSalesStats = () => {
         setSalesDate={setSalesDate}
         salesDateCateg={salesDateCateg}
         setSalesDateCateg={setSalesDateCateg}
-      />{" "}
+      />
       <Typography
         variant="h5"
         align="center"

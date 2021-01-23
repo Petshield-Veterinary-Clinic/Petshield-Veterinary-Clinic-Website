@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal, showModal } from "../../modals/modalSlice";
 import { deleteItem } from "../inventoryItems/inventoryItemsSlice";
@@ -71,7 +63,7 @@ export const InventoryManageItemModal = ({ isVisible, item, itemIndex }) => {
 
   const handleDeleteItemPressed = (itemId) => {
     setOpen(!isVisible);
-    console.log(item.ID);
+
     dispatch(deleteItem(item.ID));
   };
 

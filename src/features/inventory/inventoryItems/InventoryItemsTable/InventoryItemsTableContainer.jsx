@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { InventoryItemsTable } from "./InventoryItemsTable";
 
 const InventoryItemsTableContainer = ({ items }) => {
@@ -20,14 +19,13 @@ const InventoryItemsTableContainer = ({ items }) => {
       }
 
       return {
-        col1: item.ID,
-        col2: item.name,
-        col3: item.salesCategory,
-        col4: item.inStock,
-        col5: status,
-        col6: Number(item.price).toFixed(2),
-        col7: item.discount,
-        col8: (item.price - discountAmount).toFixed(2),
+        col1: item.name,
+        col2: item.category,
+        col3: item.inStock,
+        col4: status,
+        col5: Number(item.price).toFixed(2),
+        col6: item.discount,
+        col7: (item.price - discountAmount).toFixed(2),
       };
     });
   }, [items]);
@@ -35,36 +33,32 @@ const InventoryItemsTableContainer = ({ items }) => {
   const columns = useMemo(
     () => [
       {
-        Header: "ID",
+        Header: "Name",
         accessor: "col1",
       },
       {
-        Header: "Name",
+        Header: "Category",
         accessor: "col2",
       },
       {
-        Header: "Category",
+        Header: "Stock",
         accessor: "col3",
       },
       {
-        Header: "Stock",
+        Header: "Status",
         accessor: "col4",
       },
       {
-        Header: "Status",
+        Header: "Original Price",
         accessor: "col5",
       },
       {
-        Header: "Original Price",
+        Header: "Discount",
         accessor: "col6",
       },
       {
-        Header: "Discount",
-        accessor: "col7",
-      },
-      {
         Header: "Total Price",
-        accessor: "col8",
+        accessor: "col7",
       },
     ],
     []

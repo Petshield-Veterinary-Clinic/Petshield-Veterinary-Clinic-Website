@@ -1,17 +1,9 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  Button,
-  CircularProgress,
-  Grid,
-  Paper,
-  TextField,
-  Typography,
-} from "@material-ui/core";
+import { Button, CircularProgress, Paper, Typography } from "@material-ui/core";
 import LoginForm from "./loginForm";
-import { checkAuth, logIn } from "../authSlice";
+import { logIn } from "../authSlice";
 import { Redirect } from "react-router-dom";
 import bg from "../../../assets/login_background.png";
 import logo from "../../../assets/logo.png";
@@ -74,7 +66,7 @@ const useStyles = makeStyles((theme) => {
 const LoginPage = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { user, isLoading, error } = useSelector((state) => state.auth);
+  const { user, isLoading } = useSelector((state) => state.auth);
 
   const handleSubmit = (data) => {
     dispatch(logIn(data));
@@ -114,13 +106,13 @@ const LoginPage = () => {
         </Paper>
       );
     } else {
-      return <Redirect to="/content/home/dashboard" />;
+      return <Redirect to="/home/dashboard" />;
     }
   };
 
   return (
     <Paper className={classes.root} elevation={0}>
-      <img className={classes.logo} src={logo}></img>
+      <img className={classes.logo} src={logo} alt="logo"></img>
       <div className={classes.background}></div>
       {renderContent()}
     </Paper>

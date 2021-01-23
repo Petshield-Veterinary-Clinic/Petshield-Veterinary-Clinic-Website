@@ -5,9 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { fetchItemSales } from "./inventorySalesSlice";
 import InventorySalesTableContainer from "./InventorySalesTable/InventorySalesTableContainer";
-import { InventorySalesDailySales } from "./InventorySalesDailySales";
-import { InventorySalesDatePicker } from "./InventorySalesDatePicker";
 import moment from "moment";
+import { SalesDatePicker, SalesStats } from "../../../components/sales";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -38,7 +37,7 @@ const useStyles = makeStyles((theme) => {
 const InventorySales = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { isLoading, itemSales, error } = useSelector(
+  const { isLoading, itemSales, dailySales, metadata, error } = useSelector(
     (state) => state.inventorySales
   );
 
@@ -48,6 +47,13 @@ const InventorySales = () => {
       fetchItemSales({ salesDate: currentDate, salesDateCateg: "daily" })
     );
   }, [dispatch]);
+
+  const handleOnSalesDateChanged = (value) => {
+    dispatch(fetchItemSales(value));
+  };
+  const handleOnSalesDateCategChanged = (value) => {
+    dispatch(fetchItemSales(value));
+  };
 
   const renderContent = () => {
     if (isLoading) {
@@ -62,7 +68,7 @@ const InventorySales = () => {
     }
     return (
       <>
-        <InventorySalesDailySales />
+        <SalesStats metadata={metadata} dailySales={dailySales} />
         <InventorySalesTableContainer itemSales={itemSales} />
       </>
     );
@@ -70,7 +76,10 @@ const InventorySales = () => {
 
   return (
     <div className={classes.root}>
-      <InventorySalesDatePicker />
+      <SalesDatePicker
+        onSalesDateCategChanged={handleOnSalesDateCategChanged}
+        onSalesDateChanged={handleOnSalesDateChanged}
+      />
       {renderContent()}
     </div>
   );

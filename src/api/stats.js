@@ -8,7 +8,7 @@ export const getItemSalesStats = async (
   const response = await axios.get(
     `/stats/${branchName}/item-sales?salesDate=${salesDate}&salesDateCateg=${salesDateCateg}`
   );
-  console.log(response);
+
   if (response.data.data) {
     return response.data.data;
   } else {

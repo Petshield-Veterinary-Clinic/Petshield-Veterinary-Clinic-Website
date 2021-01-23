@@ -6,6 +6,13 @@ import {
   SuccessModal,
   LogoutModal,
 } from "../../components/modals";
+import {
+  AddClientModal,
+  ClientTransactionsModal,
+  VeterinarianNoteModal,
+  AddAppointmentModal,
+  ClientAppointmentsModal,
+} from "../clients/clientsModals";
 
 import {
   InventoryAddItemModal,
@@ -27,6 +34,11 @@ const modalComponents = {
   ERROR_MODAL: ErrorModal,
   SUCCESS_MODAL: SuccessModal,
   LOGOUT_MODAL: LogoutModal,
+  ADD_CLIENT_MODAL: AddClientModal,
+  ADD_APPOINTMENT_MODAL: AddAppointmentModal,
+  CLIENT_TRANSACTIONS_MODAL: ClientTransactionsModal,
+  CLIENT_APPOINTMENTS_MODAL: ClientAppointmentsModal,
+  CLIENT_VETERINARIAN_NOTE_MODAL: VeterinarianNoteModal,
 };
 
 const ModalManager = () => {

@@ -9,17 +9,13 @@ import {
 } from "@material-ui/core";
 import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core";
-import {
-  AccountCircle,
-  Notifications,
-  Menu as MenuIcon,
-} from "@material-ui/icons";
+import { AccountCircle, Menu as MenuIcon } from "@material-ui/icons";
 import { drawerWidth } from "../consts";
 import { showModal } from "../features/modals/modalSlice";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-
 import { toggleDrawer } from "../features/drawer/drawerSlice";
+import { Notifications } from "../features/notifications/Notifications";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -129,11 +125,7 @@ export const CustomAppBar = () => {
           <Typography>{renderTitle()}</Typography>
           <div className={classes.grow}></div>
 
-          <IconButton>
-            <Badge badgeContent={1} color="primary">
-              <Notifications />
-            </Badge>
-          </IconButton>
+          <Notifications />
           <IconButton edge="end" onClick={handleMenuOpen}>
             <AccountCircle style={{ fontSize: "2rem" }} />
           </IconButton>

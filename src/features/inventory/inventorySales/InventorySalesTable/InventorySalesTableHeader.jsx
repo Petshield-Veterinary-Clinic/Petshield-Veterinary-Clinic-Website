@@ -25,11 +25,14 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const InventorySalesTableHeader = ({ toggleAddItemSaleRow }) => {
+const InventorySalesTableHeader = ({
+  toggleAddItemSaleRow,
+  showAddItemSaleRow,
+}) => {
   const classes = useStyles();
 
   const handleAddTransactionPressed = () => {
-    toggleAddItemSaleRow(true);
+    toggleAddItemSaleRow(!showAddItemSaleRow);
   };
 
   return (
@@ -42,7 +45,7 @@ const InventorySalesTableHeader = ({ toggleAddItemSaleRow }) => {
           startIcon={<AddIcon />}
           onClick={handleAddTransactionPressed}
         >
-          Add Transaction
+          {`${showAddItemSaleRow ? "Cancel" : "Add"}  Transaction`}
         </Button>
       </div>
     </div>

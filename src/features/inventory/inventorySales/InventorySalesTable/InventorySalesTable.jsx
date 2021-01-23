@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTable, usePagination, useSortBy } from "react-table";
+import { useTable, useSortBy } from "react-table";
 import {
   Paper,
   Table,
@@ -10,7 +10,6 @@ import {
   TableContainer,
   Typography,
   TablePagination,
-  TableFooter,
   Button,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -133,7 +132,10 @@ export const InventorySalesTable = ({ data, columns }) => {
 
   return (
     <Paper className={classes.root}>
-      <InventorySalesTableHeader toggleAddItemSaleRow={toggleAddItemSaleRow} />
+      <InventorySalesTableHeader
+        toggleAddItemSaleRow={toggleAddItemSaleRow}
+        showAddItemSaleRow={showAddItemSaleRow}
+      />
       <TableContainer>
         <Table {...getTableProps()} stickyHeader>
           <TableHead>
@@ -143,7 +145,7 @@ export const InventorySalesTable = ({ data, columns }) => {
                   <TableCell
                     {...header.getHeaderProps(header.getSortByToggleProps())}
                   >
-                    <div className={classes.tableHeader}>
+                    <div key={header.id} className={classes.tableHeader}>
                       {header.render("Header")}
                       {header.isSorted ? (
                         header.isSortedDesc ? (

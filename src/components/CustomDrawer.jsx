@@ -15,7 +15,6 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import HomeIcon from "../assets/house.svg";
-import AgreementFormIcon from "../assets/agreement_form.svg";
 import AllClientsIcon from "../assets/all_clients.svg";
 import AllItemsIcon from "../assets/all_items.svg";
 import AppointmentsIcon from "../assets/appointments.svg";
@@ -76,12 +75,12 @@ export const CustomDrawer = () => {
         {
           label: "Dashboard",
           icon: DashboardIcon,
-          path: "/content/home/dashboard",
+          path: "/home/dashboard",
         },
         {
           label: "Pet Queue",
           icon: PetQueueIcon,
-          path: "/content/home/pet-queues",
+          path: "/home/pet-queues",
         },
       ],
     },
@@ -95,22 +94,17 @@ export const CustomDrawer = () => {
         {
           label: "All Clients",
           icon: AllClientsIcon,
-          path: "/content/clients/all-clients",
+          path: "/clients/all-clients",
         },
         {
           label: "Payments",
           icon: PaymentsIcon,
-          path: "/content/clients/payments",
+          path: "/clients/payments",
         },
         {
           label: "Appointments",
           icon: AppointmentsIcon,
-          path: "/content/clients/appointments",
-        },
-        {
-          label: "Agreement Form",
-          icon: AgreementFormIcon,
-          path: "/content/clients/agreement-form",
+          path: "/clients/appointments",
         },
       ],
     },
@@ -127,12 +121,12 @@ export const CustomDrawer = () => {
         {
           label: "All Items",
           icon: AllItemsIcon,
-          path: "/content/inventory/items",
+          path: "/inventory/items",
         },
         {
           label: "Item Transactions",
           icon: ItemTransactionIcon,
-          path: "/content/inventory/sales",
+          path: "/inventory/sales",
         },
       ],
     },

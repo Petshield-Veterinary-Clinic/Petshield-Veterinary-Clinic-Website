@@ -1,11 +1,11 @@
-import { CircularProgress, InputAdornment, TextField } from "@material-ui/core";
-import React, { useEffect, useState, useCallback } from "react";
+import { InputAdornment, TextField } from "@material-ui/core";
+import React from "react";
 import { useDispatch } from "react-redux";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { clearItemsSearch, searchItems } from "../inventorySearchSlice";
-import { fetchItems } from "./inventoryItemsSlice";
+
 import _ from "lodash";
 
 const useStyles = makeStyles((theme) => {

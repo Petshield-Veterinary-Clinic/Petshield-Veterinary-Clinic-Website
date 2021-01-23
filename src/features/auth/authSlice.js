@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login as loginUser, loginWithToken } from "../../api/auth";
 import { setToken } from "../../api/axios";
-import { hideModal, showModal } from "../modals/modalSlice";
+import { showModal } from "../modals/modalSlice";
 
 let initialState = {
   user: {},
@@ -92,6 +92,7 @@ export const checkAuth = () => async (dispatch) => {
   try {
     dispatch(checkAuthStart());
     const user = await loginWithToken(currentToken);
+
     dispatch(checkAuthSuccess(user));
   } catch (error) {
     dispatch(checkAuthFailure(error.message));

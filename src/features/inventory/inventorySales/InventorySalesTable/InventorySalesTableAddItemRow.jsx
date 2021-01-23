@@ -3,15 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
-  Autocomplete,
   TextField,
   CircularProgress,
   TableCell,
   TableRow,
   Typography,
-  InputAdornment,
-  Divider,
   Button,
+  Autocomplete,
 } from "@material-ui/core";
 import { addItemSale } from "../inventorySalesSlice";
 import { searchItems, clearItemsSearch } from "../../inventorySearchSlice";
@@ -31,7 +29,7 @@ const useStyles = makeStyles((theme) => {
     quantityCell: {},
     buttonRows: {
       display: "grid",
-      gridTemplateColumns: "1fr 1fr",
+      gridTemplateColumns: "1fr / 1fr",
       gridGap: "1em",
     },
     submitButton: {
@@ -52,9 +50,7 @@ export const InventorySalesTableAddItemRow = ({
   const [selectedItem, setSelectedItem] = useState({});
   const [quantity, setQuantity] = useState(1);
   const currentDate = moment(Date.now()).format("MM-DD-YYYY");
-  const { result, isLoading, error } = useSelector(
-    (state) => state.inventorySearch
-  );
+  const { result, isLoading } = useSelector((state) => state.inventorySearch);
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -137,7 +133,7 @@ export const InventorySalesTableAddItemRow = ({
         </TableCell>
 
         <TableCell>
-          <Typography>{selectedItem.salesCategory}</Typography>
+          <Typography>{selectedItem.category}</Typography>
         </TableCell>
         <TableCell>
           <div className={classes.buttonRows}>
