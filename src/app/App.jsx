@@ -1,7 +1,6 @@
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import history from "./history";
 import ModalManager from "../features/modals/ModalManager";
 
 import PrivateLayout from "../components/PrivateLayout";

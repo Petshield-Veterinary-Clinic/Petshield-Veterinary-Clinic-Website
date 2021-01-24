@@ -1,7 +1,7 @@
 import { AppointmentTooltip } from "@devexpress/dx-react-scheduler-material-ui";
 import { makeStyles } from "@material-ui/core/styles";
 import { IconButton, TextField, Button } from "@material-ui/core";
-import { DateTimePicker } from "@material-ui/lab";
+import { DatePicker } from "@material-ui/lab";
 import { Edit, Delete } from "@material-ui/icons";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -110,7 +110,7 @@ export const ClientAppointmentTooltipContent = ({
             required: true,
           }}
           render={(props) => (
-            <DateTimePicker
+            <DatePicker
               disabled={!isEditing}
               renderInput={(props) => (
                 <TextField

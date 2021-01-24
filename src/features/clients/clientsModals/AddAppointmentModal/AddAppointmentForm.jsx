@@ -11,7 +11,7 @@ import {
   InputLabel,
   FormHelperText,
 } from "@material-ui/core";
-import { DateTimePicker } from "@material-ui/lab";
+import { DatePicker } from "@material-ui/lab";
 import moment from "moment";
 import {
   appointmentFollowUpReoccuranceTypes,
@@ -181,7 +181,8 @@ export const AddAppointmentForm = ({
           required: true,
         }}
         render={(props) => (
-          <DateTimePicker
+          <DatePicker
+            allowSameDateSelection
             renderInput={(props) => (
               <TextField {...props} size="small" label="Appointment Date" />
             )}

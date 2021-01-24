@@ -86,7 +86,6 @@ const clientsSlice = createSlice({
     },
     fetchAllClientPaymentsError: handleOnFailure,
     addAppointmentStart(state) {
-      state.isAppointmentsLoading = true;
       state.error = null;
     },
     addAppointmentSuccess(state, action) {},

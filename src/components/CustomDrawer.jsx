@@ -77,11 +77,11 @@ export const CustomDrawer = () => {
           icon: DashboardIcon,
           path: "/home/dashboard",
         },
-        {
-          label: "Pet Queue",
-          icon: PetQueueIcon,
-          path: "/home/pet-queues",
-        },
+        // {
+        //   label: "Pet Queue",
+        //   icon: PetQueueIcon,
+        //   path: "/home/pet-queues",
+        // },
       ],
     },
     {

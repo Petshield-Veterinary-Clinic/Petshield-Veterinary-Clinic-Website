@@ -6,7 +6,6 @@ import {
   DialogActions,
   Button,
   Dialog,
-  Typography,
   CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";

@@ -8,8 +8,8 @@ const useStyles = makeStyles((theme) => {
   return {
     root: {
       width: "400px",
-      height: "300px",
       display: "flex",
+      maxHeight: "500px",
       flexDirection: "column",
       justifyContent: "center",
       gap: theme.spacing(1),

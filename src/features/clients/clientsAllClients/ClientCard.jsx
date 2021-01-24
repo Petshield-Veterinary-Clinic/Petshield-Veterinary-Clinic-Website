@@ -148,7 +148,7 @@ export const ClientCard = ({ client, index }) => {
             <Typography className={classes.subTitle}>{`Last Visit: ${moment(
               client.lastVisit
             ).format("MM-DD-YYYY HH-MM-SS A")}`}</Typography>
-            <Typography className={classes.subTitle}>{`Last Visit: ${moment(
+            <Typography className={classes.subTitle}>{`Next Visit: ${moment(
               client.nextVisit
             ).format("MM-DD-YYYY HH-MM-SS A")}`}</Typography>
           </div>

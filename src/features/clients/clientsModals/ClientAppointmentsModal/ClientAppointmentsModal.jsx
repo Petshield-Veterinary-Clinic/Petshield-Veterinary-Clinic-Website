@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme) => {
       alignItems: "center,",
     },
     hasAppointment: {
-      // backgroundColor: "red",
       backgroundColor: `${theme.palette.primary.main} !important`,
       color: theme.palette.common.white,
       "&:hover, &:focus": {
