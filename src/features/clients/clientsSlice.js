@@ -288,6 +288,8 @@ export const addAppointment = ({ clientId, appointment }) => async (
         modalProps: {},
       })
     );
+    // Adjust the date of the appoinment
+
     const newAppointment = await apiAddAppointment({ clientId, appointment });
     dispatch(hideInfoModal());
     dispatch(addAppointmentSuccess(newAppointment));

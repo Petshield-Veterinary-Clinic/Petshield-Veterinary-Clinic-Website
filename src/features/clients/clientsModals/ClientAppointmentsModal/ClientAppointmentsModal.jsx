@@ -14,7 +14,7 @@ import { useHistory } from "react-router-dom";
 import { fetchClientAppointments } from "../../clientsSlice";
 import { DayPicker, LocalizationProvider, PickersDay } from "@material-ui/lab";
 import AdapterDateFns from "@material-ui/lab/AdapterDateFns";
-import moment from "moment";
+import moment from "moment-timezone";
 import classnames from "classnames";
 
 const useStyles = makeStyles((theme) => {
@@ -66,7 +66,7 @@ export const ClientAppointmentsModal = ({ isVisible, clientIndex }) => {
 
   const handleOnDateChanged = (value) => {
     setSelectedDate(value);
-    const appointment = Array(clientAppointments).find((a) =>
+    const appointment = clientAppointments.find((a) =>
       moment(a.date).isSame(value, "date")
     );
 
@@ -138,10 +138,13 @@ const CustomDay = ({
   PickersDayComponentProps,
   appointments,
 }) => {
+  const adjustedDate = moment(date).tz("Asia/Manila");
   // Check if the client has an appointment
   const hasAppointment =
-    Array(appointments).find((a) => moment(a.date).isSame(date, "date")) !==
-    undefined;
+    appointments.find((a) => {
+      const appointmentDate = moment(a.date).tz("Asia/Manila");
+      return appointmentDate.isSame(adjustedDate, "date");
+    }) !== undefined;
 
   const isSelected = moment(selectedDate).isSame(date, "date");
   return (
