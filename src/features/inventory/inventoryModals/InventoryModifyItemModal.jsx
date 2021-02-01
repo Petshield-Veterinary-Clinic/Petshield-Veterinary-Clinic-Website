@@ -136,11 +136,13 @@ const ModifyItemForm = ({
         label="Item Stock"
         name="inStock"
         size="small"
+        type="number"
         inputRef={register({
           required: true,
           min: 0,
         })}
         error={!!errors.inStock}
+        helperText={!!errors.inStock ? "Invalid Value" : ""}
       />
       <TextField
         className={classes.addItemFormField}

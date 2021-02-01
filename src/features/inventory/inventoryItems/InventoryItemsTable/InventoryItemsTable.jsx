@@ -135,16 +135,19 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
   };
 
   const renderCell = (cell) => {
-    if (cell.column.id === "col6" || cell.column.id === "col8") {
+    if (cell.column.id === "col5") {
       return <Typography>₱{cell.render("Cell")}</Typography>;
     } else if (cell.column.id === "col7") {
       const discountAmount =
-        (cell.row.values.col7 / 100) * cell.row.values.col6;
+        (cell.row.values.col6 / 100) * cell.row.values.col5;
       return (
         <Typography>
-          {cell.render("Cell")}%{` (${discountAmount.toFixed(2)})`}
+          ₱{cell.render("Cell")}
+          {` (${discountAmount.toFixed(2)})`}
         </Typography>
       );
+    } else if (cell.column.id === "col6") {
+      return <Typography>{cell.render("Cell")}%</Typography>;
     }
     return <Typography>{cell.render("Cell")}</Typography>;
   };
@@ -162,7 +165,7 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
   };
 
   const handleSearchItemChanged = (searchTerm) => {
-    setFilter("col2", searchTerm);
+    setFilter("col1", searchTerm);
   };
 
   return (
