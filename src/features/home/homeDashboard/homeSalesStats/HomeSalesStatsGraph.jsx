@@ -38,7 +38,7 @@ export const HomeSalesStatsGraph = () => {
   useEffect(() => {
     const pieColors = {
       Grooming: "#8884D8",
-      "VET Sales": "#8CDEDC",
+      "Vet Sales": "#8CDEDC",
       "Store Sales": "#B2ECE1",
       "Blood Test": "#D295BF",
       default: "#DE9151",
