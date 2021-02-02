@@ -35,7 +35,7 @@ export const SalesStats = ({ dailySales, metadata }) => {
         setComputedSalesBloodTest(dailySales[val].netSales);
       } else if (val === "Grooming") {
         setComputedSalesGrooming(dailySales[val].netSales);
-      } else if (val === "VET Sales") {
+      } else if (val === "Vet Sales") {
         setComputedSalesVetSales(dailySales[val].netSales);
       } else if (val === "Store Sales") {
         setComputedSalesStoreSales(dailySales[val].netSales);
@@ -77,7 +77,7 @@ export const SalesStats = ({ dailySales, metadata }) => {
         value={computedSalesStoreSales}
       />
       <SalesCard
-        title={`${salesTitle} Sales - VET Sales`}
+        title={`${salesTitle} Sales - Vet Sales`}
         value={computedSalesVetSales}
       />
       <SalesCard

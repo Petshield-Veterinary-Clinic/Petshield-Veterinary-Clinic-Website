@@ -5,8 +5,8 @@ const prod = {
 };
 
 const dev = {
-  API_BASE_URL: "https://petshield-veterinary-api-dev.herokuapp.com/",
-  WS_BASE_URL: `wss://petshield-veterinary-api-dev.herokuapp.com/`,
+  API_BASE_URL: "https://petshield-veterinary-api-dev.herokuapp.com",
+  WS_BASE_URL: `wss://petshield-veterinary-api-dev.herokuapp.com`,
   WS_TIMEOUT: 25000,
 };
 
