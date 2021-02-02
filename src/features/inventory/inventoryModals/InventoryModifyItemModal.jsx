@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Dialog,
@@ -12,12 +12,14 @@ import {
   FormControlLabel,
   MenuItem,
   Select,
+  InputAdornment,
+  CircularProgress,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../modals/modalSlice";
 import { useForm, Controller } from "react-hook-form";
 import { modifyItem } from "../inventoryItems/inventoryItemsSlice";
-import { itemCategories } from "../../../consts";
+import { fetchItemCategories } from "../../itemCategory/itemCategorySlice";
 
 const useStyles = makeStyles((_) => {
   return {
@@ -74,6 +76,7 @@ export const InventoryModifyItemModal = ({ isVisible, item, itemIndex }) => {
       <DialogTitle>Modify Item</DialogTitle>
       <DialogContent>
         <ModifyItemForm
+          dispatch={dispatch}
           onSubmit={handleSubmit}
           classes={classes}
           itemDetails={item}
@@ -97,7 +100,15 @@ const ModifyItemForm = ({
   itemDetails,
   isIncentiveFixed,
   setIncentiveFixed,
+  dispatch,
 }) => {
+  const { isLoading, categories } = useSelector(
+    (state) => state.itemCategories
+  );
+
+  const onCategoriesFocused = () => {
+    dispatch(fetchItemCategories());
+  };
   const { register, handleSubmit, errors, control } = useForm({
     defaultValues: {
       remarks: itemDetails.remarks !== null ? itemDetails.remarks : "",
@@ -167,10 +178,18 @@ const ModifyItemForm = ({
             className={classes.addItemFormField}
             variant="outlined"
             size="small"
+            onFocus={onCategoriesFocused}
+            endAdornment={
+              isLoading ? (
+                <InputAdornment>
+                  <CircularProgress />
+                </InputAdornment>
+              ) : null
+            }
           >
-            {itemCategories.map((itemCategory) => (
-              <MenuItem key={itemCategory} value={itemCategory}>
-                {itemCategory}
+            {categories.map((category) => (
+              <MenuItem key={category.ID} value={category.name}>
+                {category.name}
               </MenuItem>
             ))}
           </Select>

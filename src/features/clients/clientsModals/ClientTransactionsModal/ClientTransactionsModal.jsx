@@ -64,7 +64,6 @@ export const ClientTransactionsModal = ({ isVisible, index }) => {
     <Dialog
       open={open}
       onClose={handleOnClose}
-      disableBackdropClick={true}
       TransitionProps={{ onExited: handleOnExited }}
       fullScreen
     >

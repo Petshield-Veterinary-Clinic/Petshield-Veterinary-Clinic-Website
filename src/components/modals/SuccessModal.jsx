@@ -25,7 +25,7 @@ export const SuccessModal = ({ isVisible, message, duration }) => {
       () => {
         setOpen(!isVisible);
       },
-      duration ? duration : 2000
+      duration ? duration : 800
     );
   };
 
@@ -33,7 +33,6 @@ export const SuccessModal = ({ isVisible, message, duration }) => {
     <Dialog
       open={open}
       onClose={handleOnClose}
-      disableBackdropClick={true}
       TransitionProps={{ onExited: handleOnExited, onEnter: handleOnEnter }}
     >
       <DialogTitle>Success!</DialogTitle>

@@ -10,6 +10,7 @@ import authReducer from "../features/auth/authSlice";
 import drawerReducer from "../features/drawer/drawerSlice";
 import notificationsReducer from "../features/notifications/notificationsSlice";
 import clientsReducer from "../features/clients/clientsSlice";
+import itemCategoriesReducer from "../features/itemCategory/itemCategorySlice";
 
 const rootReducer = combineReducers({
   inventoryItems: inventoryItemsReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   drawer: drawerReducer,
   clients: clientsReducer,
   notifications: notificationsReducer,
+  itemCategories: itemCategoriesReducer,
 });
 
 export default rootReducer;

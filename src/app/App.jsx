@@ -12,6 +12,7 @@ import HomePage from "../features/home/HomePage";
 import ClientsPage from "../features/clients/ClientsPage";
 import InventoryPage from "../features/inventory/InventoryPage";
 import InfoModalManager from "../features/modals/InfoModalManager";
+import AdminPage from "../features/admin/AdminPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,6 +47,7 @@ const App = () => {
             <PrivateLayout path="/home" component={HomePage} />
             <PrivateLayout path="/clients" component={ClientsPage} />
             <PrivateLayout path="/inventory" component={InventoryPage} />
+            <PrivateLayout path="/admin" component={AdminPage} />
             <Redirect from="/" to="/home/dashboard" />
           </Switch>
           <ModalManager />

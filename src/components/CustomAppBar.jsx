@@ -44,6 +44,7 @@ const appbarTitles = {
   payments: "Payments",
   appointments: "Appointments",
   "appointment-form": "Appointment Form",
+  "item-categories": "Item Categories",
   items: "All Items",
   sales: "All Sales",
 };

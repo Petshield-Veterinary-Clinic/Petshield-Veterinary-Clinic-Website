@@ -7,8 +7,9 @@ import {
   DialogContentText,
 } from "@material-ui/core";
 import { hideModal } from "../../features/modals/modalSlice";
+import { hideInfoModal } from "../../features/modals/infoModalSlice";
 
-export const ErrorModal = ({ isVisible, message, duration }) => {
+export const ErrorModal = ({ isVisible, message, duration, isInfoModal }) => {
   const [open, setOpen] = useState(isVisible);
   const dispatch = useDispatch();
 
@@ -17,7 +18,11 @@ export const ErrorModal = ({ isVisible, message, duration }) => {
   };
 
   const handleOnExited = () => {
-    dispatch(hideModal());
+    if (isInfoModal) {
+      dispatch(hideInfoModal());
+    } else {
+      dispatch(hideModal());
+    }
   };
 
   const handleOnEnter = () => {
@@ -33,8 +38,7 @@ export const ErrorModal = ({ isVisible, message, duration }) => {
     <Dialog
       open={open}
       onClose={handleOnClose}
-      onEnter={handleOnEnter}
-      TransitionProps={{ onExited: handleOnExited }}
+      TransitionProps={{ onExited: handleOnExited, onEnter: handleOnEnter }}
     >
       <DialogTitle>Error!</DialogTitle>
       <DialogContent>

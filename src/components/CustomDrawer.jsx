@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { drawerWidth } from "../consts";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+import { ExpandLess, ExpandMore, Settings, Category } from "@material-ui/icons";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import HomeIcon from "../assets/house.svg";
@@ -62,6 +62,7 @@ export const CustomDrawer = () => {
     home: false,
     clients: false,
     inventory: false,
+    admin: false,
   });
 
   const menuItems = [
@@ -77,11 +78,6 @@ export const CustomDrawer = () => {
           icon: DashboardIcon,
           path: "/home/dashboard",
         },
-        // {
-        //   label: "Pet Queue",
-        //   icon: PetQueueIcon,
-        //   path: "/home/pet-queues",
-        // },
       ],
     },
     {
@@ -130,6 +126,25 @@ export const CustomDrawer = () => {
         },
       ],
     },
+    {
+      label: "Admin",
+      type: "admin",
+      handleOnClick: () =>
+        setExpandedItems({ ...expandedItems, admin: !expandedItems.admin }),
+      mIcon: Settings,
+      subItems: [
+        {
+          label: "Item Category",
+          mIcon: Category,
+          path: "/admin/item-categories",
+        },
+        // {
+        //   label: "Pet Queue",
+        //   icon: PetQueueIcon,
+        //   path: "/home/pet-queues",
+        // },
+      ],
+    },
   ];
 
   const drawer = (
@@ -142,13 +157,17 @@ export const CustomDrawer = () => {
             <React.Fragment key={item.label}>
               <ListItem key={item.label} button onClick={item.handleOnClick}>
                 <ListItemIcon>
-                  <ReactSVG
-                    key={item.label}
-                    src={item.icon}
-                    beforeInjection={(svg) => {
-                      svg.classList.add(classes.drawerIcon);
-                    }}
-                  />
+                  {item.icon ? (
+                    <ReactSVG
+                      key={item.label}
+                      src={item.icon}
+                      beforeInjection={(svg) => {
+                        svg.classList.add(classes.drawerIcon);
+                      }}
+                    />
+                  ) : (
+                    <item.mIcon color="primary" size="lg" />
+                  )}
                 </ListItemIcon>
                 <ListItemText primary={item.label}></ListItemText>
                 {expandedItems[item.type] ? <ExpandLess /> : <ExpandMore />}
@@ -169,13 +188,17 @@ export const CustomDrawer = () => {
                         className={classes.nested}
                       >
                         <ListItemIcon>
-                          <ReactSVG
-                            src={subItem.icon}
-                            key={subItem.label}
-                            beforeInjection={(svg) => {
-                              svg.classList.add(classes.drawerIcon);
-                            }}
-                          />
+                          {subItem.icon ? (
+                            <ReactSVG
+                              key={subItem.label}
+                              src={subItem.icon}
+                              beforeInjection={(svg) => {
+                                svg.classList.add(classes.drawerIcon);
+                              }}
+                            />
+                          ) : (
+                            <subItem.mIcon color="primary" size="lg" />
+                          )}
                         </ListItemIcon>
                         <ListItemText primary={subItem.label}></ListItemText>
                       </ListItem>
