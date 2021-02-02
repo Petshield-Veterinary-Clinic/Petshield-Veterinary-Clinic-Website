@@ -5,6 +5,7 @@ export const itemCategories = [
   "Service",
   "Grooming",
   "Blood Test",
+  "Confinement/Boarding",
 ];
 
 /**
