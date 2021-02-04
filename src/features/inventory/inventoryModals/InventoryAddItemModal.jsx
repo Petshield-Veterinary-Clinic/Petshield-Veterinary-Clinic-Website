@@ -176,6 +176,7 @@ const AddItemForm = ({
               ) : null
             }
           >
+            <MenuItem value=""></MenuItem>
             {categories.map((category) => (
               <MenuItem key={category.ID} value={category.name}>
                 {category.name}
