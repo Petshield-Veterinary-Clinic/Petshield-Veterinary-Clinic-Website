@@ -15,7 +15,6 @@ import { addItemSale } from "../inventorySalesSlice";
 import { searchItems, clearItemsSearch } from "../../inventorySearchSlice";
 import { Check, Cancel } from "@material-ui/icons";
 import { debounce } from "lodash";
-import moment from "moment";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -46,10 +45,10 @@ const useStyles = makeStyles((theme) => {
 export const InventorySalesTableAddItemRow = ({
   showAddItemSaleRow,
   toggleAddItemSaleRow,
+  salesDate,
 }) => {
   const [selectedItem, setSelectedItem] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const currentDate = moment(Date.now()).format("MM-DD-YYYY");
   const { result, isLoading } = useSelector((state) => state.inventorySearch);
 
   const classes = useStyles();
@@ -174,7 +173,7 @@ export const InventorySalesTableAddItemRow = ({
   return (
     <TableRow className={classes.root}>
       <TableCell>
-        <Typography>{currentDate}</Typography>
+        <Typography>{salesDate}</Typography>
       </TableCell>
       <TableCell>
         <Autocomplete

@@ -1,5 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -37,18 +37,18 @@ const useStyles = makeStyles((theme) => {
 const InventorySales = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const currentDate = moment(Date.now()).format("MM-DD-YYYY");
+  const [salesDate, setSalesDate] = useState(currentDate);
   const { isLoading, itemSales, dailySales, metadata, error } = useSelector(
     (state) => state.inventorySales
   );
 
   useEffect(() => {
-    const currentDate = moment(Date.now()).format("MM-DD-YYYY");
-    dispatch(
-      fetchItemSales({ salesDate: currentDate, salesDateCateg: "daily" })
-    );
-  }, [dispatch]);
+    dispatch(fetchItemSales({ salesDate: salesDate, salesDateCateg: "daily" }));
+  }, [dispatch, salesDate]);
 
   const handleOnSalesDateChanged = (value) => {
+    setSalesDate(value.salesDate);
     dispatch(fetchItemSales(value));
   };
   const handleOnSalesDateCategChanged = (value) => {
@@ -69,7 +69,10 @@ const InventorySales = () => {
     return (
       <>
         <SalesStats metadata={metadata} dailySales={dailySales} />
-        <InventorySalesTableContainer itemSales={itemSales} />
+        <InventorySalesTableContainer
+          itemSales={itemSales}
+          salesDate={salesDate}
+        />
       </>
     );
   };

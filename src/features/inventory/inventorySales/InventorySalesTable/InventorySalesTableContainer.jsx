@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { InventorySalesTable } from "./InventorySalesTable";
 import moment from "moment";
 
-const InventorySalesTableContainer = ({ itemSales }) => {
+const InventorySalesTableContainer = ({ itemSales, salesDate }) => {
   const data = useMemo(() => {
     return itemSales.map((itemSale) => {
       return {
@@ -66,7 +66,7 @@ const InventorySalesTableContainer = ({ itemSales }) => {
   const stateToProps = {
     data,
     columns,
-    itemSales,
+    salesDate,
   };
 
   return <InventorySalesTable {...stateToProps} />;

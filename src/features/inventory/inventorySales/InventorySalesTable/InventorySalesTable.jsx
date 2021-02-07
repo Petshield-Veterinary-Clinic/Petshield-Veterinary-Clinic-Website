@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const InventorySalesTable = ({ data, columns }) => {
+export const InventorySalesTable = ({ data, columns, salesDate }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [page, setPage] = useState(0);
@@ -165,6 +165,7 @@ export const InventorySalesTable = ({ data, columns }) => {
             <InventorySalesTableAddItemRow
               showAddItemSaleRow={showAddItemSaleRow}
               toggleAddItemSaleRow={toggleAddItemSaleRow}
+              salesDate={salesDate}
             />
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
