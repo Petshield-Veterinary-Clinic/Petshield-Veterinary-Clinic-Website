@@ -1,6 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, Typography } from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { Typography, ButtonBase } from "@material-ui/core";
+import { showModal } from "../../features/modals/modalSlice";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -13,6 +15,7 @@ const useStyles = makeStyles((theme) => {
       alignItems: "center",
       padding: "1em",
       backgroundColor: "#1D1D1D",
+      overflow: "hidden",
       "&::before": {
         content: '" "',
         position: "absolute",
@@ -26,14 +29,46 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const SalesCard = ({ title, value }) => {
+export const SalesCard = ({ title, value, dailySales }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const onSalesCardPressed = () => {
+    if (dailySales) {
+      if (String(title).includes("Net Sales")) {
+        dispatch(
+          showModal({
+            modalType: "NET_SALES_BREAKDOWN_MODAL",
+            modalProps: {
+              title,
+              dailySales,
+            },
+          })
+        );
+      } else {
+        dispatch(
+          showModal({
+            modalType: "SALES_BREAKDOWN_MODAL",
+            modalProps: {
+              title,
+              dailySales,
+            },
+          })
+        );
+      }
+    }
+  };
+
   return (
-    <Card className={classes.root} elevation={0}>
+    <ButtonBase
+      className={classes.root}
+      elevation={0}
+      onClick={onSalesCardPressed}
+    >
       <Typography style={{ fontWeight: "bold" }} align="center">
         {title}
       </Typography>
       <Typography>{`P${Number(value).toFixed(2)}`}</Typography>
-    </Card>
+    </ButtonBase>
   );
 };

@@ -7,7 +7,7 @@ const InventorySalesTableContainer = ({ itemSales, salesDate }) => {
     return itemSales.map((itemSale) => {
       return {
         col1: moment(itemSale.CreatedAt).format("L"),
-        col2: itemSale.item.name,
+        col2: itemSale.item ? itemSale.item.name : "",
         col3: `₱${Number(itemSale.item.price).toFixed(2)}`,
         col4: itemSale.quantity,
         col5: `₱${Number(itemSale.sales).toFixed(2)}`,

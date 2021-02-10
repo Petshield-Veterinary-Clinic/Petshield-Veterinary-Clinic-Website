@@ -20,31 +20,51 @@ const useStyles = makeStyles((theme) => {
 export const SalesStats = ({ dailySales, metadata }) => {
   const classes = useStyles();
 
-  const [computedSales, setComputedSales] = useState(0);
-  const [computedSalesBloodTest, setComputedSalesBloodTest] = useState(0);
-  const [computedSalesGrooming, setComputedSalesGrooming] = useState(0);
-  const [computedSalesVetSales, setComputedSalesVetSales] = useState(0);
-  const [computedSalesStoreSales, setComputedSalesStoreSales] = useState(0);
+  const [miscSales, setMiscSales] = useState({
+    dailySales: [],
+    sales: 0,
+  });
+  const [bloodTestSales, setBloodTestSales] = useState(0);
+  const [groomingSales, setGroomingSales] = useState(0);
+  const [vetSales, setVetSales] = useState(0);
+  const [storeSales, setStoreSales] = useState(0);
+  const [netSales, setNetSales] = useState(0);
   const [salesTitle, setSalesTitle] = useState("");
 
   const computeSales = useCallback(() => {
     let totalSales = 0;
-    let totalIncentives = 0;
+    let totalNetSales = 0;
+    const miscSalesItems = [];
+    const salesItems = [];
     Object.keys(dailySales).forEach((val) => {
       if (val === "Blood Test") {
-        setComputedSalesBloodTest(dailySales[val].netSales);
+        setBloodTestSales(dailySales[val].netSales);
+        totalNetSales += dailySales[val].netSales;
+        salesItems.push(dailySales[val].items);
       } else if (val === "Grooming") {
-        setComputedSalesGrooming(dailySales[val].netSales);
+        setGroomingSales(dailySales[val].netSales);
+        totalNetSales += dailySales[val].netSales;
+        salesItems.push(dailySales[val].items);
       } else if (val === "Vet Sales") {
-        setComputedSalesVetSales(dailySales[val].netSales);
+        setVetSales(dailySales[val].netSales);
+        totalNetSales += dailySales[val].netSales;
+        salesItems.push(dailySales[val].items);
       } else if (val === "Store Sales") {
-        setComputedSalesStoreSales(dailySales[val].netSales);
+        salesItems.push(dailySales[val].items);
+        totalNetSales += dailySales[val].netSales;
+        setStoreSales(dailySales[val].netSales);
       } else {
+        salesItems.push(dailySales[val].items);
+        miscSalesItems.push(dailySales[val].items);
         totalSales += dailySales[val].netSales;
       }
     });
-    setComputedSales(totalSales - totalIncentives);
-  }, [setComputedSales, dailySales]);
+    setMiscSales({
+      sales: totalSales,
+      dailySales: miscSalesItems,
+    });
+    setNetSales(totalNetSales + totalSales);
+  }, [setMiscSales, setNetSales, dailySales]);
 
   const getSalesTitle = useCallback(() => {
     const title =
@@ -63,32 +83,31 @@ export const SalesStats = ({ dailySales, metadata }) => {
 
   return (
     <div className={classes.root}>
-      <SalesCard title={`${salesTitle} Sales`} value={computedSales} />
+      <SalesCard title={`${salesTitle} Sales`} value={miscSales.sales} />
       <SalesCard
         title={`${salesTitle} Sales - Blood Test`}
-        value={computedSalesBloodTest}
+        value={bloodTestSales}
+        dailySales={dailySales["Blood Test"]}
       />
       <SalesCard
         title={`${salesTitle} Sales - Grooming`}
-        value={computedSalesGrooming}
+        value={groomingSales}
+        dailySales={dailySales["Grooming"]}
       />
       <SalesCard
         title={`${salesTitle} Sales - Store Sales`}
-        value={computedSalesStoreSales}
+        value={storeSales}
+        dailySales={dailySales["Store Sales"]}
       />
       <SalesCard
         title={`${salesTitle} Sales - Vet Sales`}
-        value={computedSalesVetSales}
+        value={vetSales}
+        dailySales={dailySales["Vet Sales"]}
       />
       <SalesCard
         title={`${salesTitle} Net Sales `}
-        value={
-          computedSales +
-          computedSalesBloodTest +
-          computedSalesGrooming +
-          computedSalesStoreSales +
-          computedSalesVetSales
-        }
+        value={netSales}
+        dailySales={dailySales}
       />
     </div>
   );
