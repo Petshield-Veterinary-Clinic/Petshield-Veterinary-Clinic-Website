@@ -5,6 +5,8 @@ import {
   ErrorModal,
   SuccessModal,
   LogoutModal,
+  SalesBreakdownModal,
+  NetSalesBreakdownModal,
 } from "../../components/modals";
 import {
   AddClientModal,
@@ -39,6 +41,8 @@ const modalComponents = {
   CLIENT_TRANSACTIONS_MODAL: ClientTransactionsModal,
   CLIENT_APPOINTMENTS_MODAL: ClientAppointmentsModal,
   CLIENT_VETERINARIAN_NOTE_MODAL: VeterinarianNoteModal,
+  SALES_BREAKDOWN_MODAL: SalesBreakdownModal,
+  NET_SALES_BREAKDOWN_MODAL: NetSalesBreakdownModal,
 };
 
 const ModalManager = () => {

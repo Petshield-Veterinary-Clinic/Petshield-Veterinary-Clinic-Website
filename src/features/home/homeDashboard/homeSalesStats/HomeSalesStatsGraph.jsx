@@ -22,7 +22,11 @@ const useStyles = makeStyles((theme) => {
       width: "100%",
       display: "flex",
       justifyContent: "space-evenly",
+      flexDirection: "column",
       gridGap: "1em",
+      [theme.breakpoints.up("sm")]: {
+        flexDirection: "row",
+      },
     },
     tooltip: {
       backgroundColor: "red",

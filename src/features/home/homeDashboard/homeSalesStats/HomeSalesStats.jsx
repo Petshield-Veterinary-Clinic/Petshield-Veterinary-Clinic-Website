@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => {
         flexDirection: "column",
       },
     },
-    graphWrapper: {},
+
     title: {
       margin: `${theme.spacing(2)} 0`,
     },
@@ -41,7 +41,7 @@ export const HomeSalesStats = () => {
         align="center"
         className={classes.title}
       >{`${salesDateCateg.toUpperCase()} Sales`}</Typography>
-      <div className={classes.graphWrapper}>
+      <div>
         <HomeSalesStatsGraph />
       </div>
     </Card>
