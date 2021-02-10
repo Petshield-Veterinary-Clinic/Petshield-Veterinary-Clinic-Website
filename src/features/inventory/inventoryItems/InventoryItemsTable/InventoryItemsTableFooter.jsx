@@ -9,7 +9,9 @@ const useStyles = makeStyles(() => {
       width: "100%",
       paddingTop: "1em",
       alignItems: "center",
-      justifyContent: "space-between",
+    },
+    buttonContainer: {
+      width: "100%",
     },
   };
 });
@@ -39,7 +41,7 @@ const InventoryItemsTableFooter = ({
   return (
     <div className={classes.root}>
       {renderCurrPageItemCount()}
-      <div>
+      <div className={classes.buttonContainer}>
         <Button
           variant="outlined"
           onClick={() => gotoPage(0)}

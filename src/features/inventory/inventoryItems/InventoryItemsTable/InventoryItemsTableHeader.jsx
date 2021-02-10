@@ -6,6 +6,7 @@ import {
   Typography,
   TextField,
   InputAdornment,
+  Hidden,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { Search } from "@material-ui/icons";
@@ -13,7 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { showModal } from "../../../modals/modalSlice";
 
-const useStyles = makeStyles((_) => {
+const useStyles = makeStyles((theme) => {
   return {
     root: {
       width: "100%",
@@ -25,10 +26,13 @@ const useStyles = makeStyles((_) => {
     container: {
       width: "100%",
       display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItem: "center",
+      flexDirection: "column",
+      alignItems: "center",
       marginBottom: "1em",
+      [theme.breakpoints.up("sm")]: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+      },
     },
 
     itemCount: {
@@ -65,14 +69,16 @@ const InventoryItemsTableHeader = ({
     <div className={classes.root}>
       <div className={classes.container}>
         <div></div>
-        <Button
-          className={classes.addItemButton}
-          variant="outlined"
-          endIcon={<AddIcon />}
-          onClick={handleAddItemPressed}
-        >
-          Add Item
-        </Button>
+        <Hidden smDown>
+          <Button
+            className={classes.addItemButton}
+            variant="outlined"
+            endIcon={<AddIcon />}
+            onClick={handleAddItemPressed}
+          >
+            Add Item
+          </Button>
+        </Hidden>
       </div>
       <div className={classes.container}>
         <div className={classes.itemCount}>
