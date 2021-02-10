@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress, Paper } from "@material-ui/core";
@@ -6,19 +6,21 @@ import { CircularProgress, Paper } from "@material-ui/core";
 import { fetchClients } from "../clientsSlice";
 import { ClientsAllClientsList } from "./ClientsAllClientsList";
 import { ClientsAllClientsHeader } from "./ClientsAllClientListHeader";
-import Fuse from "fuse.js";
 
 const useStyles = makeStyles((theme) => {
   return {
     root: {
       padding: theme.spacing(3),
-      height: "100vh",
+      height: "100%",
       width: "100%",
       display: "flex",
       flexDirection: "column",
       backgroundColor: "#121212",
       paddingTop: "83px",
-      overflow: "hidden",
+      [theme.breakpoints.up("sm")]: {
+        height: "100vh",
+        overflow: "hidden",
+      },
     },
     loadingIndicator: {
       width: "100%",
@@ -39,28 +41,13 @@ const ClientsAllClients = () => {
   const { clients, isClientsLoading } = useSelector((state) => state.clients);
   const [clientsSearchResult, setClientsSearchResult] = useState(null);
 
-  // Create fuzzy text search
-  const options = useMemo(() => {
-    return {
-      includeScore: true,
-      keys: ["clientName"],
-    };
-  }, []);
-
-  const fuse = useMemo(() => new Fuse(clients, options), [clients, options]);
-
   useEffect(() => {
     dispatch(fetchClients());
   }, [dispatch]);
-
   const renderContent = () => {
     if (!isClientsLoading) {
       return (
         <>
-          <ClientsAllClientsHeader
-            setClientResultsSearch={setClientsSearchResult}
-            fuse={fuse}
-          />
           <ClientsAllClientsList
             clients={clientsSearchResult ? clientsSearchResult : clients}
           />
@@ -74,7 +61,14 @@ const ClientsAllClients = () => {
     );
   };
 
-  return <Paper className={classes.root}>{renderContent()}</Paper>;
+  return (
+    <Paper className={classes.root}>
+      <ClientsAllClientsHeader
+        setClientResultsSearch={setClientsSearchResult}
+      />
+      {renderContent()}
+    </Paper>
+  );
 };
 
 export default ClientsAllClients;

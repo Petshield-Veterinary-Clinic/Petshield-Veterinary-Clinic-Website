@@ -1,20 +1,22 @@
-import { TextField, Button, InputAdornment } from "@material-ui/core";
+import { TextField, Button, InputAdornment, Hidden } from "@material-ui/core";
 import { Add, Search } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import { showModal } from "../../modals/modalSlice";
+import { searchClients, fetchClients } from "../clientsSlice";
 import { useDispatch } from "react-redux";
+import { debounce } from "lodash";
 
 const useStyles = makeStyles((theme) => {
   return {
     root: {
       display: "flex",
-      justifyContent: "space-between",
       marginBottom: theme.spacing(2),
+      justifyContent: "space-between",
     },
   };
 });
 
-export const ClientsAllClientsHeader = ({ fuse, setClientResultsSearch }) => {
+export const ClientsAllClientsHeader = () => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const handleOnAddClientPressed = () => {
@@ -24,39 +26,60 @@ export const ClientsAllClientsHeader = ({ fuse, setClientResultsSearch }) => {
       })
     );
   };
-  const handleSearchClientChanged = (value) => {
+  const search = (value) => {
     if (value !== "") {
-      const results = fuse.search(value);
-      setClientResultsSearch(results.map((result) => result.item));
+      dispatch(searchClients(value));
     } else {
-      setClientResultsSearch(null);
+      dispatch(fetchClients());
     }
   };
+  const debouncedSearch = debounce(search, 800);
 
+  const handleSearchClientChanged = (e) => {
+    debouncedSearch(e.target.value);
+  };
   return (
     <div className={classes.root}>
-      <TextField
-        variant="outlined"
-        label="Search"
-        size="small"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment>
-              <Search color="primary" />
-            </InputAdornment>
-          ),
-        }}
-        onChange={(e) => {
-          handleSearchClientChanged(e.target.value);
-        }}
-      ></TextField>
-      <Button
-        variant="outlined"
-        startIcon={<Add />}
-        onClick={handleOnAddClientPressed}
-      >
-        Add Client
-      </Button>
+      <Hidden smUp>
+        <TextField
+          variant="outlined"
+          label="Search"
+          size="small"
+          fullWidth
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <Search color="primary" />
+              </InputAdornment>
+            ),
+          }}
+          onChange={handleSearchClientChanged}
+        ></TextField>
+      </Hidden>
+      <Hidden smDown>
+        <TextField
+          variant="outlined"
+          label="Search"
+          size="small"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <Search color="primary" />
+              </InputAdornment>
+            ),
+          }}
+          onChange={handleSearchClientChanged}
+        ></TextField>
+      </Hidden>
+      <Hidden smDown>
+        <Button
+          variant="outlined"
+          startIcon={<Add />}
+          onClick={handleOnAddClientPressed}
+        >
+          Add Client
+        </Button>
+      </Hidden>
     </div>
   );
 };

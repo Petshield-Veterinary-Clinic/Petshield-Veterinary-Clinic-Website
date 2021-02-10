@@ -28,13 +28,17 @@ const useStyles = makeStyles((theme) => {
     },
     container: {
       display: "flex",
+      flexDirection: "column",
       justifyContent: "space-between",
       borderRadius: "10px",
       backgroundColor: "#2f2f2f",
+      [theme.breakpoints.up("sm")]: {
+        flexDirection: "row",
+      },
     },
     infoContainer: {
       display: "flex",
-      padding: theme.spacing(1),
+      // padding: theme.spacing(1),
     },
     buttonsContainer: {
       display: "grid",
@@ -53,11 +57,14 @@ const useStyles = makeStyles((theme) => {
       height: theme.spacing(7),
       width: theme.spacing(7),
       marginRight: "1em",
+      display: "none",
+      [theme.breakpoints.up("sm")]: {
+        display: "flex",
+      },
     },
     subTitle: {
       opacity: "0.6",
     },
-
     rxIcon: {
       border: "1px solid black",
       backgroundColor: "white",

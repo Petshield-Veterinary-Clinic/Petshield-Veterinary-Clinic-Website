@@ -8,7 +8,14 @@ export const addClient = async (client, branchName) => {
     throw Error(response.data.error);
   }
 };
-
+export const searchClients = async (searchTerm, branchName) => {
+  const response = await axios.get(`/clients/${branchName}/${searchTerm}`);
+  if (response.data.data) {
+    return response.data.data;
+  } else {
+    throw Error(response.data.error);
+  }
+};
 export const updateClient = async (client) => {
   const response = await axios.patch(`/clients/${client.ID}`, client);
   if (response.data.data) {

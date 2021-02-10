@@ -9,6 +9,7 @@ import {
   updateAppointment as apiUpdateAppointment,
   fetchClientAppointments as apiFetchClientAppointments,
   removeAppointment as apiRemoveAppointment,
+  searchClients as apiSearchClients,
 } from "../../api/clients";
 import { showInfoModal, hideInfoModal } from "../modals/infoModalSlice";
 
@@ -45,6 +46,16 @@ const clientsSlice = createSlice({
       state.clients = newClients;
     },
     fetchClientsError: handleOnFailure,
+    searchClientsStart(state) {
+      state.isClientsLoading = true;
+      state.error = null;
+    },
+    searchClientsSuccess(state, action) {
+      state.isClientsLoading = false;
+      state.clients = action.payload;
+      state.error = null;
+    },
+    searchClientsError: handleOnFailure,
     addClientStart(state) {
       state.isClientsLoading = true;
     },
@@ -125,6 +136,9 @@ const clientsSlice = createSlice({
 });
 
 export const {
+  searchClientsError,
+  searchClientsStart,
+  searchClientsSuccess,
   fetchClientsSuccess,
   fetchClientsError,
   fetchClientsStart,
@@ -162,6 +176,18 @@ export const {
 } = clientsSlice.actions;
 
 export default clientsSlice.reducer;
+
+export const searchClients = (searchTerm) => async (dispatch, getState) => {
+  const { user } = getState().auth;
+
+  try {
+    dispatch(searchClientsStart());
+    const results = await apiSearchClients(searchTerm, user.branchName);
+    dispatch(searchClientsSuccess(results));
+  } catch (error) {
+    dispatch(searchClientsError(error.message));
+  }
+};
 
 export const fetchClients = () => async (dispatch, getState) => {
   const { user } = getState().auth;
