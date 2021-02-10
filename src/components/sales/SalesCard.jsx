@@ -34,7 +34,7 @@ export const SalesCard = ({ title, value, dailySales }) => {
   const dispatch = useDispatch();
 
   const onSalesCardPressed = () => {
-    if (dailySales) {
+    if (dailySales && Object.keys(dailySales).length !== 0) {
       if (String(title).includes("Net Sales")) {
         dispatch(
           showModal({
