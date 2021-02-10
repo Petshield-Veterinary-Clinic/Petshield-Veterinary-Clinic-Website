@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Select, MenuItem, TextField } from "@material-ui/core";
+import { Select, MenuItem, TextField, Hidden } from "@material-ui/core";
 import { DatePicker } from "@material-ui/lab";
 import moment from "moment";
 
 const useStyles = makeStyles((theme) => {
   return {
     root: {
+      display: "flex",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: "1em",
       marginBottom: theme.spacing(2),
       width: "100%",
       [theme.breakpoints.up("sm")]: {
-        display: "flex",
-        justifyContent: "space-between",
+        gap: "0",
       },
     },
     picker: {
@@ -64,7 +67,19 @@ export const SalesDatePicker = ({
         views={datePickerViews[selectedSalesDateCateg]}
         allowKeyboardControl={false}
         renderInput={(params) => (
-          <TextField {...params} helperText={""} variant="outlined" />
+          <>
+            <Hidden smUp>
+              <TextField
+                fullWidth
+                {...params}
+                helperText={""}
+                variant="outlined"
+              />
+            </Hidden>
+            <Hidden smDown>
+              <TextField {...params} helperText={""} variant="outlined" />
+            </Hidden>
+          </>
         )}
         onChange={(value) => {
           handleOnSalesDateChanged(value);
@@ -75,16 +90,31 @@ export const SalesDatePicker = ({
 
   return (
     <div className={classes.root}>
-      <Select
-        variant="outlined"
-        value={selectedSalesDateCateg}
-        onChange={(e) => handleOnSalesDateCategChanged(e.target.value)}
-      >
-        <MenuItem value="overall">All</MenuItem>
-        <MenuItem value="yearly">Yearly</MenuItem>
-        <MenuItem value="monthly">Monthly</MenuItem>
-        <MenuItem value="daily">Daily</MenuItem>
-      </Select>
+      <Hidden smUp>
+        <Select
+          variant="outlined"
+          value={selectedSalesDateCateg}
+          fullWidth
+          onChange={(e) => handleOnSalesDateCategChanged(e.target.value)}
+        >
+          <MenuItem value="overall">All</MenuItem>
+          <MenuItem value="yearly">Yearly</MenuItem>
+          <MenuItem value="monthly">Monthly</MenuItem>
+          <MenuItem value="daily">Daily</MenuItem>
+        </Select>
+      </Hidden>
+      <Hidden smDown>
+        <Select
+          variant="outlined"
+          value={selectedSalesDateCateg}
+          onChange={(e) => handleOnSalesDateCategChanged(e.target.value)}
+        >
+          <MenuItem value="overall">All</MenuItem>
+          <MenuItem value="yearly">Yearly</MenuItem>
+          <MenuItem value="monthly">Monthly</MenuItem>
+          <MenuItem value="daily">Daily</MenuItem>
+        </Select>
+      </Hidden>
       {renderPicker()}
     </div>
   );

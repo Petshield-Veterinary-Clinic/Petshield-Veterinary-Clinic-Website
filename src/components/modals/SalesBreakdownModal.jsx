@@ -7,6 +7,7 @@ import {
   DialogActions,
   Button,
 } from "@material-ui/core";
+import { currencyFormatter } from "../../utils/formatter";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../features/modals/modalSlice";
 
@@ -91,9 +92,15 @@ export const SalesBreakdownModal = ({
           <div key={key} className={classes.item}>
             <div>{key}</div>
             <div className={classes.column}>{item.count}</div>
-            <div className={classes.column}>P{item.incentives}</div>
-            <div className={classes.column}>P{item.sales}</div>
-            <div className={classes.column}>P{item.netSales}</div>
+            <div className={classes.column}>
+              {currencyFormatter(item.incentives)}
+            </div>
+            <div className={classes.column}>
+              {currencyFormatter(item.sales)}
+            </div>
+            <div className={classes.column}>
+              {currencyFormatter(item.netSales)}
+            </div>
           </div>
         );
       });

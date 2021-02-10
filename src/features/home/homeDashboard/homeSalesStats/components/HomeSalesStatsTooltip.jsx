@@ -1,6 +1,7 @@
 import { Card, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import React from "react";
+import { currencyFormatter } from "../../../../../utils/formatter";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -21,14 +22,20 @@ export const HomeSalesStatsToolip = ({ payload, active }) => {
         const filteredSales = Object.keys(value)
           .filter((key) => key !== "Net Sales")
           .map((key) => {
-            return <Typography key={key}>{`${key}: ${value[key]}`}</Typography>;
+            return (
+              <Typography key={key}>{`${key}: ${currencyFormatter(
+                value[key]
+              )}`}</Typography>
+            );
           });
         return (
           <>
             {filteredSales}
             <Typography>
               {`Net Sales: ${
-                value["Net Sales"] !== undefined ? value["Net Sales"] : 0
+                value["Net Sales"] !== undefined
+                  ? currencyFormatter(value["Net Sales"])
+                  : 0
               }`}
             </Typography>
           </>

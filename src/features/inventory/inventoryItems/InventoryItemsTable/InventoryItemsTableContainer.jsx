@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { currencyFormatter } from "../../../../utils/formatter";
 import { InventoryItemsTable } from "./InventoryItemsTable";
 
 const InventoryItemsTableContainer = ({ items }) => {
@@ -23,9 +24,9 @@ const InventoryItemsTableContainer = ({ items }) => {
         col2: item.category,
         col3: item.inStock,
         col4: status,
-        col5: Number(item.price).toFixed(2),
+        col5: currencyFormatter(item.price),
         col6: item.discount,
-        col7: (item.price - discountAmount).toFixed(2),
+        col7: currencyFormatter(item.price - discountAmount),
       };
     });
   }, [items]);

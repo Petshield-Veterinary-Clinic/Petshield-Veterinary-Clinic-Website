@@ -8,6 +8,8 @@ import {
   ListItem,
   Collapse,
   Paper,
+  Hidden,
+  Divider,
 } from "@material-ui/core";
 import { showModal } from "../../modals/modalSlice";
 import {
@@ -28,23 +30,29 @@ const useStyles = makeStyles((theme) => {
     },
     container: {
       display: "flex",
-      flexDirection: "column",
-      justifyContent: "space-between",
       borderRadius: "10px",
       backgroundColor: "#2f2f2f",
       [theme.breakpoints.up("sm")]: {
         flexDirection: "row",
+        justifyContent: "space-between",
       },
     },
     infoContainer: {
       display: "flex",
+      justifyContent: "flex-start",
       // padding: theme.spacing(1),
     },
     buttonsContainer: {
-      display: "grid",
-      gridTemplate: "1fr 1fr / 1fr 1fr",
-      padding: theme.spacing(1),
+      display: "flex",
       gridGap: "0.3em",
+      justifyContent: "space-evenly",
+      padding: "1em",
+      [theme.breakpoints.up("sm")]: {
+        display: "grid",
+        gridTemplate: "1fr 1fr / 1fr 1fr",
+        padding: theme.spacing(1),
+        gridGap: "0.3em",
+      },
     },
     consultationButton: {
       zIndex: "10",
@@ -64,6 +72,7 @@ const useStyles = makeStyles((theme) => {
     },
     subTitle: {
       opacity: "0.6",
+      fontSize: "0.9rem",
     },
     rxIcon: {
       border: "1px solid black",
@@ -140,7 +149,9 @@ export const ClientCard = ({ client, index }) => {
         onClick={handleOnItemPressed}
       >
         <div className={classes.infoContainer}>
-          <Avatar className={classes.petAvatar}></Avatar>
+          <Hidden smDown>
+            <Avatar className={classes.petAvatar}></Avatar>
+          </Hidden>
           <div>
             <Typography variant="h6">{`Pet Name: ${client.pet.petName}`}</Typography>
             <Typography
@@ -160,42 +171,82 @@ export const ClientCard = ({ client, index }) => {
             ).format("MM-DD-YYYY HH-MM-SS A")}`}</Typography>
           </div>
         </div>
-        <div className={classes.buttonsContainer}>
-          <ButtonBase
-            className={classes.consultationButton}
-            onClick={handleOnPaymentHistoryPressed}
-          >
-            <AccountBalance />
-          </ButtonBase>
-          <ButtonBase className={classes.consultationButton}>
-            <Person />
-          </ButtonBase>
-          <ButtonBase
-            className={classes.consultationButton}
-            onClick={handleOnAddVeterinarianNotePressed}
-          >
-            <PostAdd />
-          </ButtonBase>
-          <ButtonBase
-            className={classes.consultationButton}
-            onClick={handleOnAppointmentsPressed}
-          >
-            <EventNote />
-          </ButtonBase>
-          <ButtonBase
-            className={classes.consultationButton}
-            onClick={handleOnAddAppointmentPressed}
-          >
-            <Event />
-          </ButtonBase>
-          <ButtonBase
-            className={classNames(classes.consultationButton, classes.rxIcon)}
-          >
-            <img src={RxIcon} alt="rx"></img>
-          </ButtonBase>
-        </div>
+        <Hidden smDown>
+          <div className={classes.buttonsContainer}>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnPaymentHistoryPressed}
+            >
+              <AccountBalance />
+            </ButtonBase>
+            <ButtonBase className={classes.consultationButton}>
+              <Person />
+            </ButtonBase>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnAddVeterinarianNotePressed}
+            >
+              <PostAdd />
+            </ButtonBase>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnAppointmentsPressed}
+            >
+              <EventNote />
+            </ButtonBase>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnAddAppointmentPressed}
+            >
+              <Event />
+            </ButtonBase>
+            <ButtonBase
+              className={classNames(classes.consultationButton, classes.rxIcon)}
+            >
+              <img src={RxIcon} alt="rx"></img>
+            </ButtonBase>
+          </div>
+        </Hidden>
       </ListItem>
       <Collapse in={open} timeout="auto" unmountOnExit>
+        <Hidden smUp>
+          <Divider />
+          <div className={classes.buttonsContainer}>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnPaymentHistoryPressed}
+            >
+              <AccountBalance />
+            </ButtonBase>
+            <ButtonBase className={classes.consultationButton}>
+              <Person />
+            </ButtonBase>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnAddVeterinarianNotePressed}
+            >
+              <PostAdd />
+            </ButtonBase>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnAppointmentsPressed}
+            >
+              <EventNote />
+            </ButtonBase>
+            <ButtonBase
+              className={classes.consultationButton}
+              onClick={handleOnAddAppointmentPressed}
+            >
+              <Event />
+            </ButtonBase>
+            <ButtonBase
+              className={classNames(classes.consultationButton, classes.rxIcon)}
+            >
+              <img src={RxIcon} alt="rx"></img>
+            </ButtonBase>
+          </div>
+          <Divider />
+        </Hidden>
         <div className={classes.clientMoreDetails}>
           <Typography>{`Address: ${client.address}`}</Typography>
           <Typography>{`Contact Number: ${client.contactNumber}`}</Typography>

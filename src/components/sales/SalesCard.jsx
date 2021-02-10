@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch } from "react-redux";
 import { Typography, ButtonBase } from "@material-ui/core";
 import { showModal } from "../../features/modals/modalSlice";
+import { currencyFormatter } from "../../utils/formatter";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -68,7 +69,7 @@ export const SalesCard = ({ title, value, dailySales }) => {
       <Typography style={{ fontWeight: "bold" }} align="center">
         {title}
       </Typography>
-      <Typography>{`P${Number(value).toFixed(2)}`}</Typography>
+      <Typography>{currencyFormatter(value)}</Typography>
     </ButtonBase>
   );
 };

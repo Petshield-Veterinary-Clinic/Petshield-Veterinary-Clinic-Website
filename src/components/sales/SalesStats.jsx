@@ -61,7 +61,6 @@ export const SalesStats = ({ dailySales, metadata }) => {
     });
     setMiscSales({
       sales: totalSales,
-      dailySales: miscSalesItems,
     });
     setNetSales(totalNetSales + totalSales);
   }, [setMiscSales, setNetSales, dailySales]);
@@ -83,7 +82,11 @@ export const SalesStats = ({ dailySales, metadata }) => {
 
   return (
     <div className={classes.root}>
-      <SalesCard title={`${salesTitle} Sales`} value={miscSales.sales} />
+      <SalesCard
+        title={`${salesTitle} Sales`}
+        value={miscSales.sales}
+        dailySales={dailySales["Misc"]}
+      />
       <SalesCard
         title={`${salesTitle} Sales - Blood Test`}
         value={bloodTestSales}

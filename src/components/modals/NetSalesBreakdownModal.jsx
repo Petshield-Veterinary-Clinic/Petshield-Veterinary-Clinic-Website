@@ -9,13 +9,14 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { hideModal } from "../../features/modals/modalSlice";
+import { currencyFormatter } from "../../utils/formatter";
 
 const useStyles = makeStyles((theme) => {
   return {
     root: {
       display: "flex",
       flexDirection: "column",
-      gap: "1em",
+      gap: "1.25em",
     },
     header: {
       display: "grid",
@@ -25,21 +26,25 @@ const useStyles = makeStyles((theme) => {
       fontSize: "0.9rem",
     },
     headerTitle: {
-      fontSize: "1.3rem",
+      fontSize: "1.4rem",
       fontWeight: "bold",
       textAlign: "center",
     },
     footer: {
       display: "flex",
-      justifyContent: "flex-end",
+      alignItems: "flex-end",
+      flexDirection: "column",
       gap: "1em",
+      fontSize: "0.9rem",
+      "& span": {
+        fontWeight: "bold",
+      },
     },
     content: {
       display: "flex",
       flexDirection: "column",
       gap: "1em",
     },
-
     item: {
       display: "grid",
       gridTemplate: "1fr / 1fr 1fr 1fr 1fr 1fr",
@@ -50,12 +55,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const NetSalesBreakdownModal = ({
-  isVisible,
-  title,
-  dailySales,
-  duration,
-}) => {
+export const NetSalesBreakdownModal = ({ isVisible, title, dailySales }) => {
   const classes = useStyles();
   const [open, setOpen] = useState(isVisible);
   const [breakdowns, setBreakdowns] = useState({});
@@ -70,9 +70,9 @@ export const NetSalesBreakdownModal = ({
   };
 
   const generateBreakdown = useCallback(() => {
-    let groupedItems = {};
     let breakdowns = {};
     Object.keys(dailySales).forEach((key) => {
+      let groupedItems = {};
       const dailySale = dailySales[key];
       dailySale.items.forEach((v) => {
         const prevValue = groupedItems[v.item.name];
@@ -96,7 +96,8 @@ export const NetSalesBreakdownModal = ({
       });
       breakdowns[key] = {
         items: groupedItems,
-        sales: dailySales[key].netSales,
+        sales: dailySales[key].sales,
+        netSales: dailySales[key].netSales,
         incentives: dailySales[key].incentives,
       };
     });
@@ -128,16 +129,32 @@ export const NetSalesBreakdownModal = ({
                   <div key={key} className={classes.item}>
                     <div>{key}</div>
                     <div className={classes.column}>{item.count}</div>
-                    <div className={classes.column}>P{item.incentives}</div>
-                    <div className={classes.column}>P{item.sales}</div>
-                    <div className={classes.column}>P{item.netSales}</div>
+                    <div className={classes.column}>
+                      {currencyFormatter(item.incentives)}
+                    </div>
+                    <div className={classes.column}>
+                      {currencyFormatter(item.sales)}
+                    </div>
+                    <div className={classes.column}>
+                      {currencyFormatter(item.netSales)}
+                    </div>
                   </div>
                 );
               })}
             </div>
             <div className={classes.footer}>
-              <div>Total Incentives: P{breakdownItem.incentives}</div>
-              <div>Total Sales: P{breakdownItem.sales}</div>
+              <div>
+                Total Incentives:
+                <span>{currencyFormatter(breakdownItem.incentives)}</span>
+              </div>
+              <div>
+                Total Sales:
+                <span>{currencyFormatter(breakdownItem.sales)}</span>
+              </div>
+              <div>
+                Total Net Sales:
+                <span>{currencyFormatter(breakdownItem.netSales)}</span>
+              </div>
             </div>
           </>
         );

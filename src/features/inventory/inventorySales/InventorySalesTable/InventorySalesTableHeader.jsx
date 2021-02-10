@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "@material-ui/core";
+import { Button, Hidden } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -38,15 +38,16 @@ const InventorySalesTableHeader = ({
   return (
     <div className={classes.root}>
       <div></div>
-
       <div>
-        <Button
-          variant="outlined"
-          startIcon={<AddIcon />}
-          onClick={handleAddTransactionPressed}
-        >
-          {`${showAddItemSaleRow ? "Cancel" : "Add"}  Transaction`}
-        </Button>
+        <Hidden smDown>
+          <Button
+            variant="outlined"
+            startIcon={<AddIcon />}
+            onClick={handleAddTransactionPressed}
+          >
+            {`${showAddItemSaleRow ? "Cancel" : "Add"}  Transaction`}
+          </Button>
+        </Hidden>
       </div>
     </div>
   );

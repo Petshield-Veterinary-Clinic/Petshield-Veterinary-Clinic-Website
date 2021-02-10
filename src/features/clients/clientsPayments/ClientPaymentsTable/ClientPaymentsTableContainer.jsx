@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { ClientPaymentsTable } from "./ClientPaymentsTable";
 import moment from "moment";
+import { currencyFormatter } from "../../../../utils/formatter";
 
 const ClientPaymentsTableContainer = ({ itemSales }) => {
   const data = useMemo(() => {
@@ -9,14 +10,14 @@ const ClientPaymentsTableContainer = ({ itemSales }) => {
         col1: moment(itemSale.CreatedAt).format("L"),
         col2: itemSale.client.clientName,
         col3: itemSale.item.name,
-        col4: `₱${Number(itemSale.item.price).toFixed(2)}`,
+        col4: currencyFormatter(itemSale.item.price),
         col5: itemSale.quantity,
-        col6: `₱${Number(itemSale.sales).toFixed(2)}`,
+        col6: currencyFormatter(itemSale.sales),
         col7: `${Number(itemSale.item.incentiveRate).toFixed(2)}%`,
         col8: itemSale.item.isIncentiveFixed
-          ? `₱${Number(itemSale.item.incentiveAmount).toFixed(2)}`
-          : `₱${Number(itemSale.incentives * itemSale.quantity).toFixed(2)}`,
-        col9: `₱${Number(itemSale.netSales).toFixed(2)}`,
+          ? currencyFormatter(itemSale.item.incentiveAmount)
+          : currencyFormatter(itemSale.incentives * itemSale.quantity),
+        col9: currencyFormatter(itemSale.netSales),
         col10: itemSale.item.category,
       };
     });

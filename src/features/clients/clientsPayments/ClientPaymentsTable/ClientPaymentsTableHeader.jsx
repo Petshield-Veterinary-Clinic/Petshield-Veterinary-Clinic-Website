@@ -4,6 +4,7 @@ import {
   CircularProgress,
   TextField,
   Autocomplete,
+  Hidden,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
@@ -84,13 +85,15 @@ const InventorySalesTableHeader = ({
       <div>{renderClientNameField()}</div>
 
       <div>
-        <Button
-          variant="outlined"
-          startIcon={<AddIcon />}
-          onClick={handleAddTransactionPressed}
-        >
-          {`${showAddItemSaleRow ? "Cancel" : "Add"}  Transaction`}
-        </Button>
+        <Hidden smDown>
+          <Button
+            variant="outlined"
+            startIcon={<AddIcon />}
+            onClick={handleAddTransactionPressed}
+          >
+            {`${showAddItemSaleRow ? "Cancel" : "Add"}  Transaction`}
+          </Button>
+        </Hidden>
       </div>
     </div>
   );

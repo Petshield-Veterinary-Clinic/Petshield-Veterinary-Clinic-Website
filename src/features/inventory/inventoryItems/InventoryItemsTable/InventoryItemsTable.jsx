@@ -136,13 +136,15 @@ export const InventoryItemsTable = ({ data, columns, items }) => {
 
   const renderCell = (cell) => {
     if (cell.column.id === "col5") {
-      return <Typography>₱{cell.render("Cell")}</Typography>;
+      return <Typography>{cell.render("Cell")}</Typography>;
     } else if (cell.column.id === "col7") {
       const discountAmount =
-        (cell.row.values.col6 / 100) * cell.row.values.col5;
+        cell.row.values.col6 > 0
+          ? (cell.row.values.col6 / 100) * cell.row.values.col5
+          : 0;
       return (
         <Typography>
-          ₱{cell.render("Cell")}
+          {cell.render("Cell")}
           {` (${discountAmount.toFixed(2)})`}
         </Typography>
       );
